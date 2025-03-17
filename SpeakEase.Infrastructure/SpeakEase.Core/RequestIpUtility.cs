@@ -52,7 +52,7 @@ public static class RequestIpUtility
     }
 
 
-    private static T? GetHeaderValueAs<T>(HttpContext context, string headerName)
+    private static T GetHeaderValueAs<T>(HttpContext context, string headerName)
     {
         if (context.Request?.Headers?.TryGetValue(headerName, out var values) ?? false)
         {

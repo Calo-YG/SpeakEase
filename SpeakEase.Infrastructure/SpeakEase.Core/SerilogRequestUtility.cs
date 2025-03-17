@@ -11,7 +11,7 @@ public class SerilogRequestUtility
         "RequestIp:{RequestIp}  HTTP {RequestMethod} {RequestPath} QueryString:{QueryString} Body:{Body}  responded {StatusCode} in {Elapsed:0.0000} ms  ZModule";
 
 
-    public static LogEventLevel GetRequestLevel(HttpContext ctx, double _, Exception? ex) =>
+    public static LogEventLevel GetRequestLevel(HttpContext ctx, double _, Exception ex) =>
         ex is null && ctx.Response.StatusCode <= 499 ? IgnoreRequest(ctx) : LogEventLevel.Error;
 
     private static LogEventLevel IgnoreRequest(HttpContext ctx)
@@ -57,7 +57,7 @@ public class SerilogRequestUtility
 
 public static class HttpRequestExtensions
 {
-    public static string? GetRequestBody(this HttpRequest request)
+    public static string GetRequestBody(this HttpRequest request)
     {
         request.EnableBuffering();
 
