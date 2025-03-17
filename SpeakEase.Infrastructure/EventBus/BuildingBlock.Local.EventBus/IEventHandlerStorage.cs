@@ -4,5 +4,5 @@ namespace SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 
 public interface IEventHandlerStorage
 {
-      public ConcurrentBag<EventDiscription> Events { get; }
+    public ConcurrentBag<EventDiscription> Events { get; }
 }

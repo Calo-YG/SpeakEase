@@ -9,29 +9,30 @@ using SpeakEase.Infrastructure.Shared;
 
 namespace SpeakEase.Infrastructure.Authorization;
 
-public  class AuthorizeMiddleHandle(ILoggerFactory factory,IOptions<JsonOptions> options):IAuthorizationMiddlewareResultHandler
+public class AuthorizeMiddleHandle(ILoggerFactory factory, IOptions<JsonOptions> options) : IAuthorizationMiddlewareResultHandler
 {
-      private readonly ILogger _logger = factory.CreateLogger<IAuthorizationMiddlewareResultHandler>();
-      
-      public async Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-      {
-            if ((!authorizeResult.Succeeded || authorizeResult.Challenged))
-            {
-                  var issAuthenticated = context.User?.Identity?.IsAuthenticated ?? false;
+    private readonly ILogger _logger = factory.CreateLogger<IAuthorizationMiddlewareResultHandler>();
 
-                  var reason = string.Join(",",
-                        authorizeResult.AuthorizationFailure!.FailureReasons!
-                              .Where(p => !string.IsNullOrEmpty(p.Message))
-                              .Select(p => p.Message!));
+    public async Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+    {
+        if ((!authorizeResult.Succeeded || authorizeResult.Challenged))
+        {
+            var issAuthenticated = context.User?.Identity?.IsAuthenticated ?? false;
 
-                  _logger.LogWarning($"Authorization failed  with reason: {reason}");
+            var reason = string.Join(",",
+                authorizeResult.AuthorizationFailure!.FailureReasons!
+                    .Where(p => !string.IsNullOrEmpty(p.Message))
+                    .Select(p => p.Message!));
 
-                  context!.Response.StatusCode = 403;
-                  context.Response.ContentType = "application/json";
-                  var response = new Response<string>(false, reason, issAuthenticated ? 500 : 401);
-                  await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
-                  return;
-            }
-            await next(context);
-      }
+            _logger.LogWarning($"Authorization failed  with reason: {reason}");
+
+            context!.Response.StatusCode = 403;
+            context.Response.ContentType = "application/json";
+            var response = new Response<string>(false, reason, issAuthenticated ? 500 : 401);
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
+            return;
+        }
+
+        await next(context);
+    }
 }

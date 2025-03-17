@@ -2,11 +2,11 @@
 
 public interface IEvent
 {
-      Guid GetEventId();
+    Guid GetEventId();
 
-      void SetEventId(Guid eventId);
+    void SetEventId(Guid eventId);
 
-      DateTimeOffset GetCreationTime();
+    DateTimeOffset GetCreationTime();
 
-      void SetCreationTime(DateTimeOffset creationTime);
+    void SetCreationTime(DateTimeOffset creationTime);
 }

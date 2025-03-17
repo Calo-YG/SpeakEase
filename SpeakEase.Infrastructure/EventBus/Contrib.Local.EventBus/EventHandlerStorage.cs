@@ -4,52 +4,52 @@ using SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 
 namespace SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;
 
-public class EventHandlerStorage: IEventHandlerStorage
+public class EventHandlerStorage : IEventHandlerStorage
 {
-      public ConcurrentBag<EventDiscription> Events { get; }
-      
-      private readonly IServiceCollection Services;
-      
-      public EventHandlerStorage(IServiceCollection services)
-      {
-            Services = services;
-            Events = new ConcurrentBag<EventDiscription>();
-            services.AddSingleton<IEventHandlerStorage>(this);
-      }
-      
-      private bool Check(Type type)
-      {
-            var discription = Events.FirstOrDefault(p=>p.EtoType == type);
+    public ConcurrentBag<EventDiscription> Events { get; }
 
-            return discription is null;
-      }
-        
-      ///订阅并且注入EventHandler
-      public void Subscribe(Type eto,Type handler)
-      {
-            if(!Check(eto))
-            {
-                  return;
-            }
+    private readonly IServiceCollection Services;
 
-            Events.Add(new EventDiscription(eto, handler));
+    public EventHandlerStorage(IServiceCollection services)
+    {
+        Services = services;
+        Events = new ConcurrentBag<EventDiscription>();
+        services.AddSingleton<IEventHandlerStorage>(this);
+    }
 
-            var handlerbaseType = typeof(IEventHandler<>);
+    private bool Check(Type type)
+    {
+        var discription = Events.FirstOrDefault(p => p.EtoType == type);
 
-            var handlertype = handlerbaseType.MakeGenericType(eto);
+        return discription is null;
+    }
 
-            if(Services.Any(P=>P.ServiceType==handlertype))
-            {
-                  return;
-            }
+    ///订阅并且注入EventHandler
+    public void Subscribe(Type eto, Type handler)
+    {
+        if (!Check(eto))
+        {
+            return;
+        }
 
-            Services.AddTransient(handlertype, handler);
-      }
+        Events.Add(new EventDiscription(eto, handler));
 
-      public void Subscribe<TEto, THandler>() 
-            where TEto : class
-            where THandler :IEventHandler<TEto>
-      {
-            Subscribe(typeof(TEto),typeof(THandler));  
-      }
+        var handlerbaseType = typeof(IEventHandler<>);
+
+        var handlertype = handlerbaseType.MakeGenericType(eto);
+
+        if (Services.Any(p => p.ServiceType == handlertype))
+        {
+            return;
+        }
+
+        Services.AddTransient(handlertype, handler);
+    }
+
+    public void Subscribe<TEto, THandler>()
+        where TEto : class
+        where THandler : IEventHandler<TEto>
+    {
+        Subscribe(typeof(TEto), typeof(THandler));
+    }
 }

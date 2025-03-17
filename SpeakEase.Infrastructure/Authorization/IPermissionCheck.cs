@@ -2,5 +2,5 @@
 
 public interface IPermissionCheck
 {
-      Task<bool> IsGranted(string userId, string[] authorizationNames);
+    Task<bool> IsGranted(string userId, string[] authorizationNames);
 }

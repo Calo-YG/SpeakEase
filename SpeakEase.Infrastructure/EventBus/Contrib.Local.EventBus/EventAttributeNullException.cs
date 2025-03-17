@@ -1,18 +1,20 @@
 ﻿namespace SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;
 
-public class EventAttributeNullException:Exception
+public class EventAttributeNullException : Exception
 {
-      public EventAttributeNullException() { }
+    public EventAttributeNullException()
+    {
+    }
 
-      public EventAttributeNullException(string message) : base(message)
-      {
-      }
+    public EventAttributeNullException(string message) : base(message)
+    {
+    }
 }
 
-public  static class ThorwEventAttributeNullException
+public static class ThorwEventAttributeNullException
 {
-      public static void ThorwException()
-      {
-            throw new EventAttributeNullException("Eto请实现EventDiscriptorAttribute特性");
-      }
+    public static void ThorwException()
+    {
+        throw new EventAttributeNullException("Eto请实现EventDiscriptorAttribute特性");
+    }
 }

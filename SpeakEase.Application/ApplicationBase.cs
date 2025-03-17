@@ -2,8 +2,7 @@
 
 namespace SpeakEase.Application;
 
-public class ApplicationBase<TDbContext>(IServiceProvider serviceProvider, TDbContext dbContext)
-      where TDbContext : DbContext
+public abstract class ApplicationBase<TDbContext>(IServiceProvider serviceProvider, TDbContext dbContext)
+    where TDbContext : DbContext
 {
-      
 }

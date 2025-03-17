@@ -7,14 +7,14 @@ namespace SpeakEase.Infrastructure.EventBus;
 
 public static class EventBusExtensions
 {
-      /// <summary>
-      /// 注册本地异步事件
-      /// </summary>
-      /// <param name="services"></param>
-      /// <returns></returns>
-      public static IServiceCollection RegisterLocalEventBus(this IServiceCollection services)
-      {
-            services.AddKeyedSingleton<IEventBus,LocalEventBus>("LocalEventBus");
-            return services;
-      }
+    /// <summary>
+    /// 注册本地异步事件
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection RegisterLocalEventBus(this IServiceCollection services)
+    {
+        services.AddKeyedSingleton<IEventBus, LocalEventBus>("LocalEventBus");
+        return services;
+    }
 }

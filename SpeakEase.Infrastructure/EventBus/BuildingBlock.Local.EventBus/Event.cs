@@ -1,28 +1,29 @@
 ﻿using System.Text.Json.Serialization;
+using SpeakEase.Infrastructure.EventBus.BuildingBlockEventBus;
 
-namespace SpeakEase.Infrastructure.EventBus.BuildingBlockEventBus;
+namespace SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 
-public abstract record Event(Guid EventId, DateTimeOffset EvenCreateTime,string EventName): IEvent
+public abstract record Event(Guid EventId, DateTimeOffset EvenCreateTime, string EventName) : IEvent
 {
-      [JsonInclude] public Guid EventId { private get; set; } = EventId;
+    [JsonInclude] public Guid EventId { private get; set; } = EventId;
 
-      [JsonInclude] public DateTimeOffset EvenCreateTime { private get; set; } = EvenCreateTime;
-      
-      [JsonInclude] public string EventName { private get; set; } = EventName;
+    [JsonInclude] public DateTimeOffset EvenCreateTime { private get; set; } = EvenCreateTime;
 
-      protected Event() : this(Guid.NewGuid(), DateTime.UtcNow,string.Empty)
-      {
-      }
+    [JsonInclude] public string EventName { private get; set; } = EventName;
 
-      public Guid GetEventId() => EventId;
+    protected Event() : this(Guid.NewGuid(), DateTime.UtcNow, string.Empty)
+    {
+    }
 
-      public void SetEventId(Guid eventId) => EventId = eventId;
+    public Guid GetEventId() => EventId;
 
-      public DateTimeOffset GetCreationTime() => EvenCreateTime;
+    public void SetEventId(Guid eventId) => EventId = eventId;
 
-      public void SetCreationTime(DateTimeOffset creationTime) => EvenCreateTime = creationTime;
-      
-      public string GetEventName() => EventName;
-      
-      public void SetEventName(string eventName) => EventName = eventName;
+    public DateTimeOffset GetCreationTime() => EvenCreateTime;
+
+    public void SetCreationTime(DateTimeOffset creationTime) => EvenCreateTime = creationTime;
+
+    public string GetEventName() => EventName;
+
+    public void SetEventName(string eventName) => EventName = eventName;
 }

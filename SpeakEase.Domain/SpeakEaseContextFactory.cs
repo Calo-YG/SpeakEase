@@ -2,7 +2,7 @@
 
 namespace SpeakEase.Domain;
 
-public class SpeakEaseContextFactory(IDbContextFactory<SpeakEaseContext> pooleFactory):IDbContextFactory<SpeakEaseContext>
+public class SpeakEaseContextFactory(IDbContextFactory<SpeakEaseContext> pooleFactory) : IDbContextFactory<SpeakEaseContext>
 {
-      public SpeakEaseContext CreateDbContext()=> pooleFactory.CreateDbContext();
+    public SpeakEaseContext CreateDbContext() => pooleFactory.CreateDbContext();
 }

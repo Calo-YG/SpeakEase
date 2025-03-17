@@ -2,5 +2,5 @@
 
 public interface IEventHandler<TEvent>
 {
-     Task HandlerAsync(TEvent @event, CancellationToken cancellationToken = default);
+    Task HandlerAsync(TEvent @event, CancellationToken cancellationToken = default);
 }
