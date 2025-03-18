@@ -33,13 +33,13 @@ public class RefreshTokenEntity
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTimeOffset CreationTime { get; private set; }
+    public DateTime CreationTime { get; private set; }
 
     protected RefreshTokenEntity()
     {
     }
 
-    public RefreshTokenEntity(int id, string userId, string token, DateTimeOffset expires, bool isUsed)
+    public RefreshTokenEntity(int id, string userId, string token, DateTime expires, bool isUsed)
     {
         Id = id;
         UserId = userId;

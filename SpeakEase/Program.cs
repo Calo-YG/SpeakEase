@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
 using IdGen;
@@ -39,6 +40,9 @@ internal class Program
             var builder = WebApplication.CreateSlimBuilder(args);
 
             builder.AddServiceDefaults();
+
+            builder.Services.AddEndpointsApiExplorer();
+            
 
             var cors = "SpeakEase";
 
@@ -118,13 +122,12 @@ internal class Program
 
             #region SnowflakeId
 
+            
             builder.Services.AddIdGen(123, () => new IdGeneratorOptions()); // Where 123 is the generator-id
 
             #endregion
 
             var app = builder.Build();
-
-            #endregion
 
             app.MapDefaultEndpoints();
 
@@ -147,7 +150,7 @@ internal class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapGet("speakease/health", () => Results.Ok("SpeakEase"));
+            app.MapGet("speakease/health", () => Results.Ok("SpeakEase")).ProducesValidationProblem();
 
             await app.RunAsync();
             Log.Information("Started web host");

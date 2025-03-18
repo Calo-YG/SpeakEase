@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Domain.Users.Shared;
+﻿namespace SpeakEase.Domain.Users.Enum;
 
 public enum SourceEnum
 {

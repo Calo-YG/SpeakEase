@@ -11,4 +11,8 @@
       <ProjectReference Include="..\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Contracts\Users\Validation\" />
+    </ItemGroup>
+
 </Project>

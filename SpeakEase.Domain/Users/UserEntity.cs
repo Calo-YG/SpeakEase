@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using SpeakEase.Domain.Users;
-using SpeakEase.Domain.Users.Shared;
+using SpeakEase.Domain.Users.Enum;
 
 namespace SpeakEase.Domain.Users;
 
-[Table("application_user")]
+[Table("user")]
 public class UserEntity
 {
     protected UserEntity()
     {
     }
 
-    public UserEntity(string id, string userName, string userAccount, string userPassword, string? email, string? phone, string avatar, SourceEnum source,
-        string? weChatKey)
+    public UserEntity(long id, string userName, string userAccount, string userPassword, string email, string phone, string avatar, SourceEnum source)
     {
         Id = id;
         UserName = userName;
@@ -22,14 +20,13 @@ public class UserEntity
         Phone = phone;
         Avatar = avatar;
         Source = source;
-        CreationTime = DateTimeOffset.Now;
-        WeChatKey = weChatKey;
+        CreationTime = DateTime.Now;
     }
 
     /// <summary>
     /// 用户id
     /// </summary>
-    public string Id { get; private set; }
+    public long Id { get; private set; }
 
     /// <summary>
     /// 用户名称
@@ -49,22 +46,17 @@ public class UserEntity
     /// <summary>
     /// 邮箱
     /// </summary>
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
     /// <summary>
     /// 用户手机
     /// </summary>
-    public string? Phone { get; private set; }
+    public string Phone { get; private set; }
 
     /// <summary>
     /// 头像
     /// </summary>
     public string Avatar { get; private set; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTimeOffset CreationTime { get; private set; }
 
     /// <summary>
     ///  用户来源
@@ -74,5 +66,15 @@ public class UserEntity
     /// <summary>
     /// 微信用户主键
     /// </summary>
-    public string? WeChatKey { get; private set; }
+    public string WeChatKey { get; private set; }
+
+    /// <summary>
+    /// 创建时间
+    /// </summary>
+    public DateTime CreationTime { get; private set; }
+
+    /// <summary>
+    /// 修改事件
+    /// </summary>
+    public DateTime? ModifyAt { get; private set; }
 }
