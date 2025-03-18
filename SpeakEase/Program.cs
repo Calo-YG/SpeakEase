@@ -38,6 +38,8 @@ internal class Program
 
             var builder = WebApplication.CreateSlimBuilder(args);
 
+            builder.AddServiceDefaults();
+
             var cors = "SpeakEase";
 
             var configuration = builder.Configuration;
@@ -121,6 +123,10 @@ internal class Program
             #endregion
 
             var app = builder.Build();
+
+            #endregion
+
+            app.MapDefaultEndpoints();
 
             app.UseCors("cors");
 
