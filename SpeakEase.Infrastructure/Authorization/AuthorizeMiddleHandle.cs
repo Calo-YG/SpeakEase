@@ -26,9 +26,11 @@ public class AuthorizeMiddleHandle(ILoggerFactory factory, IOptions<JsonOptions>
 
             _logger.LogWarning($"Authorization failed  with reason: {reason}");
 
-            context!.Response.StatusCode = 403;
+            var errorcode = issAuthenticated ? 500 : 401;
+
+            context!.Response.StatusCode = errorcode;
             context.Response.ContentType = "application/json";
-            var response = new Response<string>(false, reason, issAuthenticated ? 500 : 401);
+            var response = new Response<string>(false, reason, errorcode);
             await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
             return;
         }
