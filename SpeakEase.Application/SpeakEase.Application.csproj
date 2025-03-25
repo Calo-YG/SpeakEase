@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SpeakEase.Domain\SpeakEase.Domain.csproj" />
       <ProjectReference Include="..\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
     </ItemGroup>
 

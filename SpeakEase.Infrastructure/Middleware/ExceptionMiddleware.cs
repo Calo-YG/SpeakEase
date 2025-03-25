@@ -27,7 +27,7 @@ namespace SpeakEase.Infrastructure.Middleware
             }
             catch (UserFriednlyException ex)
             {
-                context!.Response.StatusCode = 500;
+                context!.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
                 var response = new Response<string>(false, ex.Message, 500);
                 _logger.LogError($"Middleware Error:{ex.Message}");

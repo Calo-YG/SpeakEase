@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 using SpeakEase.Infrastructure.EventBus.BuildingBlockEventBus;
 using SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;
@@ -12,8 +13,14 @@ public static class EventBusExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection RegisterLocalEventBus(this IServiceCollection services)
+    public static IServiceCollection RegisterLocalEventBus(this IServiceCollection services,Action<EventHandlerStorage> action = null)
     {
+        EventHandlerStorage storage = new EventHandlerStorage(services);
+
+        if(action != null)
+        {
+            action(storage);
+        }
         services.AddKeyedSingleton<IEventBus, LocalEventBus>("LocalEventBus");
         return services;
     }

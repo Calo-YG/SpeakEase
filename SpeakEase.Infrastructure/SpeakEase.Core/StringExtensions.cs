@@ -45,4 +45,11 @@ public static class StringExtensions
 
         return str.Substring(0, len);
     }
+
+    /// <summary>
+    /// 字符串判空
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
 }

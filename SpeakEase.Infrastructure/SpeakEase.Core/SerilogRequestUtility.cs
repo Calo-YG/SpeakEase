@@ -69,7 +69,7 @@ public static class HttpRequestExtensions
         }
 
         var buffer = new byte[Convert.ToInt32(request.ContentLength)];
-        body!.Read(buffer, 0, buffer.Length);
+        _ = body!.Read(buffer, 0, buffer.Length);
         var bodyAsText = Encoding.UTF8.GetString(buffer);
         body.Seek(0, SeekOrigin.Begin);
         request.Body = body;

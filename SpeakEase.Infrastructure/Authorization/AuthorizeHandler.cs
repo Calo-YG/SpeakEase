@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +12,12 @@ public class AuthorizeHandler(
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
+        if (!contextAccessor.HttpContext.Request.Path.Value.StartsWith("/api"))
+        {
+            context.Succeed(requirement);
+            return;
+        }
+
         var currentUser = _scope.ServiceProvider.GetRequiredService<IUserContext>();
         var permisscheck = _scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
         AuthorizationFailureReason failureReason;

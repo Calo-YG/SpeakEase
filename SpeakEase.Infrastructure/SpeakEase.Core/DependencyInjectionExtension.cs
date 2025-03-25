@@ -58,7 +58,7 @@ public static class DependencyInjectionExtension
         //获取具体生命周期接口
         var injectionInterface = interfasces.FirstOrDefault(p => InjectionTypes.Contains(p));
 
-        Type? interfaceImplete = null;
+        Type interfaceImplete = null;
 
         var firstInterface = interfasces[0];
 

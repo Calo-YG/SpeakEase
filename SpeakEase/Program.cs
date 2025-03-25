@@ -1,3 +1,4 @@
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using IdGen;
@@ -37,6 +38,10 @@ internal class Program
             Log.Information("Starting web host");
 
             var builder = WebApplication.CreateSlimBuilder(args);
+
+            builder.Host.UseSerilog((ctx, lc) => lc
+                   .ReadFrom.Configuration(ctx.Configuration)
+                   .Enrich.FromLogContext());
 
             builder.AddServiceDefaults();
 
@@ -110,7 +115,7 @@ internal class Program
                 });
 
             builder.Services.RegisterAuthorizetion();
-
+            builder.Services.AddAuthorization();
             #endregion
 
             #region configure localeventbus
@@ -127,6 +132,8 @@ internal class Program
             #endregion
 
             var app = builder.Build();
+
+            app.UseSerilogRequestLogging();
 
             app.MapDefaultEndpoints();
 
@@ -149,7 +156,7 @@ internal class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapGet("speakease/health", () => Results.Ok("SpeakEase")).ProducesValidationProblem();
+            app.MapGet("speakease/health", (SpeakEaseContext context) => Results.Ok("SpeakEase"));
 
             await app.RunAsync();
             Log.Information("Started web host");

@@ -1,5 +1,6 @@
 ﻿using SpeakEase.Application.Contracts.Users;
 using SpeakEase.Domain;
+using SpeakEase.Infrastructure.EntityFrameworkCore;
 
 namespace SpeakEase.Application.UserApplicaton;
 

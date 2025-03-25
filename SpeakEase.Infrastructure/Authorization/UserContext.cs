@@ -38,12 +38,12 @@ public class UserContext : IUserContext, ITransientDependency
         _identity = _httpContextAccessor.HttpContext?.User?.Identity;
         _claims = httpContextAccessor.HttpContext?.User?.Claims;
         IsAuthenticated = _identity?.IsAuthenticated ?? false;
-        SetUserId();
-        SetOrganizationId();
-        SetUserName();
-        SetUserAccount();
-        SetOrganizationName();
-        User = new User(UserId, UserName, UserAccount, OrganizationId, OrganizationName);
+        //SetUserId();
+        //SetOrganizationId();
+        //SetUserName();
+        //SetUserAccount();
+        //SetOrganizationName();
+        //User = new User(UserId, UserName, UserAccount, OrganizationId, OrganizationName);
     }
 
     private void SetUserId()

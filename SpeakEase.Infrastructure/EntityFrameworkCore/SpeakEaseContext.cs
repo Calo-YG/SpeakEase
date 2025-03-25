@@ -31,7 +31,6 @@ public class SpeakEaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
     }
-
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         SetChangeTracker();
