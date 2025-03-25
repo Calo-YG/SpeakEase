@@ -25,7 +25,7 @@ public class UserContext : IUserContext, ITransientDependency
     public long OrganizationId { get => _organizationId; }
 
     private long _organizationId;
-    public string OrganizationName { get; }
+    public string OrganizationName { get => OrganizationName; }
 
     private string _organizationName;
 

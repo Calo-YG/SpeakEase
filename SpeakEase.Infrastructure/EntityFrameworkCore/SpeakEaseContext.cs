@@ -17,6 +17,9 @@ public class SpeakEaseContext : DbContext
     /// </summary>
     public DbSet<RefreshTokenEntity> RefreshToken { get; set; }
 
+    /// <summary>
+    /// 获取请求上下文用户信息
+    /// </summary>
     private readonly IUserContext _userContext;
 
     public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options,IUserContext userContext)
