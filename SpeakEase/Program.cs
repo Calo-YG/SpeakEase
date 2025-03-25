@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
 using IdGen;
@@ -7,8 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
-using SpeakEase.Domain;
 using SpeakEase.Infrastructure.Authorization;
+using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.EventBus;
 using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.SpeakEase.Core;

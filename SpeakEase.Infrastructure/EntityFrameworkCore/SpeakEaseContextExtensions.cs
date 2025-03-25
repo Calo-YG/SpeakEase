@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SpeakEase.Domain;
+namespace SpeakEase.Infrastructure.EntityFrameworkCore;
 
 public static class SpeakEaseContextExtensions
 {

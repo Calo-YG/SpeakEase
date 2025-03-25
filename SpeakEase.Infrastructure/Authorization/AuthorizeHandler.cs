@@ -13,7 +13,7 @@ public class AuthorizeHandler(
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
-        var currentUser = _scope.ServiceProvider.GetRequiredService<ICurrentUser>();
+        var currentUser = _scope.ServiceProvider.GetRequiredService<IUserContext>();
         var permisscheck = _scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
         AuthorizationFailureReason failureReason;
         if (!currentUser.IsAuthenticated)

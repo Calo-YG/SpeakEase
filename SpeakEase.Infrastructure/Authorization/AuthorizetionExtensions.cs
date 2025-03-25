@@ -11,7 +11,7 @@ public static class AuthorizetionExtensions
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationProvider>();
             services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizeMiddleHandle>();
             services.AddSingleton<IAuthorizationHandler, AuthorizeHandler>();
-            services.AddScoped<ICurrentUser, CurrentUser>();
+            services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<TokenManager>();
             return services;
       }

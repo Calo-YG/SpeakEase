@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Domain.Users;
+using SpeakEase.Infrastructure.Authorization;
 
-namespace SpeakEase.Domain;
+namespace SpeakEase.Infrastructure.EntityFrameworkCore;
 
 public class SpeakEaseContext : DbContext
 {
@@ -15,7 +16,7 @@ public class SpeakEaseContext : DbContext
     /// </summary>
     public DbSet<RefreshTokenEntity> RefreshToken { get; set; }
 
-    public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options)
+    public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options,IUserContext userContext)
         : base(options)
     {
     }
