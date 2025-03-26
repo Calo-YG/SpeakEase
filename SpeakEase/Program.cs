@@ -1,9 +1,11 @@
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using IdGen;
 using IdGen.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using SpeakEase.Infrastructure.Authorization;
@@ -11,6 +13,8 @@ using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.EventBus;
 using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.SpeakEase.Core;
+using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace SpeakEase;
 
@@ -43,6 +47,8 @@ internal class Program
                    .Enrich.FromLogContext());
 
             builder.AddServiceDefaults();
+
+            builder.Services.AddRouting();
 
             builder.Services.AddEndpointsApiExplorer();
             
@@ -130,6 +136,36 @@ internal class Program
 
             #endregion
 
+            #region swagger
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.OperationFilter<AddResponseHeadersFilter>();
+                options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+                options.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Version = "SpeakEase v1",
+                        Title = "SpeakEase API",
+                        Description = "Web API for managing By Calo-YG",
+                        TermsOfService = new Uri("https://gitee.com/wen-yaoguang"),
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Gitee 地址",
+                            Url = new Uri("https://gitee.com/wen-yaoguang/Colo.Blog")
+                        },
+                        License = new OpenApiLicense
+                        {
+                            Name = "个人博客",
+                            Url = new Uri("https://www.se.cnblogs.com/lonely-wen/")
+                        }
+                    }
+                );
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            });
+
+            #endregion
+
             var app = builder.Build();
 
             app.UseSerilogRequestLogging();
@@ -149,15 +185,22 @@ internal class Program
 
             if (app.Environment.IsDevelopment())
             {
-                //app.MapScalarApiReference(); // scalar/v1
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SpeakEase");
+                    options.EnableDeepLinking();
+                });
             }
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapGet("speakease/health", (IDbContext context) => Results.Ok("SpeakEase"));
+            app.MapGet("SpeakEase/health", (IDbContext context) => Results.Ok("SpeakEase"));
 
+            
             await app.RunAsync();
+
             Log.Information("Started web host");
         }
         catch (Exception e)

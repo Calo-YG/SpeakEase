@@ -39,6 +39,13 @@ namespace SpeakEase.Infrastructure.Middleware
                 var response = new Response<string>(false, ex.Message, 500);
                 _logger.LogError($"Middleware Error:{ex.Message}");
             }
+            catch (Exception ex)
+            {
+                context!.Response.StatusCode = 500;
+                context.Response.ContentType = "application/json";
+                var response = new Response<string>(false, ex.Message, 500);
+                _logger.LogError($"Middleware Error:{ex.Message}");
+            }
         }
     }
 }
