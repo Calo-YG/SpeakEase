@@ -8,7 +8,7 @@ using SpeakEase.Infrastructure.Exceptions;
 
 namespace SpeakEase.Infrastructure.Authorization;
 
-public class TokenManager(IConfiguration configuration)
+public class TokenManager(IConfiguration configuration): ITokenManager
 {
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {

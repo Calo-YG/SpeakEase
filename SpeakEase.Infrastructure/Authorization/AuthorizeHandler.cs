@@ -39,7 +39,7 @@ public class AuthorizeHandler(
         if (defaultPolicy && !await permisscheck.IsGranted(currentUser.UserId!, requirement.AuthorizeName!))
         {
             failureReason = new AuthorizationFailureReason(this,
-                $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? ""}");
+                $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? string.Empty}");
             context.Fail(failureReason);
             return;
         }
