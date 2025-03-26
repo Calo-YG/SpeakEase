@@ -1,4 +1,3 @@
-using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using IdGen;
@@ -53,7 +52,7 @@ internal class Program
             var configuration = builder.Configuration;
 
             builder.Services.AddHttpContextAccessor();
-            builder.Services.RegisterEntityFrameworkCoreContext(configuration);
+            builder.Services.RegisterEntityFrameworkCoreContext(builder.Configuration);
 
             #region configure json
 
@@ -156,7 +155,7 @@ internal class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapGet("speakease/health", (SpeakEaseContext context) => Results.Ok("SpeakEase"));
+            app.MapGet("speakease/health", (IDbContext context) => Results.Ok("SpeakEase"));
 
             await app.RunAsync();
             Log.Information("Started web host");

@@ -5,7 +5,12 @@ using SpeakEase.Infrastructure.Authorization;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore;
 
-public class SpeakEaseContext : DbContext
+/// <summary>
+/// 数据库上下文
+/// </summary>
+/// <param name="configuration"></param>
+/// <param name="userContext"></param>
+public class SpeakEaseContext:DbContext,IDbContext
 {
     /// <summary>
     /// 用户实体
@@ -17,52 +22,67 @@ public class SpeakEaseContext : DbContext
     /// </summary>
     public DbSet<RefreshTokenEntity> RefreshToken { get; set; }
 
-    /// <summary>
-    /// 获取请求上下文用户信息
-    /// </summary>
     private readonly IUserContext _userContext;
 
-    public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options,IUserContext userContext)
-        : base(options)
+    public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options, IUserContext userContext) : base(options)
     {
-        _userContext = userContext;
+        this._userContext = userContext;
     }
 
+    public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options) : base(options)
+    {
+
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserEntity>(op =>
+        {
+            op.HasKey(p => p.Id);
+            op.Property(p=>p.UserPassword).IsRequired().HasMaxLength(128);
+            op.Property(p => p.UserAccount).IsRequired().HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<RefreshTokenEntity>(op => 
+        {
+            op.HasKey(p => p.Id);
+            op.Property(p => p.Token).IsRequired();
+            op.Property(p=>p.UserId).IsRequired();
+            op.Property(p => p.IsUsed).IsRequired().HasDefaultValue(false);    
+            op.Property(p => p.Expires).IsRequired();
+        });
+
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        SetChangeTracker();
+        BeforeSaveChanges();
         return base.SaveChangesAsync(cancellationToken);
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        SetChangeTracker();
+        BeforeSaveChanges();
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     public override int SaveChanges()
     {
-        SetChangeTracker();
+        BeforeSaveChanges();
         return base.SaveChanges();
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        SetChangeTracker();
+        BeforeSaveChanges();
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
-    private void SetChangeTracker()
+    private void BeforeSaveChanges()
     {
         var changeTracker = ChangeTracker.Entries().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified);
 
         foreach (var item in changeTracker)
         {
-
-            if(item.State == EntityState.Added && item.Entity is ICreation creation)
+            if (item.State == EntityState.Added && item.Entity is ICreation creation)
             {
                 creation.CreatedAt = DateTime.Now;
                 creation.UserId = _userContext.UserId;
@@ -74,5 +94,13 @@ public class SpeakEaseContext : DbContext
                 modify.ModifyAt = DateTime.Now;
             }
         }
+    }
+
+    /// <summary>
+    /// 迁移
+    /// </summary>
+    public void Migrate()
+    {
+        this.Database.Migrate();
     }
 }

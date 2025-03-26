@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SpeakEase.Domain.Users.Enum;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore;
 
@@ -10,15 +11,14 @@ public static class SpeakEaseContextExtensions
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        sevices.AddDbContext<SpeakEaseContext>(option => option.UseNpgsql(connectionString));
-
-        //sevices.AddScoped<SpeakEaseContextFactory>();
-        //sevices.AddScoped(sp => sp.GetRequiredService<SpeakEaseContextFactory>().CreateDbContext());
-        //sevices.AddPooledDbContextFactory<SpeakEaseContext>(o => o.UseNpgsql(connectionString, builder =>
-        //{
-            
-        //}));
+        sevices.AddDbContext<IDbContext, SpeakEaseContext>((builder) =>
+        {
+            builder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), options =>
+            {
+                options.MapEnum<SourceEnum>();
+            });
+        },contextLifetime:ServiceLifetime.Scoped,optionsLifetime:ServiceLifetime.Scoped);
+        //sevices.AddScoped<SpeakEaseDesignFactory>();
 
         return sevices;
     }
