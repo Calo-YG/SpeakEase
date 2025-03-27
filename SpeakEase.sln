@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase", "SpeakEase\Spea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Domain", "SpeakEase.Domain\SpeakEase.Domain.csproj", "{1D58FB95-D21C-4110-A2AC-F1B1E0036096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Application", "SpeakEase.Application\SpeakEase.Application.csproj", "{01C4A01B-58DB-427A-B404-862183E76734}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Contract", "SpeakEase.Application\SpeakEase.Contract.csproj", "{01C4A01B-58DB-427A-B404-862183E76734}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Infrastructure", "SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj", "{C652D679-7F69-47B1-983E-061B9D728B78}"
 EndProject

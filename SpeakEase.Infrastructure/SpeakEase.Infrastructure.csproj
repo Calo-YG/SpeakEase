@@ -14,8 +14,6 @@
     <ItemGroup>
       <Folder Include="EventBus\BuildingBlock.Integration.EventBus\" />
       <Folder Include="EventBus\Contrib.Integration.EventBus\" />
-      <Folder Include="Filters\" />
-      <Folder Include="Repositoy\" />
     </ItemGroup>
 
     <ItemGroup>

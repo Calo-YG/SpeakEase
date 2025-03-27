@@ -64,3 +64,11 @@ public class Response : Response<object>
     {
     }
 }
+
+public static class Result
+{
+    public static Response Success(object value)
+    {
+        return new Response(value);
+    }
+}

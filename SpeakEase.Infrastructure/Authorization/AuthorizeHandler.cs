@@ -12,7 +12,9 @@ public class AuthorizeHandler(
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
-        if (!contextAccessor.HttpContext.Request.Path.Value.StartsWith("/api"))
+        var defaultPolicy = requirement.AuthorizeName?.Any() ?? false;
+        //默认授权策略
+        if (!defaultPolicy)
         {
             context.Succeed(requirement);
             return;
@@ -25,14 +27,6 @@ public class AuthorizeHandler(
         {
             failureReason = new AuthorizationFailureReason(this, "Please log in to the system");
             context.Fail(failureReason);
-            return;
-        }
-
-        var defaultPolicy = requirement.AuthorizeName?.Any() ?? false;
-        //默认授权策略
-        if (!defaultPolicy)
-        {
-            context.Succeed(requirement);
             return;
         }
 

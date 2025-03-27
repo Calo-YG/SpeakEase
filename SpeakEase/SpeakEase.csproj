@@ -7,15 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FastService" Version="0.1.2" />
+      <PackageReference Include="FastService.Analyzers" Version="0.1.2" />
+      <PackageReference Include="Lazy.Captcha.Core" Version="2.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
+      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SpeakEase.Application\SpeakEase.Application.csproj" />
+      <ProjectReference Include="..\SpeakEase.Application\SpeakEase.Contract.csproj" />
       <ProjectReference Include="..\SpeakEase.Aspire.Host\SpeakEase.Aspire.Host.ServiceDefaults\SpeakEase.Aspire.Host.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
