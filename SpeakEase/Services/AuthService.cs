@@ -10,10 +10,6 @@ using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Services
 {
-
-    [Filter(typeof(ResultEndPointFilter))]
-    [Route("api/auth")]
-    [Tags("auth-授权服务")]
     /// <summary>
     /// 授权服务
     /// </summary>
@@ -21,6 +17,10 @@ namespace SpeakEase.Services
     /// <param name="distributedCache">分布式缓存</param>
     /// <param name="captcha">验证码</param>
     /// <param name="idgenerator">id生成器</param>
+    [Filter(typeof(ResultEndPointFilter))]
+    [Route("api/auth")]
+    [Tags("auth-授权服务")]
+
     public class AuthService(IDbContext context, IDistributedCache distributedCache,ICaptcha captcha,IdGenerator idgenerator) :FastApi,IAuthService
     {
         /// <summary>
@@ -41,6 +41,17 @@ namespace SpeakEase.Services
                 UniqueId = id,
                 VerificationCode = "data:image/png;base64," + code.Base64
             };
+        }
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Task<TokenResponse> Login(LoginRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

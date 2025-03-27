@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Contract.Auth.Dto
+﻿namespace SpeakEase.Contract.Users.Dto
 {
     /// <summary>
     /// 创建用户请求
