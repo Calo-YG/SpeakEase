@@ -12,6 +12,7 @@ using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.EventBus;
 using SpeakEase.Infrastructure.Middleware;
+using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 using Swashbuckle.AspNetCore.Filters;
@@ -185,6 +186,12 @@ internal class Program
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             });
 
+            #endregion
+
+            #region redis
+            builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
+
+            builder.Services.AddSingleton<IRedisService, RedisService>();
             #endregion
 
             builder.Services.WithFast();
