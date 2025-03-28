@@ -13,7 +13,7 @@ public class RefreshTokenEntity
     /// <summary>
     /// 用户主键
     /// </summary>
-    public string UserId { get; private set; }
+    public long UserId { get; private set; }
 
     /// <summary>
     /// 当前token
@@ -39,7 +39,7 @@ public class RefreshTokenEntity
     {
     }
 
-    public RefreshTokenEntity(int id, string userId, string token, DateTime expires, bool isUsed)
+    public RefreshTokenEntity(long id, long userId, string token, DateTime expires, bool isUsed)
     {
         Id = id;
         UserId = userId;

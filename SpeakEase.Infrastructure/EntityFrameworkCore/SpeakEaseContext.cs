@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpeakEase.Domain.Shared;
 using SpeakEase.Domain.Users;
+using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Infrastructure.Authorization;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore;
@@ -35,11 +37,17 @@ public class SpeakEaseContext:DbContext,IDbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        var converter = new ValueConverter<SourceEnum, int>(
+            v => ((int)v),
+            v => (SourceEnum)v);
+
         modelBuilder.Entity<UserEntity>(op =>
         {
             op.HasKey(p => p.Id);
             op.Property(p=>p.UserPassword).IsRequired().HasMaxLength(128);
             op.Property(p => p.UserAccount).IsRequired().HasMaxLength(50);
+            op.Property(p => p.Source).HasConversion(converter);
         });
 
         modelBuilder.Entity<RefreshTokenEntity>(op => 

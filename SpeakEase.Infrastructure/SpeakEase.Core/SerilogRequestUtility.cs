@@ -8,7 +8,7 @@ namespace SpeakEase.Infrastructure.SpeakEase.Core;
 public class SerilogRequestUtility
 {
     public const string HttpMessageTemplate =
-        "RequestIp:{RequestIp}  HTTP {RequestMethod} {RequestPath} QueryString:{QueryString} Body:{Body}  responded {StatusCode} in {Elapsed:0.0000} ms  ZModule";
+        "RequestIp:{RequestIp}  HTTP {RequestMethod} {RequestPath} QueryString:{QueryString} Body:{Body}  responded {StatusCode} in {Elapsed:0.0000} ms  SpeakEase";
 
 
     public static LogEventLevel GetRequestLevel(HttpContext ctx, double _, Exception ex) =>

@@ -12,5 +12,5 @@ public interface IUserService
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    Task Create(CreateUserRequest request);
+    Task Register(CreateUserRequest request);
 }

@@ -12,7 +12,7 @@ public static class AuthorizetionExtensions
             services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizeMiddleHandle>();
             services.AddSingleton<IAuthorizationHandler, AuthorizeHandler>();
             services.AddScoped<IUserContext, UserContext>();
-            services.AddScoped<TokenManager>();
+            services.AddScoped<ITokenManager,TokenManager>();
             return services;
       }
 }

@@ -1,10 +1,15 @@
-﻿using FastService;
+﻿using System.Security.Claims;
+using System.Text.RegularExpressions;
+using FastService;
 using IdGen;
 using Lazy.Captcha.Core;
-using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.EntityFrameworkCore;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
+using SpeakEase.Domain.Users;
+using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
+using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
@@ -17,11 +22,12 @@ namespace SpeakEase.Services
     /// <param name="distributedCache">分布式缓存</param>
     /// <param name="captcha">验证码</param>
     /// <param name="idgenerator">id生成器</param>
+    /// <param name="tokenManager">token生成器</param>
     [Filter(typeof(ResultEndPointFilter))]
     [Route("api/auth")]
     [Tags("auth-授权服务")]
 
-    public class AuthService(IDbContext context, IDistributedCache distributedCache,ICaptcha captcha,IdGenerator idgenerator) :FastApi,IAuthService
+    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager) :FastApi,IAuthService
     {
         /// <summary>
         /// 获取验证码
@@ -49,9 +55,69 @@ namespace SpeakEase.Services
         /// <param name="request"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<TokenResponse> Login(LoginRequest request)
+        [EndpointSummary("登录")]
+        public async Task<TokenResponse> Login(LoginRequest request)
         {
-            throw new NotImplementedException();
+            if (request.Password.IsNullOrEmpty()
+                    || request.Password.Length < 6 ||
+                    !Regex.IsMatch(request.Password, @"^(?=.*[0-9])(?=.*[a-zA-Z]).*$"))
+            {
+                ThrowUserFriendlyException.ThrowException("密码长度至少6位，且必须包含字母和数字");
+            }
+
+            if (request.UserAccount.IsNullOrEmpty())
+            {
+                ThrowUserFriendlyException.ThrowException("请输入账号");
+            }
+
+            if (request.UniqueId.IsNullOrEmpty() || request.Code.IsNullOrEmpty())
+            {
+                ThrowUserFriendlyException.ThrowException("请输入验证码");
+            }
+
+            var validate = captcha.Validate(request.UniqueId, request.Code);
+
+            if (!validate)
+            {
+                ThrowUserFriendlyException.ThrowException("验证码校验错误");
+            }
+
+            var user = await context.User.AsNoTracking().FirstAsync(p=>p.UserAccount == request.UserAccount);
+
+            var checkpassword = BCrypt.Net.BCrypt.Verify(request.Password, user.UserPassword);
+
+            if (!checkpassword)
+            {
+                ThrowUserFriendlyException.ThrowException("密码错误");
+            }
+
+            var clamis = new List<Claim>() 
+            {
+                new Claim(type:UserInfomationConst.UserName,user.UserName),
+                new Claim(type:UserInfomationConst.UserAccount,user.UserAccount),
+                new Claim(type:UserInfomationConst.OrganizationName,string.Empty),
+                new Claim(type:UserInfomationConst.UserId,LongToStringConverter.Convert(user.Id)),
+                //new Claim
+            };
+
+            var toekn = tokenManager.GenerateAccessToken(clamis);
+            var refreshToken = tokenManager.GenerateRefreshToken();
+
+            var entity = new RefreshTokenEntity(idgenerator.CreateId(),
+                user.Id,
+                refreshToken,
+                DateTime.Now.AddMinutes(10),
+                false);
+
+            context.RefreshToken.Add(entity);
+
+            await context.SaveChangesAsync();
+
+            return new TokenResponse
+            {
+                Token = toekn,
+                RefreshToken = refreshToken,
+            };
         }
     }
 }
