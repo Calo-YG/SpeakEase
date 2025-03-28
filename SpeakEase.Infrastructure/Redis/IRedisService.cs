@@ -5,6 +5,12 @@
         // String 操作
         void Set(string key, string value, int expireSeconds = 0);
 
+        Task SetAsync(string key, string value, int expireSeconds = 0);
+
+        void Delete(string key);
+
+        Task DeleteAsync(string key);
+
         bool SetNx(string key, string value, int expireSeconds = 1000);
         string Get(string key);
 

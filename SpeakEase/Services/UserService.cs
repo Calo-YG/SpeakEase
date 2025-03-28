@@ -10,6 +10,7 @@ using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Filters;
+using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Services
@@ -20,7 +21,7 @@ namespace SpeakEase.Services
     [Filter(typeof(ResultEndPointFilter))]
     [Route("api/user")]
     [Tags("用户服务")]
-    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator): FastApi, IUserService
+    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator,IRedisService redisService): FastApi, IUserService
     {
         /// <summary>
         /// 用户注册
@@ -53,9 +54,13 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("请输入账号和用户名");
             }
 
+            var key = string.Format(UserConst.RegiesCapchaCache, request.UnquneId);
+
+            var code = redisService.Get(key);
+
             var validate = captcha.Validate(request.UnquneId, request.VerificationCode);
 
-            if (!validate)
+            if (code != request.VerificationCode)
             {
                 ThrowUserFriendlyException.ThrowException("验证码校验错误");
             }
@@ -79,6 +84,8 @@ namespace SpeakEase.Services
             await dbContext.User.AddAsync(entity);
 
             await dbContext.SaveChangesAsync();
+
+            await redisService.DeleteAsync(key);
         }
     }
 }

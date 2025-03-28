@@ -30,7 +30,7 @@ public interface IUserContext
     /// <summary>
     /// 用户组织名称
     /// </summary>
-    public string? OrganizationName { get; }
+    public string OrganizationName { get; }
 
     /// <summary>
     /// 当前登录用户信息

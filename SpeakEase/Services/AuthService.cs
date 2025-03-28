@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
 using SpeakEase.Domain.Users;
+using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Filters;
+using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Services
@@ -27,20 +29,29 @@ namespace SpeakEase.Services
     [Route("api/auth")]
     [Tags("auth-授权服务")]
 
-    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager) :FastApi,IAuthService
+    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :FastApi,IAuthService
     {
         /// <summary>
         /// 获取验证码
         /// </summary>
         /// <returns></returns>
         [EndpointSummary("获取验证码")]
-        public async Task<VerificationCodeResponse> GetVerificationCode()
+        public async Task<VerificationCodeResponse> GetVerificationCode(CapchaEnum capcha)
         {
             var id = idgenerator.CreateId();
 
+            var key = LongToStringConverter.Convert(id);
+
             var code = captcha.Generate(LongToStringConverter.Convert(id),240);
 
-            await Task.Delay(1);
+            var capchakey = capcha switch
+            {
+                CapchaEnum.Login => string.Format(UserConst.LoginCapcahCache, key),
+                CapchaEnum.Register => string.Format(UserConst.RegiesCapchaCache, key),
+                _ => throw new UserFriednlyException("参数错误")
+            };
+
+            await redisService.SetAsync(capchakey, code.Code,600);
 
             return new VerificationCodeResponse
             {
@@ -75,9 +86,13 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("请输入验证码");
             }
 
+            var key = string.Format(UserConst.LoginCapcahCache, request.UniqueId);
+
+            var code = redisService.Get(key);
+
             var validate = captcha.Validate(request.UniqueId, request.Code);
 
-            if (!validate)
+            if (request.Code != code)
             {
                 ThrowUserFriendlyException.ThrowException("验证码校验错误");
             }
@@ -112,6 +127,8 @@ namespace SpeakEase.Services
             context.RefreshToken.Add(entity);
 
             await context.SaveChangesAsync();
+
+            await redisService.DeleteAsync(key);
 
             return new TokenResponse
             {

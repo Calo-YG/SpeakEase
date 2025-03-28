@@ -6,5 +6,9 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SpeakEase.Domain\SpeakEase.Domain.csproj" />
+    </ItemGroup>
+
 
 </Project>

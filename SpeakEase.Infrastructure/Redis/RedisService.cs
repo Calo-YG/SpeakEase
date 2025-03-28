@@ -69,5 +69,20 @@ namespace SpeakEase.Infrastructure.Redis
         {
             _redis.Subscribe(channel, (ch, msg) => onMessage(ch, msg));
         }
+
+        public Task SetAsync(string key, string value, int expireSeconds = 0)
+        {
+            return _redis.SetAsync(key, value, expireSeconds);
+        }
+
+        public void Delete(string key)
+        {
+            _redis.Del(key);
+        }
+
+        public Task DeleteAsync(string key)
+        {
+            return _redis.DelAsync(key);
+        }
     }
 }
