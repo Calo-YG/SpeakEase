@@ -42,14 +42,14 @@ namespace SpeakEase.Services
 
             var key = LongToStringConverter.Convert(id);
 
-            var code = captcha.Generate(LongToStringConverter.Convert(id),240);
-
             var capchakey = capcha switch
             {
                 CapchaEnum.Login => string.Format(UserConst.LoginCapcahCache, key),
                 CapchaEnum.Register => string.Format(UserConst.RegiesCapchaCache, key),
                 _ => throw new UserFriednlyException("参数错误")
             };
+
+            var code = captcha.Generate(LongToStringConverter.Convert(id),240);
 
             await redisService.SetAsync(capchakey, code.Code,600);
 
