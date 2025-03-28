@@ -16,5 +16,10 @@
         /// 登录验证码
         /// </summary>
         public const string LoginCapcahCache = "LoginCapcahCache_{0}";
+
+        /// <summary>
+        /// 更新用户验证
+        /// </summary>
+        public const string ModifyUserCapchaCache = "ModifyUserCapchaCache_{0}";
     }
 }

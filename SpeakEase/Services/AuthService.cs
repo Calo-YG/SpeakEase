@@ -46,6 +46,7 @@ namespace SpeakEase.Services
             {
                 CapchaEnum.Login => string.Format(UserConst.LoginCapcahCache, key),
                 CapchaEnum.Register => string.Format(UserConst.RegiesCapchaCache, key),
+                CapchaEnum.Update => string.Format(UserConst.ModifyUserCapchaCache, key),
                 _ => throw new UserFriednlyException("参数错误")
             };
 

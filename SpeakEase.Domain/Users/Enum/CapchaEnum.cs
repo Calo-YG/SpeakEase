@@ -14,5 +14,10 @@
         /// 登录
         /// </summary>
         Login = 2,
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        Update  = 3
     }
 }

@@ -77,4 +77,11 @@ public class UserEntity
     /// 修改事件
     /// </summary>
     public DateTime? ModifyAt { get; private set; }
+
+
+    public void Modify(DateTime date,string password)
+    {
+        ModifyAt = date;
+        UserPassword = password;
+    }
 }
