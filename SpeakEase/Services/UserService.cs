@@ -167,6 +167,13 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("请选择头像上传");
             }
 
+            var suffix = file.FileName.Split('.')[1];
+
+            if (!_fileType.Contains(suffix))
+            {
+                ThrowUserFriendlyException.ThrowException("只支持 png,jpg,jpeg 文件类型上传");
+            }
+
             var rootpath = "Avatar";
 
             var path = Path.Join(webHostEnvironment.ContentRootPath,rootpath);
@@ -180,13 +187,6 @@ namespace SpeakEase.Services
             var currentuser = dbContext.GetUser();
 
             var userentity = dbContext.User.First(p=>p.Id == currentuser.Id);
-
-            var suffix = file.FileName.Split('.')[1];
-
-            if (!_fileType.Contains(suffix))
-            {
-                ThrowUserFriendlyException.ThrowException("只支持 png,jpg,jpeg 文件类型上传");
-            }
 
             var key = LongToStringConverter.Convert(idgenerator.CreateId());
 
