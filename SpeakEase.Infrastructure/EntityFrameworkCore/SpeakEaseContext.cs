@@ -121,4 +121,9 @@ public class SpeakEaseContext:DbContext,IDbContext
     {
         return this._userContext.User;
     }
+
+    public IQueryable<T> QueryNoTracking<T>() where T : class
+    {
+        return Set<T>();
+    }
 }

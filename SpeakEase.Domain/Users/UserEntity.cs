@@ -84,4 +84,13 @@ public class UserEntity
         ModifyAt = date;
         UserPassword = password;
     }
+
+    /// <summary>
+    /// 设置头像存储路径
+    /// </summary>
+    /// <param name="url"></param>
+    public void SetAvatar(string url)
+    {
+        Avatar = url;
+    }
 }

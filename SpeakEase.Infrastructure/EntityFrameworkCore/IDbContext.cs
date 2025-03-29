@@ -29,5 +29,7 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore
         void Migrate();
 
         User GetUser();
+
+        IQueryable<T> QueryNoTracking<T>() where T : class;
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using FastService;
 using IdGen;
 using Lazy.Captcha.Core;
@@ -21,8 +23,18 @@ namespace SpeakEase.Services
     [Filter(typeof(ResultEndPointFilter))]
     [Route("api/user")]
     [Tags("用户服务")]
-    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator,IRedisService redisService): FastApi, IUserService
+    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator,IRedisService redisService,IWebHostEnvironment webHostEnvironment): FastApi, IUserService
     {
+        /// <summary>
+        /// 头像类型限制
+        /// </summary>
+        private  string[] _fileType = ["png", "jpg", "jpeg"];
+
+        /// <summary>
+        /// 头像文件大小限制
+        /// </summary>
+        private readonly int fileSize = 3078;
+
         /// <summary>
         /// 用户注册
         /// </summary>
@@ -155,8 +167,40 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("请选择头像上传");
             }
 
-            await Task.CompletedTask;
-           // await fileProvider.
+            var rootpath = "Avatar";
+
+            var path = Path.Join(webHostEnvironment.ContentRootPath,rootpath);
+
+            
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            var currentuser = dbContext.GetUser();
+
+            var userentity = dbContext.User.First(p=>p.Id == currentuser.Id);
+
+            var suffix = file.FileName.Split('.')[1];
+
+            if (!_fileType.Contains(suffix))
+            {
+                ThrowUserFriendlyException.ThrowException("只支持 png,jpg,jpeg 文件类型上传");
+            }
+
+            var key = LongToStringConverter.Convert(idgenerator.CreateId());
+
+            var filename = $"{currentuser.Name}_{key}.{suffix}";
+
+            var filepath = Path.Join(path, $"{currentuser.Name}_{key}.{suffix}");
+
+            using var filestream = new FileStream(filepath, FileMode.Create);
+
+            await file.CopyToAsync(filestream);
+
+            userentity.SetAvatar(Path.Join($"/{rootpath}/{filename}"));
+
+            await dbContext.SaveChangesAsync(); 
         }
     }
 }
