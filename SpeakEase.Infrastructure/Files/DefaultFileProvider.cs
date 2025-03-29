@@ -1,10 +1,9 @@
-﻿using IdGen;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpeakEase.Domain.Users;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Shared;
+using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Infrastructure.Files
 {
@@ -12,11 +11,9 @@ namespace SpeakEase.Infrastructure.Files
     /// 默认文件存储(本地文件存储)
     /// </summary>
     /// <param name="dbContext"></param>
-    /// <param name="idgenerator"></param>
-    /// <param name="hostEnvironment"></param>
     /// <param name="options"></param>
     /// <param name="loggerFactory"></param>
-    public class DefaultFileProvider(IDbContext dbContext,IdGenerator idgenerator,IWebHostEnvironment hostEnvironment,IOptions<FileOption> options,ILoggerFactory loggerFactory):IFileProvider
+    public class DefaultFileProvider(IDbContext dbContext,IOptions<FileOption> options,ILoggerFactory loggerFactory):IFileProvider
     {
         private readonly ILogger _logger = loggerFactory.CreateLogger<IFileProvider>();
 
@@ -39,11 +36,27 @@ namespace SpeakEase.Infrastructure.Files
             //设置用户存储路径
             var user = dbContext.GetUser();
 
-            var userrootpath = "{}";
+            var userrootpath = $"{user.Account}_{user.Name}";
 
             var currentpath = Path.Join(rootPath,userrootpath,entity.Path);
 
-            await Task.CompletedTask;
+            if (entity.Folder)
+            {
+                if (Directory.Exists(currentpath))
+                {
+                    Directory.CreateDirectory(currentpath);
+                }
+            }
+            else
+            {
+                var key = LongToStringConverter.Convert(entity.Id);
+
+                var storage = $"{entity.Name}_{key}.{entity.Type}";
+
+                using var filestream = new FileStream(currentpath, FileMode.Create);
+
+                await stream.CopyToAsync(filestream);
+            }
         }
     }
 }

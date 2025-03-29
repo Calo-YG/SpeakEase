@@ -41,6 +41,11 @@ namespace SpeakEase.Domain.Users
         public int FileSize { get; private set; }
 
         /// <summary>
+        /// 父级目录id
+        /// </summary>
+        public long? ParentId { get; set; }
+
+        /// <summary>
         /// 用户id
         /// </summary>
         public long ModifyById { get; set; }
