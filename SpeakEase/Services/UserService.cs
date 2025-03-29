@@ -144,7 +144,7 @@ namespace SpeakEase.Services
         [EndpointSummary("当前登录用户信息")]
         public async Task<UserResponse> CurrentUser(long id)
         {
-            return await dbContext.User.AsNoTracking().Where(p=>p.Id == id).Select(p=> new UserResponse
+            return await dbContext.QueryNoTracking<UserEntity>().Where(p=>p.Id == id).Select(p=> new UserResponse
             {
                 UserId = p.Id,
                 UserName = p.UserName,
