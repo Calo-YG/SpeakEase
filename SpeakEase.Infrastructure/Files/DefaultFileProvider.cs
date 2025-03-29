@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using SpeakEase.Domain.Users;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
-using SpeakEase.Infrastructure.Shared;
+using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Infrastructure.Files
@@ -13,11 +16,21 @@ namespace SpeakEase.Infrastructure.Files
     /// <param name="dbContext"></param>
     /// <param name="options"></param>
     /// <param name="loggerFactory"></param>
-    public class DefaultFileProvider(IDbContext dbContext,IOptions<FileOption> options,ILoggerFactory loggerFactory):IFileProvider
+    public class DefaultFileProvider(IDbContext dbContext,IOptions<FileOption> options,ILoggerFactory loggerFactory,IWebHostEnvironment webHostEnvironment):IFileProvider
     {
         private readonly ILogger _logger = loggerFactory.CreateLogger<IFileProvider>();
 
         private readonly FileOption _fileOption = options.Value;
+
+        public IDirectoryContents GetDirectoryContents(string subpath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFileInfo GetFileInfo(string subpath)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 文件存储
@@ -38,7 +51,7 @@ namespace SpeakEase.Infrastructure.Files
 
             var userrootpath = $"{user.Account}_{user.Name}";
 
-            var currentpath = Path.Join(rootPath,userrootpath,entity.Path);
+            var currentpath = Path.Join(webHostEnvironment.ContentRootPath,rootPath,userrootpath,entity.Path);
 
             if (entity.Folder)
             {
@@ -57,6 +70,11 @@ namespace SpeakEase.Infrastructure.Files
 
                 await stream.CopyToAsync(filestream);
             }
+        }
+
+        public IChangeToken Watch(string filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,6 +9,7 @@ using SpeakEase.Domain.Users;
 using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
+using SpeakEase.Infrastructure.Files;
 using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
@@ -21,7 +22,7 @@ namespace SpeakEase.Services
     [Filter(typeof(ResultEndPointFilter))]
     [Route("api/user")]
     [Tags("用户服务")]
-    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator,IRedisService redisService): FastApi, IUserService
+    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator,IRedisService redisService,IFileProvider fileProvider): FastApi, IUserService
     {
         /// <summary>
         /// 用户注册
@@ -152,10 +153,10 @@ namespace SpeakEase.Services
         {
             if (file is null)
             {
-               // throwuserfriendlyexception.throwexception("请选择头像上传");
+                ThrowUserFriendlyException.ThrowException("请选择头像上传");
             }
 
-
+            await fileProvider.
         }
     }
 }

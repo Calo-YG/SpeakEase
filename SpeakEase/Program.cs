@@ -11,6 +11,7 @@ using Serilog.Events;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.EventBus;
+using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.Shared;
@@ -192,6 +193,11 @@ internal class Program
             builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
 
             builder.Services.AddSingleton<IRedisService, RedisService>();
+            #endregion
+
+            #region 文件存储
+            builder.Services.Configure<FileOption>(builder.Configuration.GetSection("FileOption"));
+           // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
             #endregion
 
             builder.Services.WithFast();
