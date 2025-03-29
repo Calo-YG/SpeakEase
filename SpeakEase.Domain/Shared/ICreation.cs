@@ -8,12 +8,12 @@
         /// <summary>
         /// 用户id
         /// </summary>
-        public long UserId { get; set; }
+        public long CreateById { get; set; }
 
         /// <summary>
         /// 用户名称
         /// </summary>
-        public string UserName { get; set; }
+        public string CreateByName { get; set; }
 
         /// <summary>
         /// 创建时间

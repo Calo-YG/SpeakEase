@@ -142,20 +142,20 @@ namespace SpeakEase.Services
             }).FirstOrDefaultAsync();
         }
 
-        ///// <summary>
-        ///// 上传头像
-        ///// </summary>
-        ///// <param name="file"></param>
-        ///// <returns></returns>
-        //[EndpointSummary("上传头像")]
-        //public async Task UploadAvatar([FromForm] IFormFile file, [FromBody] string userid)
-        //{
-        //    if(file is null)
-        //    {
-        //        ThrowUserFriendlyException.ThrowException("请选择头像上传");
-        //    }
+        /// <summary>
+        /// 上传头像
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [EndpointSummary("上传头像")]
+        public async Task Uploadavatar(IFormFile file)
+        {
+            if (file is null)
+            {
+               // throwuserfriendlyexception.throwexception("请选择头像上传");
+            }
 
-            
-        //}
+
+        }
     }
 }

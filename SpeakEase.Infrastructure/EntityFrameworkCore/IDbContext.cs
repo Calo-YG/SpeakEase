@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Domain.Users;
+using SpeakEase.Infrastructure.Authorization;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore
 {
@@ -26,5 +27,7 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore
         /// 迁移
         /// </summary>
         void Migrate();
+
+        User GetUser();
     }
 }

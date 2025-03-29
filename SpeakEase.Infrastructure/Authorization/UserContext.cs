@@ -30,6 +30,7 @@ public class UserContext : IUserContext
 
     public User User { get => GetUser(); }
 
+    private User _user;
 
     public UserContext(IHttpContextAccessor httpContextAccessor)
     {
@@ -41,12 +42,18 @@ public class UserContext : IUserContext
 
     private User GetUser()
     {
+        if(_user is not null)
+        {
+            return this._user;
+        }
+
         SetUserId();
         SetOrganizationId();
         SetUserName();
         SetUserAccount();
         SetOrganizationName();
-        return new User(UserId, UserName, UserAccount, OrganizationId, OrganizationName);
+        this._user = new User(UserId, UserName, UserAccount, OrganizationId, OrganizationName);
+        return this._user;
     }
 
     private void SetUserId()

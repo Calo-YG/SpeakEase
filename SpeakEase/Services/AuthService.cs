@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
 using SpeakEase.Domain.Users;
-using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
@@ -36,7 +35,7 @@ namespace SpeakEase.Services
         /// </summary>
         /// <returns></returns>
         [EndpointSummary("获取验证码")]
-        public async Task<VerificationCodeResponse> GetVerificationCode(CapchaEnum capcha)
+        public async Task<VerificationCodeResponse> GetVerificationCode(string capcha)
         {
             var id = idgenerator.CreateId();
 
@@ -44,9 +43,9 @@ namespace SpeakEase.Services
 
             var capchakey = capcha switch
             {
-                CapchaEnum.Login => string.Format(UserConst.LoginCapcahCache, key),
-                CapchaEnum.Register => string.Format(UserConst.RegiesCapchaCache, key),
-                CapchaEnum.Update => string.Format(UserConst.ModifyUserCapchaCache, key),
+                "Login" => string.Format(UserConst.LoginCapcahCache, key),
+                "Register" => string.Format(UserConst.RegiesCapchaCache, key),
+                "Modify" => string.Format(UserConst.ModifyUserCapchaCache, key),
                 _ => throw new UserFriednlyException("参数错误")
             };
 

@@ -93,12 +93,13 @@ public class SpeakEaseContext:DbContext,IDbContext
             if (item.State == EntityState.Added && item.Entity is ICreation creation)
             {
                 creation.CreatedAt = DateTime.Now;
-                creation.UserId = _userContext.UserId;
-                creation.UserName = _userContext.UserName;
-            }else if(item.State == EntityState.Modified && item.Entity is IModify modify)
+                creation.CreateById = _userContext.UserId;
+                creation.CreateByName = _userContext.UserName;
+            }
+            if(item.State == EntityState.Modified && item.Entity is IModify modify)
             {
-                modify.ModifyUserId = _userContext.UserId;
-                modify.ModifyUserName = _userContext.UserName;
+                modify.ModifyById = _userContext.UserId;
+                modify.ModifyByName = _userContext.UserName;
                 modify.ModifyAt = DateTime.Now;
             }
         }
@@ -110,5 +111,14 @@ public class SpeakEaseContext:DbContext,IDbContext
     public void Migrate()
     {
         this.Database.Migrate();
+    }
+
+    /// <summary>
+    /// 获取当前用户
+    /// </summary>
+    /// <returns></returns>
+    public User GetUser()
+    {
+        return this._userContext.User;
     }
 }

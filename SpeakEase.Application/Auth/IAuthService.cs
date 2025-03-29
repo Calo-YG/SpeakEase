@@ -1,5 +1,4 @@
 ﻿using SpeakEase.Contract.Auth.Dto;
-using SpeakEase.Domain.Users.Enum;
 
 namespace SpeakEase.Contract.Auth
 {
@@ -12,7 +11,7 @@ namespace SpeakEase.Contract.Auth
         /// 获取验证码
         /// </summary>
         /// <returns></returns>
-        Task<VerificationCodeResponse> GetVerificationCode(CapchaEnum capcha);
+        Task<VerificationCodeResponse> GetVerificationCode(string capcha);
 
         /// <summary>
         /// 登录
