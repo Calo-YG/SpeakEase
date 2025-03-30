@@ -140,9 +140,11 @@ namespace SpeakEase.Services
         /// <param name="request"></param>
         /// <returns></returns>
         [EndpointSummary("当前登录用户信息")]
-        public async Task<UserResponse> CurrentUser(long id)
+        public async Task<UserResponse> CurrentUser()
         {
-            return await dbContext.QueryNoTracking<UserEntity>().Where(p=>p.Id == id).Select(p=> new UserResponse
+            var user = dbContext.GetUser();
+
+            return await dbContext.QueryNoTracking<UserEntity>().Where(p=>p.Id == user.Id).Select(p=> new UserResponse
             {
                 UserId = p.Id,
                 UserName = p.UserName,
@@ -255,6 +257,32 @@ namespace SpeakEase.Services
                 request.AccountActive);
 
             await dbContext.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 获取当前用户
+        /// </summary>
+        /// <returns></returns>
+        [EndpointSummary("获取当前用户设置")]
+        public  Task<UserSettingResponse> GetUserSetting()
+        {
+            //获取当前用户
+            var user = dbContext.GetUser();
+
+            return dbContext.UserSetting.Where(p=>p.UserId == user.Id)
+                .Select(p=> new UserSettingResponse
+                {
+                    Gender = p.Gender,
+                    Birthday = p.Birthday,
+                    Bio = p.Bio,
+                    IsProfilePublic = p.IsProfilePublic,
+                    ShowLearningProgress = p.ShowLearningProgress,
+                    AllowMessages = p.AllowMessages,
+                    ReceiveEmailUpdates = p.ReceiveEmailUpdates,
+                    ReceiveNotifications = p.ReceiveNotifications,
+                    ReceivePushNotifications = p.ReceivePushNotifications,
+                    AccountActive = p.AccountActive
+                }).FirstAsync();
         }
     }
 }
