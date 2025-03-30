@@ -14,7 +14,6 @@ using SpeakEase.Infrastructure.EventBus;
 using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Redis;
-using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 using Swashbuckle.AspNetCore.Filters;
 

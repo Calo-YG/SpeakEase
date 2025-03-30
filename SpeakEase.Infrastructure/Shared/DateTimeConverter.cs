@@ -1,9 +1,7 @@
-﻿using System.Globalization;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.VisualBasic;
 
-namespace SpeakEase.Infrastructure.Shared;
+namespace SpeakEase.Infrastructure.Filters;
 
 public class DateTimeOffsetConverter : JsonConverter<DateTime>
 {

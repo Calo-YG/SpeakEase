@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpeakEase.Infrastructure.Exceptions;
-using SpeakEase.Infrastructure.Shared;
+using SpeakEase.Infrastructure.Filters;
 using System.Diagnostics;
 using System.Text.Json;
 

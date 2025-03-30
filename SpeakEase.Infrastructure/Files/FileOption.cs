@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.Filters
+﻿namespace SpeakEase.Infrastructure.Files
 {
     public class FileOption
     {

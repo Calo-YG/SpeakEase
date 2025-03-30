@@ -17,6 +17,11 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore
         public DbSet<RefreshTokenEntity> RefreshToken { get; set; }
 
         /// <summary>
+        /// 用户设置
+        /// </summary>
+        public DbSet<UserSettingEntity> UserSetting { get; set; }
+
+        /// <summary>
         /// 保存
         /// </summary>
         /// <param name="cancellationToken"></param>

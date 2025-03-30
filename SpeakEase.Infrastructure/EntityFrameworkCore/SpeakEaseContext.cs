@@ -24,6 +24,12 @@ public class SpeakEaseContext:DbContext,IDbContext
     /// </summary>
     public DbSet<RefreshTokenEntity> RefreshToken { get; set; }
 
+    /// <summary>
+    /// 用户设置
+    /// </summary>
+    public DbSet<UserSettingEntity> UserSetting { get; set; }
+
+
     private readonly IUserContext _userContext;
 
     public SpeakEaseContext(DbContextOptions<SpeakEaseContext> options, IUserContext userContext) : base(options)

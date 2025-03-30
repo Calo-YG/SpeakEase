@@ -1,14 +1,11 @@
-﻿namespace SpeakEase.Domain.Users
+﻿namespace SpeakEase.Contract.Users.Dto
 {
-    /// <summary>
-    /// 用户设置
-    /// </summary>
-    public class UserSetting
+    public sealed class UserSettingUpdateRequest
     {
         /// <summary>
-        /// 用户ID
+        /// 主键
         /// </summary>
-        public long UserId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 性别
@@ -59,31 +56,5 @@
         /// 账户是否处于激活状态
         /// </summary>
         public bool AccountActive { get; set; }
-
-        /// <summary>
-        /// 默认构造函数
-        /// </summary>
-        protected UserSetting() { }
-
-        /// <summary>
-        /// 带参数的构造函数，初始化用户设置。
-        /// </summary>
-        public UserSetting(long userId, string gender, DateTime? birthday,
-                            string bio, bool isProfilePublic, bool showLearningProgress,
-                            bool allowMessages, bool receiveNotifications, bool receiveEmailUpdates,
-                            bool receivePushNotifications, bool accountActive)
-        {
-            UserId = userId;
-            Gender = gender;
-            Birthday = birthday;
-            Bio = bio;
-            IsProfilePublic = isProfilePublic;
-            ShowLearningProgress = showLearningProgress;
-            AllowMessages = allowMessages;
-            ReceiveNotifications = receiveNotifications;
-            ReceiveEmailUpdates = receiveEmailUpdates;
-            ReceivePushNotifications = receivePushNotifications;
-            AccountActive = accountActive;
-        }
     }
 }

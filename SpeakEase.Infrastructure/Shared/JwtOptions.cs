@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.Shared;
+﻿namespace SpeakEase.Infrastructure.Filters;
 
 public class JwtOptions
 {

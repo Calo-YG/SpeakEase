@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Options;
 using SpeakEase.Infrastructure.Exceptions;
-using SpeakEase.Infrastructure.Shared;
+using SpeakEase.Infrastructure.Filters;
 
 namespace SpeakEase.Infrastructure.SpeakEase.Core;
 

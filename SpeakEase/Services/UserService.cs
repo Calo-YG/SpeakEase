@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using FastService;
 using IdGen;
 using Lazy.Captcha.Core;
@@ -28,7 +26,7 @@ namespace SpeakEase.Services
         /// <summary>
         /// 头像类型限制
         /// </summary>
-        private  string[] _fileType = ["png", "jpg", "jpeg"];
+        private readonly string[] _fileType = ["png", "jpg", "jpeg"];
 
         /// <summary>
         /// 头像文件大小限制
@@ -201,6 +199,62 @@ namespace SpeakEase.Services
             userentity.SetAvatar(Path.Join($"/{rootpath}/{filename}"));
 
             await dbContext.SaveChangesAsync(); 
+        }
+
+        /// <summary>
+        /// 创建当前用户请求
+        /// </summary>
+        /// <returns></returns>
+        [EndpointSummary("创建当前用户请求")]
+        public async Task CreateUserSetting(UserSettingRequest request)
+        {
+            var id = idgenerator.CreateId();
+
+            var user = dbContext.GetUser();
+
+            var entity = new UserSettingEntity(id,user.Id,
+                request.Gender ?? string.Empty,
+                request.Birthday,
+                request.Bio ?? string.Empty,
+                request.IsProfilePublic,
+                request.ShowLearningProgress,
+                request.AllowMessages,
+                request.ReceiveNotifications,
+                request.ReceiveEmailUpdates,
+                request.ReceivePushNotifications,
+                request.AccountActive);
+
+            await dbContext.UserSetting.AddAsync(entity);
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 创建当前用户请求
+        /// </summary>
+        /// <returns></returns>
+        [EndpointSummary("更新当前用户请求")]
+        public async Task UpdateUserSetting(UserSettingUpdateRequest request)
+        {
+            var entity = await dbContext.UserSetting.FirstAsync(p=>p.Id == request.Id);
+
+            if(entity == null)
+            {
+                ThrowUserFriendlyException.ThrowException("数据错误");
+            }
+
+            entity.Modify(request.Gender ?? string.Empty,
+                request.Birthday,
+                request.Bio ?? string.Empty,
+                request.IsProfilePublic,
+                request.ShowLearningProgress,
+                request.AllowMessages,
+                request.ReceiveNotifications,
+                request.ReceiveEmailUpdates,
+                request.ReceivePushNotifications,
+                request.AccountActive);
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }
