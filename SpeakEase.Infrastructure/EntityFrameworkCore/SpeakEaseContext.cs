@@ -163,6 +163,6 @@ public class SpeakEaseContext:DbContext,IDbContext
 
     public IQueryable<T> QueryNoTracking<T>() where T : class
     {
-        return Set<T>();
+        return Set<T>().AsNoTracking();
     }
 }
