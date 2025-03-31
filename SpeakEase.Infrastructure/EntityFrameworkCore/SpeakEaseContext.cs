@@ -65,6 +65,12 @@ public class SpeakEaseContext:DbContext,IDbContext
             op.Property(p => p.Expires).IsRequired();
         });
 
+        modelBuilder.Entity<UserSettingEntity>(op =>
+        {
+            op.ToTable("user_setting");
+            op.HasKey(p => p.Id);
+        });
+
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

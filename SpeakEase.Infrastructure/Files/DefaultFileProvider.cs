@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using SpeakEase.Domain.Users;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
-using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Infrastructure.Files

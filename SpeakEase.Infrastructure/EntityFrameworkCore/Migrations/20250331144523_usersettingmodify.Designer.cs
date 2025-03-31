@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
@@ -11,9 +12,11 @@ using SpeakEase.Infrastructure.EntityFrameworkCore;
 namespace SpeakEase.Infrastructure.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(SpeakEaseContext))]
-    partial class SpeakEaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250331144523_usersettingmodify")]
+    partial class usersettingmodify
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
