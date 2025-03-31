@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331145015_usersettingmodifyproperty.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331145015_usersettingmodifyproperty.Designer.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/SpeakEaseContextModelSnapshot.cs

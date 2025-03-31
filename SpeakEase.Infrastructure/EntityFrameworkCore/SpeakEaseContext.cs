@@ -69,6 +69,13 @@ public class SpeakEaseContext:DbContext,IDbContext
         {
             op.ToTable("user_setting");
             op.HasKey(p => p.Id);
+            op.Property(p => p.IsProfilePublic).IsRequired().HasDefaultValue(false);
+            op.Property(p=>p.ShowLearningProgress).IsRequired().HasDefaultValue(false);
+            op.Property(p=>p.AllowMessages).IsRequired().HasDefaultValue(false);
+            op.Property(p=>p.ReceiveNotifications).IsRequired().HasDefaultValue(false);
+            op.Property(p=>p.ReceiveEmailUpdates).IsRequired().HasDefaultValue(false);
+            op.Property(p=>p.ReceivePushNotifications).IsRequired().HasDefaultValue(false);
+            op.Property(p=>p.AccountActive).IsRequired().HasDefaultValue(false);
         });
 
     }
