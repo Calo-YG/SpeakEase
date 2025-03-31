@@ -370,3 +370,9 @@ FodyWeavers.xsd
 /SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331153321_dictionaryword.Designer.cs
 /SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331153442_dictionary.cs
 /SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331153442_dictionary.Designer.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331155657_wordexample.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331155657_wordexample.Designer.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331160208_userword.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331160208_userword.Designer.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331161220_exampleprimary.cs
+/SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331161220_exampleprimary.Designer.cs
