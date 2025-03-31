@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SpeakEase.Domain;
 using SpeakEase.Domain.Shared;
 using SpeakEase.Domain.Users;
 using SpeakEase.Domain.Users.Enum;
+using SpeakEase.Domain.Word;
+using SpeakEase.Domain.Word.Enum;
 using SpeakEase.Infrastructure.Authorization;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore;
@@ -29,6 +32,11 @@ public class SpeakEaseContext:DbContext,IDbContext
     /// </summary>
     public DbSet<UserSettingEntity> UserSetting { get; set; }
 
+    /// <summary>
+    /// 词典表
+    /// </summary>
+    public DbSet<DictionaryWordEntity> DictionaryWord { get; set; }
+
 
     private readonly IUserContext _userContext;
 
@@ -44,16 +52,14 @@ public class SpeakEaseContext:DbContext,IDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        var converter = new ValueConverter<SourceEnum, int>(
-            v => ((int)v),
-            v => (SourceEnum)v);
-
         modelBuilder.Entity<UserEntity>(op =>
         {
             op.HasKey(p => p.Id);
             op.Property(p=>p.UserPassword).IsRequired().HasMaxLength(128);
             op.Property(p => p.UserAccount).IsRequired().HasMaxLength(50);
-            op.Property(p => p.Source).HasConversion(converter);
+            op.Property(p => p.Source).HasConversion(new ValueConverter<SourceEnum, int>(
+            v => ((int)v),
+            v => (SourceEnum)v));
         });
 
         modelBuilder.Entity<RefreshTokenEntity>(op => 
@@ -78,6 +84,20 @@ public class SpeakEaseContext:DbContext,IDbContext
             op.Property(p=>p.AccountActive).IsRequired().HasDefaultValue(false);
         });
 
+        modelBuilder.Entity<DictionaryWordEntity>(op =>
+        {
+            op.ToTable("dictionary_word");
+            op.HasKey(p=> p.Id);
+            op.Property(p=>p.Word).HasMaxLength(50).IsRequired();
+            op.Property(p=>p.Phonetic).HasMaxLength(100).IsRequired();
+            op.Property(p => p.ChineseDefinition).HasMaxLength(255).IsRequired();
+            op.Property(p=>p.ExampleSentence).HasColumnType("text");
+            op.Property(p => p.Level).HasConversion(new ValueConverter<WordLevel, int>(
+            v => ((int)v),
+            v => (WordLevel)v));
+        })
+        .BuilderCration<DictionaryWordEntity>()
+        .BuilderModify<DictionaryWordEntity>();
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

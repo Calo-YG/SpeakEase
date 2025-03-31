@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Domain.Users;
+using SpeakEase.Domain.Word;
 using SpeakEase.Infrastructure.Authorization;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore
@@ -22,6 +23,11 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore
         public DbSet<UserSettingEntity> UserSetting { get; set; }
 
         /// <summary>
+        /// 词典表
+        /// </summary>
+        public DbSet<DictionaryWordEntity> DictionaryWord { get; set; }
+
+        /// <summary>
         /// 保存
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -35,6 +41,11 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore
 
         User GetUser();
 
+        /// <summary>
+        ///  非跟踪查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         IQueryable<T> QueryNoTracking<T>() where T : class;
     }
 }
