@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Domain.Users
+﻿namespace SpeakEase.Domain.Users.Const
 {
     public class UserConst
     {

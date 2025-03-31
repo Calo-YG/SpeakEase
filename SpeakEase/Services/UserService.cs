@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SpeakEase.Contract.Users;
 using SpeakEase.Contract.Users.Dto;
 using SpeakEase.Domain.Users;
+using SpeakEase.Domain.Users.Const;
 using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;

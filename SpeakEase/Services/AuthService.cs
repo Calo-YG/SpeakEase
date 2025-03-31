@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
 using SpeakEase.Domain.Users;
+using SpeakEase.Domain.Users.Const;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;

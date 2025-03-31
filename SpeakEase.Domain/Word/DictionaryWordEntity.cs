@@ -34,6 +34,11 @@ namespace SpeakEase.Domain.Word
         public string ExampleSentence { get; set; }
 
         /// <summary>
+        /// 收藏数量
+        /// </summary>
+        public long CollectCount { get; set; }
+
+        /// <summary>
         /// 词汇等级 2/4/6/8 级
         /// </summary>
         public WordLevel Level { get; set; }

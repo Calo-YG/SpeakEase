@@ -37,6 +37,16 @@ public class SpeakEaseContext:DbContext,IDbContext
     /// </summary>
     public DbSet<DictionaryWordEntity> DictionaryWord { get; set; }
 
+    /// <summary>
+    /// 单词示例
+    /// </summary>
+    public DbSet<WordExampleEntity> WordExample { get; set; }
+
+    /// <summary>
+    /// 用户词典
+    /// </summary>
+    public DbSet<UserWordEntity> UserWord { get; set; }
+
 
     private readonly IUserContext _userContext;
 
@@ -98,6 +108,24 @@ public class SpeakEaseContext:DbContext,IDbContext
         })
         .BuilderCration<DictionaryWordEntity>()
         .BuilderModify<DictionaryWordEntity>();
+
+        modelBuilder.Entity<WordExampleEntity>(op =>
+        {
+            op.ToTable("word_example");
+            op.HasKey(p=>p.Id);
+            op.Property(p=>p.Sentence).HasMaxLength(255).IsRequired();
+            op.Property(p=>p.Definition).HasMaxLength(255).IsRequired();
+            op.Property(p=>p.Description).HasColumnType("text");
+        })
+        .BuilderCration<WordExampleEntity>()
+        .BuilderModify<WordExampleEntity>();
+
+        modelBuilder.Entity<UserWordEntity>(op =>
+        {
+            op.ToTable("user_word");
+            op.HasKey(p=>p.Id);
+        })
+        .BuilderCration<UserWordEntity>();
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
