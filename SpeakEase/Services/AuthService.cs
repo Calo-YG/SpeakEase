@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using System.Text.RegularExpressions;
-using FastService;
 using IdGen;
 using Lazy.Captcha.Core;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ using SpeakEase.Domain.Users.Const;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
-using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
@@ -25,11 +23,7 @@ namespace SpeakEase.Services
     /// <param name="captcha">验证码</param>
     /// <param name="idgenerator">id生成器</param>
     /// <param name="tokenManager">token生成器</param>
-    [Filter(typeof(ResultEndPointFilter))]
-    [Route("api/auth")]
-    [Tags("auth-授权服务")]
-
-    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :FastApi,IAuthService
+    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :IAuthService
     {
         /// <summary>
         /// 获取验证码

@@ -1,0 +1,70 @@
+﻿using SpeakEase.Contract.Users;
+using SpeakEase.Contract.Users.Dto;
+using SpeakEase.Infrastructure.Filters;
+
+namespace SpeakEase.MapRoute
+{
+    public static class MapUser
+    {
+        /// <summary>
+        /// 路由用户服务
+        /// </summary>
+        /// <param name="app"></param>
+        public static void MapUserEndpoint(this IEndpointRouteBuilder app)
+        {
+            // 创建api 组
+            var group = app.MapGroup("api/user")
+                .WithDescription("用户服务")
+                .WithTags("user")
+                .AddEndpointFilter<ResultEndPointFilter>();
+
+            //注册
+            group.MapPost("Register", (IUserService userService,CreateUserRequest request) =>
+            {
+                return userService.Register(request);
+
+            }).WithDisplayName("注册");
+
+            //修改
+            group.MapPost("ModifyPassword", (IUserService userService,UpdateUserRequest request) =>
+            {
+                return userService.ModifyPassword(request);
+
+            }).WithDisplayName("修改密码").RequireAuthorization();
+
+            //获取当前用户
+            group.MapGet("CurrentUser", (IUserService userService) =>
+            {
+                return userService.CurrentUser();
+
+            }).WithDisplayName("获取当前用户").RequireAuthorization();
+
+            //上传头像
+            group.MapPost("Uploadavatar", (IUserService userService,IFormFile file) =>
+            {
+                return userService.Uploadavatar(file);
+            }).WithDescription("上传头像").RequireAuthorization();
+
+            //创建用户设置请求
+            group.MapPost("CreateUserSetting", (IUserService userService, UserSettingRequest request) =>
+            {
+                return userService.CreateUserSetting(request);
+
+            }).WithDescription("创建用户设置请求").RequireAuthorization();
+
+            //更新用户设置请求
+            group.MapPost("UpdateUserSetting", (IUserService userService, UserSettingUpdateRequest request) =>
+            {
+                return userService.UpdateUserSetting(request);
+            })
+            .WithDescription("更新用户设置请求").RequireAuthorization();
+
+            //获取当前用户设置
+            group.MapGet("GetUserSetting", (IUserService userService) =>
+            {
+                return userService.GetUserSetting();
+            }).WithDescription("获取当前用户设置").RequireAuthorization();
+
+        }
+    }
+}

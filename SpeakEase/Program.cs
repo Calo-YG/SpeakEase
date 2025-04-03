@@ -8,13 +8,18 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
+using SpeakEase.Contract.Auth;
+using SpeakEase.Contract.Users;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.EventBus;
+using SpeakEase.Infrastructure.Files;
 using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
+using SpeakEase.MapRoute;
+using SpeakEase.Services;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace SpeakEase;
@@ -194,12 +199,15 @@ internal class Program
             builder.Services.AddSingleton<IRedisService, RedisService>();
             #endregion
 
+            #region build service
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            #endregion 
+
             #region 文件存储
             builder.Services.Configure<FileOption>(builder.Configuration.GetSection("FileOption"));
            // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
             #endregion
-
-            builder.Services.WithFast();
 
             var app = builder.Build();
 
@@ -236,7 +244,9 @@ internal class Program
 
             app.MapGet("SpeakEase/health", (IDbContext context) => Results.Ok("SpeakEase"));
 
-            app.MapFast();
+
+            app.MapAuthEndponit();
+            app.MapUserEndpoint();
             
             await app.RunAsync();
 

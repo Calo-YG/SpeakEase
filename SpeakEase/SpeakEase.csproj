@@ -8,8 +8,6 @@
 
     <ItemGroup>
       <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-      <PackageReference Include="FastService" Version="0.1.2" />
-      <PackageReference Include="FastService.Analyzers" Version="0.1.2" />
       <PackageReference Include="Lazy.Captcha.Core" Version="2.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
