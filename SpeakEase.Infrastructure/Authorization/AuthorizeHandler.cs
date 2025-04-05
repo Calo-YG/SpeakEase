@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Infrastructure.Authorization;
 
@@ -22,8 +21,6 @@ public class AuthorizeHandler(
             failureReason = new AuthorizationFailureReason(this, "非法路由，What are you doing ?");
 
             context.Fail(failureReason);
-
-            context.FailureReasons.Append(failureReason);
 
             return;
         }
@@ -46,24 +43,13 @@ public class AuthorizeHandler(
             return;
         }
 
-        //如果没有授权策略，直接通过
-        if (authorizeData.Policy.IsNullOrEmpty())
-        {
-            context.Succeed(requirement);
-            return;
-        }
-
         var currentUser = scope.ServiceProvider.GetRequiredService<IUserContext>();
 
         var permisscheck = scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
 
         if (!currentUser.IsAuthenticated)
         {
-            failureReason = new AuthorizationFailureReason(this, "Please log in to the system");
-
-            context.Fail(failureReason);
-
-            context.FailureReasons.Append(failureReason);
+            context.Fail();
 
             return;
         }
@@ -72,9 +58,8 @@ public class AuthorizeHandler(
         {
             failureReason = new AuthorizationFailureReason(this,
                 $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? string.Empty}");
-            context.Fail(failureReason);
 
-            context.FailureReasons.Append(failureReason);
+            context.Fail(failureReason);
 
             return;
         }

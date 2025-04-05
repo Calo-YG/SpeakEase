@@ -15,19 +15,29 @@ public class AuthorizeResultHandle(ILoggerFactory factory, IOptions<JsonOptions>
 
     public async Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
     {
-        if (!authorizeResult.Succeeded && authorizeResult.Challenged)
+        //返回鉴权失败信息
+        if (authorizeResult.Challenged)
+        {
+            context!.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+            var response = Response.Fail("Authentication failed, token invalid", 401);
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
+
+            return;
+        }
+
+        //返回授权失败信息
+        if (authorizeResult.Forbidden)
         {
             var issAuthenticated = context.User?.Identity?.IsAuthenticated ?? false;
 
-            var reason = "请求路由授权失败";
+            var reason = string.Join(",", authorizeResult.AuthorizationFailure.FailureReasons.Select(p => p.Message));
 
             _logger.LogWarning($"Authorization failed  with reason: {reason}");
 
-            var errorcode = issAuthenticated ? 500 : 401;
-
-            context!.Response.StatusCode = errorcode;
+            context!.Response.StatusCode = 401;
             context.Response.ContentType = "application/json";
-            var response =  Response.Fail( reason, errorcode);
+            var response =  Response.Fail( reason, 401);
             await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
             return;
         }
