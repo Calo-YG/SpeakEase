@@ -215,7 +215,7 @@ internal class Program
 
             app.MapDefaultEndpoints();
 
-            app.UseCors("cors");
+            app.UseCors(cors);
 
             app.UseStaticFiles();
 
