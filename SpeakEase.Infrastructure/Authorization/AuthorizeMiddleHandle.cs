@@ -30,7 +30,7 @@ public class AuthorizeMiddleHandle(ILoggerFactory factory, IOptions<JsonOptions>
 
             context!.Response.StatusCode = errorcode;
             context.Response.ContentType = "application/json";
-            var response = new Response<string>(false, reason, errorcode);
+            var response =  Response.Fail( reason, errorcode);
             await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
             return;
         }

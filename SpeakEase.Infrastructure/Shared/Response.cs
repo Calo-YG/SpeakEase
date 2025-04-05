@@ -1,20 +1,19 @@
-﻿namespace SpeakEase.Infrastructure.Filters;
+﻿using System.Runtime.CompilerServices;
 
-[Serializable]
-public enum ResponseStatus
-{
-    Success,
-    Unauthorized,
-    Error
-}
+namespace SpeakEase.Infrastructure.Filters;
 
 [Serializable]
 public class ResponseBase
 {
-    public bool Success { get; protected set; }
-    public ResponseStatus Status { get; protected set; }
+    /// <summary>
+    /// 是否成功
+    /// </summary>
+    public bool IsSuccess { get; protected set; }
+
+    /// <summary>
+    /// 错误信息
+    /// </summary>
     public string ErrorMessage { get; set; }
-    public bool UnAuthorizedRequest { get; protected set; }
 
     /// <summary>
     /// 状态码
@@ -30,16 +29,13 @@ public class Response<TResult> : ResponseBase
     public Response(TResult result)
     {
         Result = result;
-        Success = true;
-        Status = ResponseStatus.Success;
+        IsSuccess = true;
         Code = 200;
     }
 
-    public Response(bool isUnauthorized = false, string errorMessage = "", int code = 500)
+    public Response(string errorMessage = "", int code = 500)
     {
-        Success = false;
-        Status = isUnauthorized ? ResponseStatus.Unauthorized : ResponseStatus.Error;
-        UnAuthorizedRequest = isUnauthorized;
+        IsSuccess = false;
         ErrorMessage = errorMessage;
         Code = code;
     }
@@ -56,19 +52,21 @@ public class Response : Response<object>
     {
     }
 
-    public Response(bool isUnauthorized) : base(isUnauthorized)
+    public Response(string errorMessage, int code = 500) : base(errorMessage,code)
     {
     }
 
     public Response() : base()
     {
     }
-}
 
-public static class Result
-{
-    public static Response Success(object value)
+    public static Response Sucess(object result)
     {
-        return new Response(value);
+       return new Response(result);
+    }
+
+    public static Response Fail(string errorMessage,int errorCode)
+    {
+        return new Response(errorMessage,500);
     }
 }

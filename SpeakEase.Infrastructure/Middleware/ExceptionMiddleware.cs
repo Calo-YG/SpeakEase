@@ -30,9 +30,9 @@ namespace SpeakEase.Infrastructure.Middleware
             }
             catch (UserFriednlyException ex)
             {
-                context!.Response.StatusCode = 200;
+                context!.Response.StatusCode = 499;
                 context.Response.ContentType = "application/json";
-                var response = new Response<string>(false, ex.Message, 500);
+                var response = Response.Fail(ex.Message, 499);
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions)); 
                 _logger.LogError($"Middleware Error:{ex.Message}");
             }
@@ -40,7 +40,7 @@ namespace SpeakEase.Infrastructure.Middleware
             {
                 context!.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
-                var response = new Response<string>(false, ex.Message, 500);
+                var response = Response.Fail(ex.Message, 500);
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
                 _logger.LogError($"Middleware Error:{ex.Message}");
             }
@@ -48,7 +48,7 @@ namespace SpeakEase.Infrastructure.Middleware
             {
                 context!.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
-                var response = new Response<string>(false, ex.Message, 500);
+                var response = Response.Fail(ex.Message, 500);
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
                 _logger.LogError($"Middleware Error:{ex.Message}");
             }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-using SpeakEase.Infrastructure.Filters;
 
 namespace SpeakEase.Infrastructure.Filters
 {
@@ -12,7 +11,7 @@ namespace SpeakEase.Infrastructure.Filters
 
             if(result is not FileStreamHttpResult)
             {
-                return Result.Success(result);
+                return Response.Sucess(result);
             }
 
             return result;
