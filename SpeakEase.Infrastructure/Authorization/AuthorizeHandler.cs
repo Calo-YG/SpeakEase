@@ -9,7 +9,7 @@ public class AuthorizeHandler(
     IServiceProvider serviceProvider,
     IHttpContextAccessor contextAccessor) : AuthorizationHandler<AuthorizeRequirement>, IDisposable
 {
-    private readonly AsyncServiceScope _scope = serviceProvider.CreateAsyncScope();
+    private readonly AsyncServiceScope scope = serviceProvider.CreateAsyncScope();
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
@@ -31,8 +31,8 @@ public class AuthorizeHandler(
             return;
         }
 
-        var currentUser = _scope.ServiceProvider.GetRequiredService<IUserContext>();
-        var permisscheck = _scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
+        var currentUser = scope.ServiceProvider.GetRequiredService<IUserContext>();
+        var permisscheck = scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
         AuthorizationFailureReason failureReason;
         if (!currentUser.IsAuthenticated)
         {
@@ -57,7 +57,7 @@ public class AuthorizeHandler(
         if (disposing)
         {
             // TODO 在此释放托管资源
-            _scope.Dispose();
+            scope.Dispose();
         }
     }
 

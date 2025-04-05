@@ -21,13 +21,13 @@ namespace SpeakEase.MapRoute
             group.MapGet("GetVerificationCode", (IAuthService authService, string capcha) =>
             {
                 return authService.GetVerificationCode(capcha);
-            }).WithDisplayName("获取验证码");
+            }).WithSummary("获取验证码");
 
             //登录
             group.MapPost("login", (IAuthService authService,LoginRequest request) =>
             {
                 return authService.Login(request);
-            }).WithDescription("登录");
+            }).WithSummary("登录");
                 
         }
     }
