@@ -92,7 +92,12 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("验证码校验错误");
             }
 
-            var user = await context.User.AsNoTracking().FirstAsync(p=>p.UserAccount == request.UserAccount);
+            var user = await context.User.AsNoTracking().FirstOrDefaultAsync(p=>p.UserAccount == request.UserAccount);
+
+            if(user is null)
+            {
+                ThrowUserFriendlyException.ThrowException("用户不存在");
+            }
 
             var checkpassword = BCrypt.Net.BCrypt.Verify(request.Password, user.UserPassword);
 

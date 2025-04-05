@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Infrastructure.Authorization;
 
@@ -12,9 +13,19 @@ public class AuthorizeHandler(
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
-        var defaultPolicy = requirement.AuthorizeName?.Any() ?? false;
+        var currentEndpoint = contextAccessor.HttpContext.GetEndpoint();
+
+        var authorizeData = currentEndpoint.Metadata.GetMetadata<IAuthorizeData>();
+
         //默认授权策略
-        if (!defaultPolicy)
+        if (authorizeData is null)
+        {
+            context.Succeed(requirement);
+            return;
+        }
+
+        //如果没有授权策略，直接通过
+        if (authorizeData.Policy.IsNullOrEmpty())
         {
             context.Succeed(requirement);
             return;
@@ -30,7 +41,7 @@ public class AuthorizeHandler(
             return;
         }
 
-        if (defaultPolicy && !await permisscheck.IsGranted(currentUser.UserId!, requirement.AuthorizeName!))
+        if (!await permisscheck.IsGranted(currentUser.UserId!, authorizeData.Policy))
         {
             failureReason = new AuthorizationFailureReason(this,
                 $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? string.Empty}");

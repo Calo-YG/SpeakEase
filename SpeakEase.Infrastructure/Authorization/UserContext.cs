@@ -24,7 +24,7 @@ public class UserContext : IUserContext
     public long? OrganizationId { get => _organizationId; }
 
     private long? _organizationId;
-    public string OrganizationName { get => OrganizationName; }
+    public string OrganizationName { get => _organizationName; }
 
     private string _organizationName;
 
@@ -62,14 +62,14 @@ public class UserContext : IUserContext
 
         if (string.IsNullOrEmpty(value))
         {
-             ThrowUserFriendlyException.ThrowException("Can not get user claims info");
+             ThrowUserFriendlyException.ThrowException("Can not get user claims info -- this UserId");
         }
 
         var tryget = long.TryParse(value, out var result);
 
-        if (tryget)
+        if (!tryget)
         {
-            ThrowUserFriendlyException.ThrowException("try get user claims info error");
+            ThrowUserFriendlyException.ThrowException("try get user claims info error -- this UserId");
         }
 
         _userId = result;
@@ -88,9 +88,9 @@ public class UserContext : IUserContext
     {
         _userName = _claims?.FirstOrDefault(x => x.Type == UserInfomationConst.UserName)?.Value ?? null;
 
-        if (!string.IsNullOrEmpty(_userName))
+        if (string.IsNullOrEmpty(_userName))
         {
-            ThrowUserFriendlyException.ThrowException("Can not get user claims info");
+            ThrowUserFriendlyException.ThrowException("Can not get user claims info -- this UserName");
         }
     }
 
@@ -98,9 +98,9 @@ public class UserContext : IUserContext
     {
         _userAccount = _claims?.FirstOrDefault(x => x.Type == UserInfomationConst.UserAccount)?.Value ?? null;
 
-        if (!string.IsNullOrEmpty(_userName))
+        if (string.IsNullOrEmpty(_userAccount))
         {
-            ThrowUserFriendlyException.ThrowException("Can not get user claims info");
+            ThrowUserFriendlyException.ThrowException("Can not get user claims info -- this UserAccount");
         }
     }
 
