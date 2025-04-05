@@ -19,7 +19,7 @@ public class ExceptionFilter(IOptions<JsonOptions> options) : IEndpointFilter
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.HttpContext.Response.ContentType = "application/json";
-            var response = new Response<string>(false, ex.Message, 500);
+            var response = Response.Fail(ex.Message, 500);
             await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
             return response;
         }
@@ -27,7 +27,7 @@ public class ExceptionFilter(IOptions<JsonOptions> options) : IEndpointFilter
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.HttpContext.Response.ContentType = "application/json";
-            var response = new Response<string>(false, ex.Message, 500);
+            var response = Response.Fail(ex.Message, 500);
             await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
             return response;
         }

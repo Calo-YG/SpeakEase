@@ -9,20 +9,17 @@ using SpeakEase.Infrastructure.Filters;
 
 namespace SpeakEase.Infrastructure.Authorization;
 
-public class AuthorizeMiddleHandle(ILoggerFactory factory, IOptions<JsonOptions> options) : IAuthorizationMiddlewareResultHandler
+public class AuthorizeResultHandle(ILoggerFactory factory, IOptions<JsonOptions> options) : IAuthorizationMiddlewareResultHandler
 {
     private readonly ILogger _logger = factory.CreateLogger<IAuthorizationMiddlewareResultHandler>();
 
     public async Task HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
     {
-        if ((!authorizeResult.Succeeded || authorizeResult.Challenged))
+        if (!authorizeResult.Succeeded && authorizeResult.Challenged)
         {
             var issAuthenticated = context.User?.Identity?.IsAuthenticated ?? false;
 
-            var reason = string.Join(",",
-                authorizeResult.AuthorizationFailure!.FailureReasons!
-                    .Where(p => !string.IsNullOrEmpty(p.Message))
-                    .Select(p => p.Message!));
+            var reason = "请求路由授权失败";
 
             _logger.LogWarning($"Authorization failed  with reason: {reason}");
 

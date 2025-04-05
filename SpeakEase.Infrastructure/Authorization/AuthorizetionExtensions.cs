@@ -8,8 +8,8 @@ public static class AuthorizetionExtensions
       public static IServiceCollection RegisterAuthorizetion(this IServiceCollection services)
       {
             services.AddScoped<IPermissionCheck, PermissionCheck>();
-            services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationProvider>();
-            services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizeMiddleHandle>();
+            services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizeResultHandle>();
             services.AddSingleton<IAuthorizationHandler, AuthorizeHandler>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<ITokenManager,TokenManager>();

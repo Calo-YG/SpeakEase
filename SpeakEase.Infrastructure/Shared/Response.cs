@@ -13,31 +13,31 @@ public class ResponseBase
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string ErrorMessage { get; set; }
+    public string Message { get; set; }
 
     /// <summary>
     /// 状态码
     /// </summary>
-    public int Code { get; set; }
+    public int Status { get; set; }
 }
 
 [Serializable]
 public class Response<TResult> : ResponseBase
 {
-    public TResult Result { get; set; }
+    public TResult Data { get; set; }
 
     public Response(TResult result)
     {
-        Result = result;
+        Data = result;
         IsSuccess = true;
-        Code = 200;
+        Status = 200;
     }
 
     public Response(string errorMessage = "", int code = 500)
     {
         IsSuccess = false;
-        ErrorMessage = errorMessage;
-        Code = code;
+        Message = errorMessage;
+        Status = code;
     }
 
     public Response()

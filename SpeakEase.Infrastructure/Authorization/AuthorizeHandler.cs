@@ -13,7 +13,29 @@ public class AuthorizeHandler(
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
+        AuthorizationFailureReason failureReason;
+
         var currentEndpoint = contextAccessor.HttpContext.GetEndpoint();
+
+        if(currentEndpoint is null)
+        {
+            failureReason = new AuthorizationFailureReason(this, "非法路由，What are you doing ?");
+
+            context.Fail(failureReason);
+
+            context.FailureReasons.Append(failureReason);
+
+            return;
+        }
+
+        var allowanymouse = currentEndpoint.Metadata.GetMetadata<IAllowAnonymous>();
+
+        // 如果是匿名访问，直接通过
+        if (allowanymouse is not null)
+        {
+            context.Succeed(requirement);
+            return;
+        }
 
         var authorizeData = currentEndpoint.Metadata.GetMetadata<IAuthorizeData>();
 
@@ -32,12 +54,17 @@ public class AuthorizeHandler(
         }
 
         var currentUser = scope.ServiceProvider.GetRequiredService<IUserContext>();
+
         var permisscheck = scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
-        AuthorizationFailureReason failureReason;
+
         if (!currentUser.IsAuthenticated)
         {
             failureReason = new AuthorizationFailureReason(this, "Please log in to the system");
+
             context.Fail(failureReason);
+
+            context.FailureReasons.Append(failureReason);
+
             return;
         }
 
@@ -46,6 +73,9 @@ public class AuthorizeHandler(
             failureReason = new AuthorizationFailureReason(this,
                 $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? string.Empty}");
             context.Fail(failureReason);
+
+            context.FailureReasons.Append(failureReason);
+
             return;
         }
 
