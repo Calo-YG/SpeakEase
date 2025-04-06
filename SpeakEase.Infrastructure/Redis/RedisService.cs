@@ -75,6 +75,11 @@ namespace SpeakEase.Infrastructure.Redis
             return _redis.SetAsync(key, value, expireSeconds);
         }
 
+        public Task SetAsync<T>(string key,T value,int expireSeconds)
+        {
+            return _redis.SetAsync<T>(key, value, expireSeconds);
+        }
+
         public void Delete(string key)
         {
             _redis.Del(key);

@@ -35,9 +35,9 @@ public class AuthorizeResultHandle(ILoggerFactory factory, IOptions<JsonOptions>
 
             _logger.LogWarning($"Authorization failed  with reason: {reason}");
 
-            context!.Response.StatusCode = 401;
+            context!.Response.StatusCode = 599;
             context.Response.ContentType = "application/json";
-            var response =  Response.Fail( reason, 401);
+            var response =  Response.Fail( reason, 599);
             await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
             return;
         }

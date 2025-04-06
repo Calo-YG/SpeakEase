@@ -121,7 +121,7 @@ namespace SpeakEase.Services
             var entity = new RefreshTokenEntity(idgenerator.CreateId(),
                 user.Id,
                 refreshToken,
-                DateTime.Now.AddMinutes(10),
+                DateTime.Now.AddMinutes(40),
                 false);
 
             context.RefreshToken.Add(entity);
@@ -130,11 +130,28 @@ namespace SpeakEase.Services
 
             await redisService.DeleteAsync(key);
 
-            return new TokenResponse
+            var res = new TokenResponse
             {
                 Token = toekn,
                 RefreshToken = refreshToken,
             };
+
+            await redisService.SetAsync<TokenResponse>(string.Format(UserInfomationConst.RedisTokenKey,user.Id), res,30 * 1000 * 60);
+
+            return res;
+        }
+
+        /// <summary>
+        /// 推出登录
+        /// </summary>
+        /// <returns></returns>
+        public async Task LoginOut()
+        {
+            var user = context.GetUser();
+
+            var key = string.Format(UserInfomationConst.RedisTokenKey, user.Id);
+
+            await redisService.DeleteAsync(key);
         }
     }
 }

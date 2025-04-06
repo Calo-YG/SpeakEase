@@ -113,6 +113,8 @@ internal class Program
 
             var expire = configuration.GetSection("App:JwtOptions:ExpMinutes").Get<int?>() ?? 30;
 
+            builder.Services.Configure<JwtOptions>(configuration.GetSection("App:JwtOptions"));
+
             if (string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(issuser) || string.IsNullOrEmpty(audience))
             {
                 throw new Exception("validate jwt options failed");

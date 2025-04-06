@@ -7,6 +7,8 @@
 
         Task SetAsync(string key, string value, int expireSeconds = 0);
 
+        Task SetAsync<T>(string key, T value, int expireSeconds);
+
         void Delete(string key);
 
         Task DeleteAsync(string key);

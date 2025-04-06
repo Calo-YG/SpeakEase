@@ -26,4 +26,14 @@ public class UserInfomationConst
       /// claim type for organization name
       /// </summary>
       public const string OrganizationName = "ORGANIZATION_NAME";
+
+    /// <summary>
+    /// token redis 键值对
+    /// </summary>
+    public const string RedisTokenKey = "RedisToken_{0}";
+
+    /// <summary>
+    /// 获取权限请求头
+    /// </summary>
+    public const string AuthorizationHeader = "Authorization";
 }

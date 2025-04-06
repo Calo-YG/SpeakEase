@@ -19,5 +19,11 @@ namespace SpeakEase.Contract.Auth
         /// <param name="request"></param>
         /// <returns></returns>
         Task<TokenResponse> Login(LoginRequest request);
+
+        /// <summary>
+        /// 退出登录
+        /// </summary>
+        /// <returns></returns>
+        Task LoginOut();
     }
 }

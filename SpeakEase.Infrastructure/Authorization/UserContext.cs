@@ -9,7 +9,8 @@ public class UserContext : IUserContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IIdentity _identity;
-    private readonly IEnumerable<Claim> _claims;
+    private IEnumerable<Claim> _claims;
+    private readonly ITokenManager _tokenManager;
 
     public bool IsAuthenticated { get; }
     public long UserId { get => _userId; }
@@ -32,11 +33,11 @@ public class UserContext : IUserContext
 
     private User _user;
 
-    public UserContext(IHttpContextAccessor httpContextAccessor)
+    public UserContext(IHttpContextAccessor httpContextAccessor,ITokenManager tokenManager)
     {
         _httpContextAccessor = httpContextAccessor;
         _identity = _httpContextAccessor.HttpContext?.User?.Identity;
-        _claims = httpContextAccessor.HttpContext?.User?.Claims;
+
         IsAuthenticated = _identity?.IsAuthenticated ?? false;
     }
 
@@ -46,7 +47,7 @@ public class UserContext : IUserContext
         {
             return this._user;
         }
-
+        _claims = _tokenManager.GetClaims();
         SetUserId();
         SetOrganizationId();
         SetUserName();
