@@ -35,9 +35,10 @@ public class UserContext : IUserContext
 
     public UserContext(IHttpContextAccessor httpContextAccessor,ITokenManager tokenManager)
     {
+        _tokenManager = tokenManager;
         _httpContextAccessor = httpContextAccessor;
         _identity = _httpContextAccessor.HttpContext?.User?.Identity;
-
+        _claims = httpContextAccessor.HttpContext?.User?.Claims;
         IsAuthenticated = _identity?.IsAuthenticated ?? false;
     }
 
@@ -47,7 +48,7 @@ public class UserContext : IUserContext
         {
             return this._user;
         }
-        _claims = _tokenManager.GetClaims();
+        //_claims = _tokenManager.GetClaims();
         SetUserId();
         SetOrganizationId();
         SetUserName();

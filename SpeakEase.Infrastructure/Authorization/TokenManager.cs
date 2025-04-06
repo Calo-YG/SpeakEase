@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SpeakEase.Infrastructure.Exceptions;
@@ -15,9 +16,11 @@ namespace SpeakEase.Infrastructure.Authorization;
 /// </summary>
 /// <param name="options"></param>
 /// <param name="httpContextAccessor"></param>
-public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAccessor httpContextAccessor): ITokenManager
+public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAccessor httpContextAccessor,ILoggerFactory loggerFactory): ITokenManager
 {
     private readonly JwtOptions option = options.Value;
+
+    private readonly ILogger logger = loggerFactory.CreateLogger("TokenManager");
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var secret = option.SecretKey;
@@ -88,13 +91,16 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
 
         ClaimsPrincipal principal = null;
 
+        var currenttoken = token.ToString().Split(" ")[1];
+
         try
         {
-            principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+            principal = tokenHandler.ValidateToken(currenttoken, validationParameters, out SecurityToken validatedToken);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // 处理验证失败的情况
+            logger.LogInformation(ex.Message, "Token Manager");
             ThrowUserFriendlyException.ThrowException("token validate failed");
         }
 
