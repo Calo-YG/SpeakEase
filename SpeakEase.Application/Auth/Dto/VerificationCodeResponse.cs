@@ -8,7 +8,7 @@
         /// <summary>
         /// 唯一id
         /// </summary>
-        public long UniqueId { get; set; }
+        public string UniqueId { get; set; }
 
         /// <summary>
         /// 验证吗

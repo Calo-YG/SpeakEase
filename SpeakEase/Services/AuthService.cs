@@ -44,13 +44,15 @@ namespace SpeakEase.Services
                 _ => throw new UserFriednlyException("参数错误")
             };
 
+            var unique = LongToStringConverter.Convert(id);
+
             var code = captcha.Generate(LongToStringConverter.Convert(id),240);
 
             await redisService.SetAsync(capchakey, code.Code,600);
 
             return new VerificationCodeResponse
             {
-                UniqueId = id,
+                UniqueId = key,
                 VerificationCode = "data:image/png;base64," + code.Base64
             };
         }
@@ -76,7 +78,7 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("请输入账号");
             }
 
-            if (request.UniqueId.IsNullOrEmpty() || request.Code.IsNullOrEmpty())
+            if (request.Code.IsNullOrEmpty())
             {
                 ThrowUserFriendlyException.ThrowException("请输入验证码");
             }
@@ -84,8 +86,6 @@ namespace SpeakEase.Services
             var key = string.Format(UserConst.LoginCapcahCache, request.UniqueId);
 
             var code = redisService.Get(key);
-
-            var validate = captcha.Validate(request.UniqueId, request.Code);
 
             if (request.Code != code)
             {
