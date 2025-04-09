@@ -17,7 +17,6 @@ using SpeakEase.Infrastructure.Files;
 using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Redis;
-using SpeakEase.Infrastructure.SpeakEase.Core;
 using SpeakEase.MapRoute;
 using SpeakEase.Services;
 using Swashbuckle.AspNetCore.Filters;
@@ -220,13 +219,6 @@ internal class Program
             app.UseCors(cors);
 
             app.UseStaticFiles();
-
-            app.UseSerilogRequestLogging(options =>
-            {
-                options.MessageTemplate = SerilogRequestUtility.HttpMessageTemplate;
-                options.GetLevel = SerilogRequestUtility.GetRequestLevel;
-                //options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
-            });
 
             if (app.Environment.IsDevelopment())
             {

@@ -36,7 +36,7 @@ public class AuthorizeHandler(
 
         var authorizeData = currentEndpoint.Metadata.GetMetadata<IAuthorizeData>();
 
-        //默认授权策略
+        //无授权策略
         if (authorizeData is null)
         {
             context.Succeed(requirement);
