@@ -28,7 +28,14 @@ namespace SpeakEase.MapRoute
             {
                 return authService.Login(request);
             }).WithSummary("登录");
-                
+
+            //退出登录
+            group.MapPost("loginout", (IAuthService authService) =>
+            {
+                return authService.LoginOut();
+            })
+             .WithSummary("退出登录")
+             .RequireAuthorization();
         }
     }
 }
