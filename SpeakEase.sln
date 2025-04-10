@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase", "SpeakEase\Spea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Domain", "SpeakEase.Domain\SpeakEase.Domain.csproj", "{1D58FB95-D21C-4110-A2AC-F1B1E0036096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Contract", "SpeakEase.Application\SpeakEase.Contract.csproj", "{01C4A01B-58DB-427A-B404-862183E76734}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Infrastructure", "SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj", "{C652D679-7F69-47B1-983E-061B9D728B78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Aspire.Host.AppHost", "SpeakEase.Aspire.Host\SpeakEase.Aspire.Host.AppHost\SpeakEase.Aspire.Host.AppHost.csproj", "{35710CC7-A7F2-4788-BC95-5C291CCD2242}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Aspire.Host.ServiceDefaults", "SpeakEase.Aspire.Host\SpeakEase.Aspire.Host.ServiceDefaults\SpeakEase.Aspire.Host.ServiceDefaults.csproj", "{9C1E7A2E-539D-4A75-9BBD-233644012C57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Contract", "SpeakEase.Contract\SpeakEase.Contract.csproj", "{BAA02AEE-7517-4AF0-AB57-9776527F7A78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{1D58FB95-D21C-4110-A2AC-F1B1E0036096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D58FB95-D21C-4110-A2AC-F1B1E0036096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D58FB95-D21C-4110-A2AC-F1B1E0036096}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01C4A01B-58DB-427A-B404-862183E76734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01C4A01B-58DB-427A-B404-862183E76734}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01C4A01B-58DB-427A-B404-862183E76734}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01C4A01B-58DB-427A-B404-862183E76734}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C652D679-7F69-47B1-983E-061B9D728B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C652D679-7F69-47B1-983E-061B9D728B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C652D679-7F69-47B1-983E-061B9D728B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{9C1E7A2E-539D-4A75-9BBD-233644012C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C1E7A2E-539D-4A75-9BBD-233644012C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C1E7A2E-539D-4A75-9BBD-233644012C57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

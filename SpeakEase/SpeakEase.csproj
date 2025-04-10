@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,8 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SpeakEase.Application\SpeakEase.Contract.csproj" />
       <ProjectReference Include="..\SpeakEase.Aspire.Host\SpeakEase.Aspire.Host.ServiceDefaults\SpeakEase.Aspire.Host.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\SpeakEase.Contract\SpeakEase.Contract.csproj" />
       <ProjectReference Include="..\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
     </ItemGroup>
 
