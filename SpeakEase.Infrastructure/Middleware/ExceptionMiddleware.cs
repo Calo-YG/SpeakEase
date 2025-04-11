@@ -21,6 +21,7 @@ namespace SpeakEase.Infrastructure.Middleware
         {
             var path = context.Request.Path;
 
+
             try
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
@@ -30,28 +31,27 @@ namespace SpeakEase.Infrastructure.Middleware
             }
             catch (UserFriednlyException ex)
             {
-                context!.Response.StatusCode = 499;
-                context.Response.ContentType = "application/json";
-                var response = Response.Fail(ex.Message, 499);
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions)); 
-                _logger.LogError($"Middleware Error:{ex.Message}");
+                await HandleExceptionAsync(context, ex, 499, options, _logger);
             }
             catch (AntiforgeryValidationException ex)
             {
-                context!.Response.StatusCode = 500;
-                context.Response.ContentType = "application/json";
-                var response = Response.Fail(ex.Message, 500);
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
-                _logger.LogError($"Middleware Error:{ex.Message}");
+                await HandleExceptionAsync(context, ex, 500, options, _logger);
             }
             catch (Exception ex)
             {
-                context!.Response.StatusCode = 500;
-                context.Response.ContentType = "application/json";
-                var response = Response.Fail(ex.Message, 500);
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
-                _logger.LogError($"Middleware Error:{ex.Message}");
+                await HandleExceptionAsync(context, ex, 500, options, _logger);
             }
+        }
+
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex, int statusCode, IOptions<JsonOptions> options, ILogger logger)
+        {
+            context.Response.StatusCode = statusCode;
+            context.Response.ContentType = "application/json";
+
+            var response = Response.Fail(ex.Message, statusCode);
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response, options.Value.SerializerOptions));
+
+            logger.LogError(ex, $"Middleware Error: {ex.Message}");
         }
     }
 }
