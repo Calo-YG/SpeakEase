@@ -1,3 +1,4 @@
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -189,7 +190,13 @@ internal class Program
                         }
                     }
                 );
-                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var host = Path.Combine(AppContext.BaseDirectory, "SpeakEase.xml");
+                var contract = Path.Combine(AppContext.BaseDirectory, "SpeakEase.Contract.xml");
+
+                options.IncludeXmlComments(host, true);
+
+                options.IncludeXmlComments(contract, true);
+
             });
 
             #endregion

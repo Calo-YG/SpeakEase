@@ -5,6 +5,7 @@
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <DocumentationFile></DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
