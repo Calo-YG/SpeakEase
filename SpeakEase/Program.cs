@@ -95,7 +95,7 @@ internal class Program
                         builder =>
                             builder
                                 .WithOrigins(
-                                    new[] { "https://localhost:3000", "http://localhost:3000" }
+                                    ["https://localhost:3000", "http://localhost:3000", "http://localhost:8080"]
                                 )
                                 .AllowAnyHeader()
                                 .AllowAnyMethod()

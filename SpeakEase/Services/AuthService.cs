@@ -19,10 +19,10 @@ namespace SpeakEase.Services
     /// 授权服务
     /// </summary>
     /// <param name="context">数据库上下文</param>
-    /// <param name="distributedCache">分布式缓存</param>
     /// <param name="captcha">验证码</param>
     /// <param name="idgenerator">id生成器</param>
     /// <param name="tokenManager">token生成器</param>
+    /// <param name="redisService">redis缓存</param>
     public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :IAuthService
     {
         /// <summary>
