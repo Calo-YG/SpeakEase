@@ -133,7 +133,6 @@ namespace SpeakEase.Services
         /// <summary>
         /// 当前登录用户信息
         /// </summary>
-        /// <param name="request"></param>
         /// <returns></returns>
         [EndpointSummary("当前登录用户信息")]
         public async Task<UserResponse> CurrentUser()

@@ -42,7 +42,7 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
             issuer: issuser,
             audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(expire), // 短有效期
+            expires: DateTime.Now.AddMinutes(expire), // 短有效期
             signingCredentials: credentials
         );
 
