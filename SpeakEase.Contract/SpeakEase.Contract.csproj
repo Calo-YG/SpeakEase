@@ -12,5 +12,9 @@
       <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Friend\" />
+    </ItemGroup>
+
 
 </Project>

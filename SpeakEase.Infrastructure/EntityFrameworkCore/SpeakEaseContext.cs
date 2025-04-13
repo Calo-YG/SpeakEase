@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SpeakEase.Domain;
 using SpeakEase.Domain.Shared;
 using SpeakEase.Domain.Users;
-using SpeakEase.Domain.Users.Enum;
 using SpeakEase.Domain.Word;
-using SpeakEase.Domain.Word.Enum;
 using SpeakEase.Infrastructure.Authorization;
+using SpeakEase.Infrastructure.EntityFrameworkCore.ModelBuilders;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore;
 
@@ -61,71 +58,10 @@ public class SpeakEaseContext:DbContext,IDbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
-        modelBuilder.Entity<UserEntity>(op =>
-        {
-            op.HasKey(p => p.Id);
-            op.Property(p=>p.UserPassword).IsRequired().HasMaxLength(128);
-            op.Property(p => p.UserAccount).IsRequired().HasMaxLength(50);
-            op.Property(p => p.Source).HasConversion(new ValueConverter<SourceEnum, int>(
-            v => ((int)v),
-            v => (SourceEnum)v));
-        });
-
-        modelBuilder.Entity<RefreshTokenEntity>(op => 
-        {
-            op.HasKey(p => p.Id);
-            op.Property(p => p.Token).IsRequired();
-            op.Property(p=>p.UserId).IsRequired();
-            op.Property(p => p.IsUsed).IsRequired().HasDefaultValue(false);    
-            op.Property(p => p.Expires).IsRequired();
-        });
-
-        modelBuilder.Entity<UserSettingEntity>(op =>
-        {
-            op.ToTable("user_setting");
-            op.HasKey(p => p.Id);
-            op.Property(p => p.IsProfilePublic).IsRequired().HasDefaultValue(false);
-            op.Property(p=>p.ShowLearningProgress).IsRequired().HasDefaultValue(false);
-            op.Property(p=>p.AllowMessages).IsRequired().HasDefaultValue(false);
-            op.Property(p=>p.ReceiveNotifications).IsRequired().HasDefaultValue(false);
-            op.Property(p=>p.ReceiveEmailUpdates).IsRequired().HasDefaultValue(false);
-            op.Property(p=>p.ReceivePushNotifications).IsRequired().HasDefaultValue(false);
-            op.Property(p=>p.AccountActive).IsRequired().HasDefaultValue(false);
-        });
-
-        modelBuilder.Entity<DictionaryWordEntity>(op =>
-        {
-            op.ToTable("dictionary_word");
-            op.HasKey(p=> p.Id);
-            op.Property(p=>p.Word).HasMaxLength(50).IsRequired();
-            op.Property(p=>p.Phonetic).HasMaxLength(100).IsRequired();
-            op.Property(p => p.ChineseDefinition).HasMaxLength(255).IsRequired();
-            op.Property(p=>p.ExampleSentence).HasColumnType("text");
-            op.Property(p => p.Level).HasConversion(new ValueConverter<WordLevel, int>(
-            v => ((int)v),
-            v => (WordLevel)v));
-        })
-        .BuilderCration<DictionaryWordEntity>()
-        .BuilderModify<DictionaryWordEntity>();
-
-        modelBuilder.Entity<WordExampleEntity>(op =>
-        {
-            op.ToTable("word_example");
-            op.HasKey(p=>p.Id);
-            op.Property(p=>p.Sentence).HasMaxLength(255).IsRequired();
-            op.Property(p=>p.Definition).HasMaxLength(255).IsRequired();
-            op.Property(p=>p.Description).HasColumnType("text");
-        })
-        .BuilderCration<WordExampleEntity>()
-        .BuilderModify<WordExampleEntity>();
-
-        modelBuilder.Entity<UserWordEntity>(op =>
-        {
-            op.ToTable("user_word");
-            op.HasKey(p=>p.Id);
-        })
-        .BuilderCration<UserWordEntity>();
+        modelBuilder
+            .ConfigureModelDictionaryWord()
+            .ConfigureModelUser()
+            .ConfigureModelUserFriend();
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
