@@ -6,9 +6,8 @@ namespace SpeakEase.Infrastructure.Authorization;
 
 public class AuthorizeHandler(
     IServiceProvider serviceProvider,
-    IHttpContextAccessor contextAccessor) : AuthorizationHandler<AuthorizeRequirement>, IDisposable
+    IHttpContextAccessor contextAccessor) : AuthorizationHandler<AuthorizeRequirement>
 {
-    private readonly AsyncServiceScope scope = serviceProvider.CreateAsyncScope();
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
     {
@@ -43,6 +42,8 @@ public class AuthorizeHandler(
             return;
         }
 
+        using var scope = serviceProvider.CreateAsyncScope();
+
         var currentUser = scope.ServiceProvider.GetRequiredService<IUserContext>();
 
         var permisscheck = scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
@@ -65,19 +66,5 @@ public class AuthorizeHandler(
         }
 
         context.Succeed(requirement);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            // TODO 在此释放托管资源
-            scope.Dispose();
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
     }
 }
