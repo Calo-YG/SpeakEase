@@ -171,7 +171,7 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("只支持 png,jpg,jpeg 文件类型上传");
             }
 
-            var rootpath = "Avatar";
+            var rootpath = "wwwroot/Avatar";
 
             var path = Path.Join(webHostEnvironment.ContentRootPath,rootpath);
 

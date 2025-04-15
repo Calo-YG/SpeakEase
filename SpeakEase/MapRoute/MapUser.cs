@@ -43,7 +43,7 @@ namespace SpeakEase.MapRoute
             group.MapPost("Uploadavatar", (IUserService userService,IFormFile file) =>
             {
                 return userService.Uploadavatar(file);
-            }).WithSummary("上传头像").RequireAuthorization();
+            }).WithSummary("上传头像").RequireAuthorization().DisableAntiforgery();
 
             //创建用户设置请求
             group.MapPost("CreateUserSetting", (IUserService userService, UserSettingRequest request) =>

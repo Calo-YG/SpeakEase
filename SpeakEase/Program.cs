@@ -5,6 +5,7 @@ using System.Text.Json;
 using IdGen;
 using IdGen.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -137,7 +138,10 @@ internal class Program
                 });
 
             builder.Services.RegisterAuthorizetion();
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(options =>
+            {
+                options.InvokeHandlersAfterFailure = true;
+            });
             #endregion
 
             #region configure localeventbus
@@ -214,8 +218,16 @@ internal class Program
 
             #region 文件存储
             builder.Services.Configure<FileOption>(builder.Configuration.GetSection("FileOption"));
-           // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
+            // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
             #endregion
+
+            builder.Services.AddAntiforgery(options =>
+            {
+                // Set Cookie properties using CookieBuilder properties†.
+                options.FormFieldName = "AntiforgeryFieldname";
+                options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
+                options.SuppressXFrameOptionsHeader = false;
+            });
 
             var app = builder.Build();
 
@@ -224,8 +236,6 @@ internal class Program
             app.MapDefaultEndpoints();
 
             app.UseCors(cors);
-
-            app.UseStaticFiles();
 
             if (app.Environment.IsDevelopment())
             {
@@ -237,7 +247,15 @@ internal class Program
                 });
             }
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
+                RequestPath = "/wwwroot"
+            });
+
             app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseAntiforgery();
 
             app.UseAuthentication();
 
