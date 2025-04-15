@@ -138,10 +138,7 @@ internal class Program
                 });
 
             builder.Services.RegisterAuthorizetion();
-            builder.Services.AddAuthorization(options =>
-            {
-                options.InvokeHandlersAfterFailure = true;
-            });
+            builder.Services.AddAuthorization();
             #endregion
 
             #region configure localeventbus
