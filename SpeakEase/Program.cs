@@ -218,14 +218,6 @@ internal class Program
             // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
             #endregion
 
-            builder.Services.AddAntiforgery(options =>
-            {
-                // Set Cookie properties using CookieBuilder properties†.
-                options.FormFieldName = "AntiforgeryFieldname";
-                options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
-                options.SuppressXFrameOptionsHeader = false;
-            });
-
             var app = builder.Build();
 
             app.UseSerilogRequestLogging();
@@ -251,8 +243,6 @@ internal class Program
             });
 
             app.UseMiddleware<ExceptionMiddleware>();
-
-            app.UseAntiforgery();
 
             app.UseAuthentication();
 
