@@ -116,7 +116,9 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("旧密码密码长度至少6位，且必须包含字母和数字");
             }
 
-            var user =await dbContext.User.FirstAsync(p => p.Id == request.UserId);
+            var currentuser = dbContext.GetUser();
+
+            var user =await dbContext.User.FirstAsync(p => p.Id == currentuser.Id);
 
             var checkpassword = BCrypt.Net.BCrypt.Verify(request.OldPassword, user.UserPassword);
 

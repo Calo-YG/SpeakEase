@@ -6,11 +6,6 @@
     public class UpdateUserRequest
     {
         /// <summary>
-        /// 用户id
-        /// </summary>
-        public long UserId  { get; set; }
-
-        /// <summary>
         /// 密码
         /// </summary>
         public string Password { get; set; }
