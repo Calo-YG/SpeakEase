@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="EntityFrameworkCore\Migrations\" />
       <Folder Include="EventBus\BuildingBlock.Integration.EventBus\" />
       <Folder Include="EventBus\Contrib.Integration.EventBus\" />
     </ItemGroup>
