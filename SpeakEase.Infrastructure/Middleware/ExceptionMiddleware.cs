@@ -34,10 +34,6 @@ namespace SpeakEase.Infrastructure.Middleware
             {
                 await HandleExceptionAsync(context, ex, 499, options, _logger);
             }
-            catch (AntiforgeryValidationException ex)
-            {
-                await HandleExceptionAsync(context, ex, 500, options, _logger);
-            }
             catch(RefeshTokenValidateException ex)
             {
                 await HandleExceptionAsync(context, ex, 999, options, _logger);
