@@ -36,4 +36,9 @@ public class UserInfomationConst
     /// 获取权限请求头
     /// </summary>
     public const string AuthorizationHeader = "Authorization";
+
+    /// <summary>
+    /// token 前缀
+    /// </summary>
+    public const string TokenPrefix = "Bearer ";
 }

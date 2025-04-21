@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Filters;
 using System.Diagnostics;
@@ -36,6 +37,10 @@ namespace SpeakEase.Infrastructure.Middleware
             catch (AntiforgeryValidationException ex)
             {
                 await HandleExceptionAsync(context, ex, 500, options, _logger);
+            }
+            catch(RefeshTokenValidateException ex)
+            {
+                await HandleExceptionAsync(context, ex, 999, options, _logger);
             }
             catch (Exception ex)
             {

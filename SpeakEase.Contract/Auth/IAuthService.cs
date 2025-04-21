@@ -25,5 +25,12 @@ namespace SpeakEase.Contract.Auth
         /// </summary>
         /// <returns></returns>
         Task LoginOut();
+
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task RefreshToken(RefreshTokenRequest request);
     }
 }

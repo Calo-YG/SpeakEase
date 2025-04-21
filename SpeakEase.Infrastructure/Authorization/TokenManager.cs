@@ -21,34 +21,38 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
     private readonly JwtOptions option = options.Value;
 
     private readonly ILogger logger = loggerFactory.CreateLogger("TokenManager");
+
+    /// <summary>
+    /// 生成token
+    /// </summary>
+    /// <param name="claims"></param>
+    /// <returns></returns>
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var secret = option.SecretKey;
-        var issuser = option.Issuer;
-        var audience = option.Audience;
-
-        var expire = option.ExpMinutes;
-
-        if (string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(issuser) || string.IsNullOrEmpty(audience))
+        if (string.IsNullOrEmpty(option.SecretKey) || string.IsNullOrEmpty(option.Issuer) || string.IsNullOrEmpty(option.Issuer))
         {
             ThrowUserFriendlyException.ThrowException("validate jwt options failed");
         }
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(option.SecretKey));
 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: issuser,
-            audience: audience,
+            issuer: option.Issuer,
+            audience: option.Audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(expire), // 短有效期
+            expires: DateTime.Now.AddMinutes(option.ExpMinutes), // 短有效期
             signingCredentials: credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    /// <summary>
+    /// 生成refreshtoken
+    /// </summary>
+    /// <returns></returns>
     public string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];
@@ -57,17 +61,12 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
         return Convert.ToBase64String(randomNumber);
     }
 
-    /// redis toekn 校验
-    //public Task CheckToken()
-    //{
-
-    //}
 
     /// <summary>
     /// 解析token
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Claim> GetClaims()
+    public bool ValidateTokenExpired()
     {
         var tryget = httpContextAccessor.HttpContext.Request.Headers.TryGetValue(UserInfomationConst.AuthorizationHeader, out var token);
 
@@ -91,7 +90,7 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
 
         ClaimsPrincipal principal = null;
 
-        var currenttoken = token.ToString().Split(" ")[1];
+        var currenttoken = token.ToString().Replace(UserInfomationConst.TokenPrefix,"");
 
         try
         {
@@ -99,11 +98,9 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
         }
         catch (Exception ex)
         {
-            // 处理验证失败的情况
-            logger.LogInformation(ex.Message, "Token Manager");
-            ThrowUserFriendlyException.ThrowException("token validate failed");
+            return ex is SecurityTokenExpiredException;
         }
 
-        return principal?.Claims;
+        return true; 
     }
 }

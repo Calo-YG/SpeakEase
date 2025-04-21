@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using IdGen;
 using Lazy.Captcha.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
 using SpeakEase.Domain.Users;
@@ -23,7 +24,8 @@ namespace SpeakEase.Services
     /// <param name="idgenerator">id生成器</param>
     /// <param name="tokenManager">token生成器</param>
     /// <param name="redisService">redis缓存</param>
-    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :IAuthService
+    /// <param name="httpContextAccessor"></param>
+    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService,IHttpContextAccessor httpContextAccessor) :IAuthService
     {
         /// <summary>
         /// 获取验证码
@@ -152,6 +154,60 @@ namespace SpeakEase.Services
             var key = string.Format(UserInfomationConst.RedisTokenKey, user.Id);
 
             await redisService.DeleteAsync(key);
+        }
+
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <returns></returns>
+        public async Task RefreshToken(RefreshTokenRequest request)
+        {
+            if (!request.Id.HasValue)
+            {
+                ThrowUserFriendlyException.ThrowException("请输入随机id");
+            }
+
+            if (request.RefresherToken.IsNullOrEmpty())
+            {
+                ThrowUserFriendlyException.ThrowException("请输入刷新token");
+            }
+
+            var entity = await context.QueryNoTracking<RefreshTokenEntity>().FirstOrDefaultAsync(p=>p.UserId == request.Id && p.Token == request.RefresherToken);
+
+            if(entity is null)
+            {
+                ThrowUserFriendlyException.ThrowException("非法RefreshToken");
+            }
+
+            if(entity.Expires <= DateTime.Now)
+            {
+                throw new RefeshTokenValidateException("刷新token 过期");
+            }
+
+            var expired = tokenManager.ValidateTokenExpired();
+
+            if (!expired)
+            {
+                ThrowUserFriendlyException.ThrowException("非法token");
+            }
+
+            var user = await context.User.AsNoTracking().FirstOrDefaultAsync(p => p.Id == request.Id);
+
+            if (user is null)
+            {
+                ThrowUserFriendlyException.ThrowException("用户不存在");
+            }
+
+            var clamis = new List<Claim>()
+            {
+                new Claim(type:UserInfomationConst.UserName,user.UserName),
+                new Claim(type:UserInfomationConst.UserAccount,user.UserAccount),
+                new Claim(type:UserInfomationConst.OrganizationName,string.Empty),
+                new Claim(type:UserInfomationConst.UserId,LongToStringConverter.Convert(user.Id)),
+                //new Claim
+            };
+
+            httpContextAccessor.HttpContext.Response.Headers.TryAdd("", tokenManager.GenerateAccessToken(clamis));
         }
     }
 }

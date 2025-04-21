@@ -24,6 +24,6 @@ namespace SpeakEase.Infrastructure.Authorization
         /// 解析token
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Claim> GetClaims();
+        bool ValidateTokenExpired();
     }
 }
