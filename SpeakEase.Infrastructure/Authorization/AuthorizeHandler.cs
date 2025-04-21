@@ -13,7 +13,7 @@ public class AuthorizeHandler(
     {
         AuthorizationFailureReason failureReason;
 
-        var currentEndpoint = contextAccessor.HttpContext.GetEndpoint();
+        var currentEndpoint = contextAccessor.HttpContext!.GetEndpoint();
 
         if(currentEndpoint is null)
         {

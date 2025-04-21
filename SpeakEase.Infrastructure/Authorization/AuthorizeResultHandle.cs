@@ -31,7 +31,7 @@ public class AuthorizeResultHandle(ILoggerFactory factory, IOptions<JsonOptions>
         {
             var issAuthenticated = context.User?.Identity?.IsAuthenticated ?? false;
 
-            var reason = string.Join(",", authorizeResult.AuthorizationFailure.FailureReasons.Select(p => p.Message));
+            var reason = string.Join(",", authorizeResult.AuthorizationFailure!.FailureReasons.Select(p => p.Message));
 
             _logger.LogWarning($"Authorization failed  with reason: {reason}");
 

@@ -10,8 +10,6 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore;
 /// <summary>
 /// 数据库上下文
 /// </summary>
-/// <param name="configuration"></param>
-/// <param name="userContext"></param>
 public class SpeakEaseContext:DbContext,IDbContext
 {
     /// <summary>

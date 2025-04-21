@@ -15,9 +15,7 @@ namespace SpeakEase.Infrastructure.Redis
         {
             _redis = new RedisClient(options.Value.ConnectionString);
         }
-
         // =================== String 操作 ===================
-
         public void Set(string key, string value, int expireSeconds = 0)
         {
             if (expireSeconds > 0)
