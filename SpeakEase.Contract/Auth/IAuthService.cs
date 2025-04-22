@@ -31,6 +31,6 @@ namespace SpeakEase.Contract.Auth
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task RefreshToken(RefreshTokenRequest request);
+        Task<RefreshTokenRes> RefreshToken(RefreshTokenRequest request);
     }
 }

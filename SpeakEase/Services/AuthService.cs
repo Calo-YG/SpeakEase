@@ -160,7 +160,7 @@ namespace SpeakEase.Services
         /// 刷新token
         /// </summary>
         /// <returns></returns>
-        public async Task RefreshToken(RefreshTokenRequest request)
+        public async Task<RefreshTokenRes> RefreshToken(RefreshTokenRequest request)
         {
             if (!request.Id.HasValue)
             {
@@ -207,7 +207,12 @@ namespace SpeakEase.Services
                 //new Claim
             };
 
-            httpContextAccessor.HttpContext.Response.Headers.TryAdd("", tokenManager.GenerateAccessToken(clamis));
+            // httpContextAccessor.HttpContext.Response.Headers.TryAdd("", tokenManager.GenerateAccessToken(clamis));
+
+            return new RefreshTokenRes
+            {
+                RefresheToken = tokenManager.GenerateAccessToken(clamis)
+            };
         }
     }
 }
