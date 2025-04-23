@@ -218,6 +218,13 @@ internal class Program
             // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
             #endregion
 
+            builder.Services.AddHttpLogging(options =>
+            {
+                options.CombineLogs = false;
+                options.RequestHeaders.Clear();
+                options.ResponseHeaders.Clear();
+            });
+
             var app = builder.Build();
 
             app.UseHttpLogging();
