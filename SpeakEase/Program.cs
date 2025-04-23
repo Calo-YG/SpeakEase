@@ -220,7 +220,7 @@ internal class Program
 
             var app = builder.Build();
 
-            app.UseSerilogRequestLogging();
+            app.UseHttpLogging();
 
             app.MapDefaultEndpoints();
 
