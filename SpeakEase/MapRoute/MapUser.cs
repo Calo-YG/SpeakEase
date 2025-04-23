@@ -4,6 +4,9 @@ using SpeakEase.Infrastructure.Filters;
 
 namespace SpeakEase.MapRoute
 {
+    /// <summary>
+    /// User 路由映射
+    /// </summary>
     public static class MapUser
     {
         /// <summary>

@@ -24,8 +24,7 @@ namespace SpeakEase.Services
     /// <param name="idgenerator">id生成器</param>
     /// <param name="tokenManager">token生成器</param>
     /// <param name="redisService">redis缓存</param>
-    /// <param name="httpContextAccessor"></param>
-    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService,IHttpContextAccessor httpContextAccessor) :IAuthService
+    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :IAuthService
     {
         /// <summary>
         /// 获取验证码
