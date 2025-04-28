@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using IdGen;
 using Lazy.Captcha.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
 using SpeakEase.Domain.Users;
