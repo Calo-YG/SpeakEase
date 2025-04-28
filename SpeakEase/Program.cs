@@ -1,5 +1,3 @@
-using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using IdGen;
@@ -7,7 +5,7 @@ using IdGen.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using SpeakEase.Contract.Auth;
@@ -21,7 +19,6 @@ using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.MapRoute;
 using SpeakEase.Services;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace SpeakEase;
 
@@ -166,40 +163,12 @@ internal class Program
 
             #endregion
 
-            #region swagger
-            builder.Services.AddSwaggerGen(options =>
+            #region scalar
+
+            builder.Services.AddOpenApi(options =>
             {
-                options.OperationFilter<AddResponseHeadersFilter>();
-                options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-                options.SwaggerDoc("v1",
-                    new OpenApiInfo
-                    {
-                        Version = "SpeakEase v1",
-                        Title = "SpeakEase API",
-                        Description = "Web API for managing By Calo-YG",
-                        TermsOfService = new Uri("https://gitee.com/wen-yaoguang"),
-                        Contact = new OpenApiContact
-                        {
-                            Name = "Gitee 地址",
-                            Url = new Uri("https://gitee.com/wen-yaoguang/Colo.Blog")
-                        },
-                        License = new OpenApiLicense
-                        {
-                            Name = "个人博客",
-                            Url = new Uri("https://www.se.cnblogs.com/lonely-wen/")
-                        }
-                    }
-                );
-                var host = Path.Combine(AppContext.BaseDirectory, "SpeakEase.xml");
-                var contract = Path.Combine(AppContext.BaseDirectory, "SpeakEase.Contract.xml");
-
-                options.IncludeXmlComments(host, true);
-
-                options.IncludeXmlComments(contract, true);
 
             });
-
             #endregion
 
             #region redis
@@ -235,12 +204,17 @@ internal class Program
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
+                app.MapScalarApiReference(options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SpeakEase");
-                    options.EnableDeepLinking();
-                });
+                    options.AddHttpAuthentication("Bearer ", cfg =>
+                    {
+
+                    });
+                    options.WithTitle("SpeakEase");
+                    options.WithTheme(ScalarTheme.Moon);
+                    options.WithModels(true);
+                }); // scalar/v1
+                app.MapOpenApi();
             }
 
             app.UseStaticFiles(new StaticFileOptions
