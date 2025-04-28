@@ -8,7 +8,7 @@ public class ResponseBase
     /// <summary>
     /// 是否成功
     /// </summary>
-    public bool IsSuccess { get; protected set; }
+    public bool Success { get; protected set; }
 
     /// <summary>
     /// 错误信息
@@ -29,13 +29,13 @@ public class Response<TResult> : ResponseBase
     public Response(TResult result)
     {
         Data = result;
-        IsSuccess = true;
+        Success = true;
         Status = 200;
     }
 
     public Response(string errorMessage = "", int code = 500)
     {
-        IsSuccess = false;
+        Success = false;
         Message = errorMessage;
         Status = code;
     }
