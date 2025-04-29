@@ -30,10 +30,10 @@ internal class Program
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .WriteTo.Console()
-            .WriteTo.File("Logs/LogInformation.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information)
+            //.WriteTo.File("Logs/LogInformation.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information)
             .WriteTo.File("Logs/LogError.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error)
             .WriteTo.File("Logs/LogWarning.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Warning)
             .CreateLogger();
@@ -50,7 +50,7 @@ internal class Program
                 (context, services, configuration) =>
                     configuration.ReadFrom
                         .Configuration(context.Configuration)
-                        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                         .ReadFrom.Services(services)
                         .Enrich.FromLogContext()
                         //.WriteTo.File("Logs/LogInformation.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information)
@@ -187,16 +187,7 @@ internal class Program
             // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
             #endregion
 
-            builder.Services.AddHttpLogging(options =>
-            {
-                options.CombineLogs = false;
-                options.RequestHeaders.Clear();
-                options.ResponseHeaders.Clear();
-            });
-
             var app = builder.Build();
-
-            app.UseHttpLogging();
 
             app.MapDefaultEndpoints();
 
