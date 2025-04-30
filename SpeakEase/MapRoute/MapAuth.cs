@@ -27,7 +27,7 @@ namespace SpeakEase.MapRoute
             }).WithSummary("获取验证码");
 
             //登录
-            group.MapPost("login", (IAuthService authService, LoginRequest request) =>
+            group.MapPost("login", (IAuthService authService, LoginInput request) =>
             {
                 return authService.Login(request);
             }).WithSummary("登录");
@@ -41,7 +41,7 @@ namespace SpeakEase.MapRoute
              .RequireAuthorization();
 
             //刷新token
-            group.MapPost("refreshToken", (IAuthService authService, RefreshTokenRequest request) =>
+            group.MapPost("refreshToken", (IAuthService authService, RefreshTokenInput request) =>
             {
                 return authService.RefreshToken(request);
             })

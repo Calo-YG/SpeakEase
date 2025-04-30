@@ -9,8 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-      <PackageReference Include="Lazy.Captcha.Core" Version="2.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
       <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
@@ -18,9 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SpeakEase.Application\SpeakEase.Application.csproj" />
       <ProjectReference Include="..\SpeakEase.Aspire.Host\SpeakEase.Aspire.Host.ServiceDefaults\SpeakEase.Aspire.Host.ServiceDefaults.csproj" />
-      <ProjectReference Include="..\SpeakEase.Contract\SpeakEase.Contract.csproj" />
-      <ProjectReference Include="..\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

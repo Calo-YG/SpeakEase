@@ -1,24 +1,14 @@
-using System.Text;
-using System.Text.Json;
 using IdGen;
 using IdGen.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
-using SpeakEase.Contract.Auth;
-using SpeakEase.Contract.Users;
-using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.EventBus;
-using SpeakEase.Infrastructure.Files;
-using SpeakEase.Infrastructure.Filters;
 using SpeakEase.Infrastructure.Middleware;
-using SpeakEase.Infrastructure.Redis;
+using SpeakEase.Infrastructure.Options;
 using SpeakEase.MapRoute;
-using SpeakEase.Services;
 
 namespace SpeakEase;
 
@@ -26,16 +16,9 @@ internal class Program
 {
     public static async Task Main(string[] args)
     {
-        #region configure serilog
+        #region configure serilogW
 
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            //.WriteTo.File("Logs/LogInformation.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information)
-            .WriteTo.File("Logs/LogError.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error)
-            .WriteTo.File("Logs/LogWarning.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Warning)
             .CreateLogger();
 
         #endregion
@@ -46,6 +29,12 @@ internal class Program
 
             var builder = WebApplication.CreateSlimBuilder(args);
 
+            builder.Configuration.AddJsonFile("Configurations/redis.json", true, true)
+                .AddJsonFile("Configurations/database.json", true, true)
+                .AddJsonFile("Configurations/jwt.json", true, true)
+                .AddJsonFile("Configurations/database.json", true, true)
+                .AddJsonFile("Configurations/cors.json", true, true);   
+
             builder.Host.UseSerilog(
                 (context, services, configuration) =>
                     configuration.ReadFrom
@@ -53,7 +42,6 @@ internal class Program
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                         .ReadFrom.Services(services)
                         .Enrich.FromLogContext()
-                        //.WriteTo.File("Logs/LogInformation.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information)
                         .WriteTo.File("Logs/LogError.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error)
                         .WriteTo.File("Logs/LogWarning.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Warning)
                         .WriteTo.Console());
@@ -66,132 +54,28 @@ internal class Program
 
             builder.Services.AddScoped<ExceptionMiddleware>();
 
-            var cors = "SpeakEase";
-
             var configuration = builder.Configuration;
 
+            var cors = configuration.GetSection("CorsOptions").Get<CorsOptions>();
+
             builder.Services.AddHttpContextAccessor();
-            builder.Services.RegisterEntityFrameworkCoreContext(builder.Configuration);
 
-            #region configure json
-
-            builder.Services.ConfigureHttpJsonOptions(options =>
-            {
-                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                options.SerializerOptions.Converters.Add(new DateTimeOffsetConverter());
-                options.SerializerOptions.Converters.Add(new DateTimeOffsetNullableConverter());
-            });
-
-            #endregion
-
-            #region configure cors
-
-            builder.Services.AddCors(
-                options =>
-                    options.AddPolicy(
-                        cors,
-                        builder =>
-                            builder
-                                .WithOrigins(
-                                    ["https://localhost:3000", "http://localhost:3000", "http://localhost:8080"]
-                                )
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                .AllowCredentials()
-                    )
-            );
-
-            #endregion
-
-            #region configure authentication--jwt
-
-            var secret = configuration["App:JwtOptions:SecretKey"];
-            var issuser = configuration["App:JwtOptions:Issuer"];
-            var audience = configuration["App:JwtOptions:Audience"];
-
-            var expire = configuration.GetSection("App:JwtOptions:ExpMinutes").Get<int?>() ?? 30;
-
-            builder.Services.Configure<JwtOptions>(configuration.GetSection("App:JwtOptions"));
-
-            if (string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(issuser) || string.IsNullOrEmpty(audience))
-            {
-                throw new Exception("validate jwt options failed");
-            }
-
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            builder.Services.RegisterEntityFrameworkCoreContext(builder.Configuration)
+                .ConfigureJson()
+                .ConfigureCors(configuration)
+                .ConfigureJwt(configuration)
+                .RegisterLocalEventBus()
+                .AddCaptcha(builder.Configuration)
+                .AddIdGen(123, () => new IdGeneratorOptions())
+                .AddOpenApi(options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true, // 检查过期时间
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = issuser,
-                        ValidAudience = audience,
-                        ClockSkew = TimeSpan.FromSeconds(expire),
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
-                    };
+
                 });
-
-            builder.Services.RegisterAuthorizetion();
-            builder.Services.AddAuthorization();
-            #endregion
-
-            #region configure localeventbus
-
-            builder.Services.RegisterLocalEventBus();
-
-            #endregion
-
-            #region DistributedCache
-            //builder.Services.AddStackExchangeRedisCache(options =>
-            //{
-            //    options.Configuration = builder.Configuration.GetConnectionString("App:RedisConn");
-            //    options.InstanceName = "SpeakEase";
-            //});
-            #endregion
-
-            #region VerificationCode
-            builder.Services.AddCaptcha(builder.Configuration);
-            #endregion
-
-            #region SnowflakeId
-
-
-            builder.Services.AddIdGen(123, () => new IdGeneratorOptions()); // Where 123 is the generator-id
-
-            #endregion
-
-            #region scalar
-
-            builder.Services.AddOpenApi(options =>
-            {
-
-            });
-            #endregion
-
-            #region redis
-            builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
-
-            builder.Services.AddSingleton<IRedisService, RedisService>();
-            #endregion
-
-            #region build service
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IAuthService, AuthService>();
-            #endregion 
-
-            #region 文件存储
-            builder.Services.Configure<FileOption>(builder.Configuration.GetSection("FileOption"));
-            // builder.Services.AddTransient<IFileProvider, DefaultFileProvider>();
-            #endregion
-
             var app = builder.Build();
 
             app.MapDefaultEndpoints();
 
-            app.UseCors(cors);
+            app.UseCors(cors.Policy);
 
             if (app.Environment.IsDevelopment())
             {
@@ -220,7 +104,7 @@ internal class Program
 
             app.UseAuthorization();
 
-            app.MapGet("SpeakEase/health", (IDbContext context) => Results.Ok("SpeakEase"));
+            app.MapGet("SpeakEase/health", () => Results.Ok("SpeakEase"));
 
 
             app.MapAuthEndponit();

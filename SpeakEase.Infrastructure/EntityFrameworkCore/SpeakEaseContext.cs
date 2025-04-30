@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Domain.Shared;
 using SpeakEase.Domain.Users;
-using SpeakEase.Domain.Word;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.EntityFrameworkCore.ModelBuilders;
 
@@ -27,21 +26,6 @@ public class SpeakEaseContext:DbContext,IDbContext
     /// </summary>
     public DbSet<UserSettingEntity> UserSetting { get; set; }
 
-    /// <summary>
-    /// 词典表
-    /// </summary>
-    public DbSet<DictionaryWordEntity> DictionaryWord { get; set; }
-
-    /// <summary>
-    /// 单词示例
-    /// </summary>
-    public DbSet<WordExampleEntity> WordExample { get; set; }
-
-    /// <summary>
-    /// 用户词典
-    /// </summary>
-    public DbSet<UserWordEntity> UserWord { get; set; }
-
 
     private readonly IUserContext _userContext;
 
@@ -57,9 +41,7 @@ public class SpeakEaseContext:DbContext,IDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .ConfigureModelDictionaryWord()
-            .ConfigureModelUser()
-            .ConfigureModelUserFriend();
+            .ConfigureModelUser();
     }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

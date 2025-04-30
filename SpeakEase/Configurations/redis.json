@@ -1,0 +1,14 @@
+{
+    "RedisOptions": {
+        "User": "",
+        "Host": "127.0.0.1",
+        "Port": "6379",
+        "Password": "",
+        "DefaultDatabase": 1,
+        "MaxPoolSize": 100,
+        "MinPoolSize": 5,
+        "ConnectTimeout": 5000,
+        "Retry": 3,
+        "Prefix": "SpeakEase"
+    }
+}

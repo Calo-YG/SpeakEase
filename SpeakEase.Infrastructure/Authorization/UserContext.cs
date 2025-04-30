@@ -48,13 +48,10 @@ public class UserContext : IUserContext
         {
             return this._user;
         }
-        //_claims = _tokenManager.GetClaims();
         SetUserId();
-        SetOrganizationId();
         SetUserName();
         SetUserAccount();
-        SetOrganizationName();
-        this._user = new User(UserId, UserName, UserAccount, OrganizationId, OrganizationName);
+        this._user = new User(UserId, UserName, UserAccount);
         return this._user;
     }
 

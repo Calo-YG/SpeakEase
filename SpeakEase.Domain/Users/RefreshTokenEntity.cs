@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace SpeakEase.Domain.Users;
 
-namespace SpeakEase.Domain.Users;
-
-[Table("refresh_token")]
 public class RefreshTokenEntity
 {
     /// <summary>
@@ -23,7 +20,7 @@ public class RefreshTokenEntity
     /// <summary>
     /// 过期时间
     /// </summary>
-    public DateTimeOffset Expires { get; private set; }
+    public DateTime ExpireAt { get; private set; }
 
     /// <summary>
     /// 是否被使用
@@ -33,7 +30,7 @@ public class RefreshTokenEntity
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTime CreationTime { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     protected RefreshTokenEntity()
     {
@@ -44,7 +41,7 @@ public class RefreshTokenEntity
         Id = id;
         UserId = userId;
         Token = token;
-        Expires = expires;
+        ExpireAt = expires;
         IsUsed = isUsed;
     }
 }

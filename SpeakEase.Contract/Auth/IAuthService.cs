@@ -11,14 +11,14 @@ namespace SpeakEase.Contract.Auth
         /// 获取验证码
         /// </summary>
         /// <returns></returns>
-        Task<VerificationCodeResponse> GetVerificationCode(string capcha);
+        Task<VerificationCodeDto> GetVerificationCode(string capcha);
 
         /// <summary>
         /// 登录
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<TokenResponse> Login(LoginRequest request);
+        Task<TokenDto> Login(LoginInput request);
 
         /// <summary>
         /// 退出登录
@@ -31,6 +31,6 @@ namespace SpeakEase.Contract.Auth
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<RefreshTokenRes> RefreshToken(RefreshTokenRequest request);
+        Task<RefreshTokenDto> RefreshToken(RefreshTokenInput request);
     }
 }

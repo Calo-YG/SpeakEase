@@ -1,5 +1,6 @@
 ﻿using FreeRedis;
 using Microsoft.Extensions.Options;
+using SpeakEase.Infrastructure.Options;
 
 namespace SpeakEase.Infrastructure.Redis
 {

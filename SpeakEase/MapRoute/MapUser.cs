@@ -22,14 +22,14 @@ namespace SpeakEase.MapRoute
                 .AddEndpointFilter<ResultEndPointFilter>();
 
             //注册
-            group.MapPost("Register", (IUserService userService,CreateUserRequest request) =>
+            group.MapPost("Register", (IUserService userService,CreateUserInput request) =>
             {
                 return userService.Register(request);
 
             }).WithSummary("注册");
 
             //修改
-            group.MapPost("ModifyPassword", (IUserService userService,UpdateUserRequest request) =>
+            group.MapPost("ModifyPassword", (IUserService userService,UpdateUserInput request) =>
             {
                 return userService.ModifyPassword(request);
 
@@ -49,14 +49,14 @@ namespace SpeakEase.MapRoute
             }).WithSummary("上传头像").RequireAuthorization().DisableAntiforgery();
 
             //创建用户设置请求
-            group.MapPost("CreateUserSetting", (IUserService userService, UserSettingRequest request) =>
+            group.MapPost("CreateUserSetting", (IUserService userService, UserSettingInput request) =>
             {
                 return userService.CreateUserSetting(request);
 
             }).WithSummary("创建用户设置请求").RequireAuthorization();
 
             //更新用户设置请求
-            group.MapPost("UpdateUserSetting", (IUserService userService, UserSettingUpdateRequest request) =>
+            group.MapPost("UpdateUserSetting", (IUserService userService, UserSettingUpdateInput request) =>
             {
                 return userService.UpdateUserSetting(request);
             })

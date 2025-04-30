@@ -1,0 +1,8 @@
+{
+    "JwtOptions": {
+        "SecretKey": "speakease_secret_key_123456wyg154511",
+        "Issuer": "speakease_secret",
+        "Audience": "speakease_secret",
+        "ExpMinutes": 30
+    }
+}

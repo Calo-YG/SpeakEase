@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SpeakEase.Domain;
 using SpeakEase.Domain.Users;
-using SpeakEase.Domain.Users.Enum;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore.ModelBuilders
 {
@@ -13,26 +10,32 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore.ModelBuilders
 
             builder.Entity<UserEntity>(op =>
             {
+                op.ToTable("User");
                 op.HasKey(p => p.Id);
-                op.Property(p => p.UserPassword).IsRequired().HasMaxLength(128);
-                op.Property(p => p.UserAccount).IsRequired().HasMaxLength(50);
-                op.Property(p => p.Source).HasConversion(new ValueConverter<SourceEnum, int>(
-                v => ((int)v),
-                v => (SourceEnum)v));
+                op.Property(p => p.Password).IsRequired().HasMaxLength(128);
+                op.Property(p => p.UserAccount).IsRequired().HasMaxLength(16);
+                op.Property(p=>p.UserName).IsRequired().HasMaxLength(30);
+                op.Property(p => p.Email).IsRequired().HasMaxLength(50);    
+                op.Property(p=>p.Phone).IsRequired(false).HasMaxLength(20);
+                op.Property(p => p.Avatar).IsRequired(false).HasMaxLength(255);
+                op.HasIndex(p => p.UserAccount);
+                op.HasIndex(p => p.Email);
             });
 
             builder.Entity<RefreshTokenEntity>(op =>
             {
+                op.ToTable("RefreshToken");
                 op.HasKey(p => p.Id);
-                op.Property(p => p.Token).IsRequired();
+                op.Property(p => p.Token).HasMaxLength(255).IsRequired();
                 op.Property(p => p.UserId).IsRequired();
                 op.Property(p => p.IsUsed).IsRequired().HasDefaultValue(false);
-                op.Property(p => p.Expires).IsRequired();
+                op.Property(p => p.ExpireAt).IsRequired();
+                op.HasIndex(p => new { p.UserId, p.Token });
             });
 
             builder.Entity<UserSettingEntity>(op =>
             {
-                op.ToTable("user_setting");
+                op.ToTable("UserSetting");
                 op.HasKey(p => p.Id);
                 op.Property(p => p.IsProfilePublic).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.ShowLearningProgress).IsRequired().HasDefaultValue(false);
@@ -42,14 +45,6 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore.ModelBuilders
                 op.Property(p => p.ReceivePushNotifications).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.AccountActive).IsRequired().HasDefaultValue(false);
             });
-
-
-            builder.Entity<UserWordEntity>(op =>
-            {
-                op.ToTable("user_word");
-                op.HasKey(p => p.Id);
-            })
-            .BuilderCration<UserWordEntity>();
 
             return builder;
         }

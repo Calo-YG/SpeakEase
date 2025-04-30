@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SpeakEase.Infrastructure.Exceptions;
-using SpeakEase.Infrastructure.Filters;
+using SpeakEase.Infrastructure.Options;
 
 namespace SpeakEase.Infrastructure.Authorization;
 

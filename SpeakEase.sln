@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Aspire.Host.Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Contract", "SpeakEase.Contract\SpeakEase.Contract.csproj", "{BAA02AEE-7517-4AF0-AB57-9776527F7A78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Application", "SpeakEase.Application\SpeakEase.Application.csproj", "{D8553445-9E2B-4104-A4F7-6E58784A8F8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAA02AEE-7517-4AF0-AB57-9776527F7A78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8553445-9E2B-4104-A4F7-6E58784A8F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8553445-9E2B-4104-A4F7-6E58784A8F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8553445-9E2B-4104-A4F7-6E58784A8F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8553445-9E2B-4104-A4F7-6E58784A8F8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

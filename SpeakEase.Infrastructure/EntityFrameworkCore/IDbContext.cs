@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Domain.Users;
-using SpeakEase.Domain.Word;
 using SpeakEase.Infrastructure.Authorization;
 
 namespace SpeakEase.Infrastructure.EntityFrameworkCore
@@ -21,11 +20,6 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore
         /// 用户设置
         /// </summary>
         public DbSet<UserSettingEntity> UserSetting { get; set; }
-
-        /// <summary>
-        /// 词典表
-        /// </summary>
-        public DbSet<DictionaryWordEntity> DictionaryWord { get; set; }
 
         /// <summary>
         /// 保存
