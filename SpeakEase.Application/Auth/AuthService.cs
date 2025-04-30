@@ -13,7 +13,7 @@ using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
-namespace SpeakEase.Application.User
+namespace SpeakEase.Application.Auth
 {
     /// <summary>
     /// 授权服务
@@ -132,7 +132,7 @@ namespace SpeakEase.Application.User
                 RefreshToken = refreshToken,
             };
 
-            await redisService.SetAsync<TokenDto>(string.Format(UserInfomationConst.RedisTokenKey, user.Id), res, 30 * 1000 * 60);
+            await redisService.SetAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id), res, 30 * 1000 * 60);
 
             return res;
         }

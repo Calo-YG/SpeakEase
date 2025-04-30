@@ -21,7 +21,7 @@ namespace SpeakEase.MapRoute
                 .AddEndpointFilter<ResultEndPointFilter>();
 
             //获取验证码
-            group.MapGet("GetVerificationCode", (IAuthService authService, string capcha) =>
+            group.MapGet("getverificationcode", (IAuthService authService,string capcha) =>
             {
                 return authService.GetVerificationCode(capcha);
             }).WithSummary("获取验证码");

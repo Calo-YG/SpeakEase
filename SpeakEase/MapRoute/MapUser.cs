@@ -1,4 +1,5 @@
-﻿using SpeakEase.Contract.Users;
+﻿using Microsoft.AspNetCore.Mvc;
+using SpeakEase.Contract.Users;
 using SpeakEase.Contract.Users.Dto;
 using SpeakEase.Infrastructure.Filters;
 

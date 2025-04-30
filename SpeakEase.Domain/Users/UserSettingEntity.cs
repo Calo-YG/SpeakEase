@@ -3,109 +3,102 @@
     /// <summary>
     /// 用户设置
     /// </summary>
-    public class UserSettingEntity
+    public class UserSettingEntity:Entity<long>
     {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public long Id { get; set; }
-        /// <summary>
-        /// 用户ID
-        /// </summary>
-        public long UserId { get; set; }
+        /// <summary>外键：用户 ID，不可为空</summary>
+        public long UserId { get; private set; }
+
+        /// <summary>个人简介，可为 null</summary>
+        public string Bio { get; private set; }
+
+        /// <summary>性别，可为 null</summary>
+        public string Gender { get; private set; }
+
+        /// <summary>生日，可为 null</summary>
+        public DateTime? Birthday { get; private set; }
+
+        /// <summary>背景图片 URL，可为 null</summary>
+        public string BackgroundImage { get; private set; }
+
+        /// <summary>个人资料是否公开</summary>
+        public bool IsProfilePublic { get; private set; }
+
+        /// <summary>是否允许接收私信</summary>
+        public bool AllowMessages { get; private set; }
+
+        /// <summary>是否接收邮件更新</summary>
+        public bool ReceiveEmailUpdates { get; private set; }
+
+        /// <summary>是否接收通知</summary>
+        public bool ReceiveNotifications { get; private set; }
+
+        /// <summary>是否接收推送通知</summary>
+        public bool ReceivePushNotifications { get; private set; }
+
+        /// <summary>是否展示学习进度</summary>
+        public bool ShowLearningProgress { get; private set; }
+
+        /// <summary>创建时间，数据库自动维护</summary>
+        public DateTime CreatedAt { get; private set; }
+
+        /// <summary>更新时间，数据库自动维护</summary>
+        public DateTime ModifyAt { get; private set; }
+
+        // EF Core 物化实体时需调用无参构造
+        private UserSettingEntity() { }
 
         /// <summary>
-        /// 性别
+        /// 公共构造函数：初始化所有需外部赋值的属性
         /// </summary>
-        public string Gender { get; set; }
-
-        /// <summary>
-        /// 生日
-        /// </summary>
-        public DateTime? Birthday { get; set; }
-
-        /// <summary>
-        /// 个人简介
-        /// </summary>
-        public string Bio { get; set; }
-
-        /// <summary>
-        /// 个人资料是否公开
-        /// </summary>
-        public bool IsProfilePublic { get; set; }
-
-        /// <summary>
-        /// 是否展示学习进度
-        /// </summary>
-        public bool ShowLearningProgress { get; set; }
-
-        /// <summary>
-        /// 是否允许接收私信
-        /// </summary>
-        public bool AllowMessages { get; set; }
-
-        /// <summary>
-        /// 是否接收通知
-        /// </summary>
-        public bool ReceiveNotifications { get; set; }
-
-        /// <summary>
-        /// 是否接收邮件更新
-        /// </summary>
-        public bool ReceiveEmailUpdates { get; set; }
-
-        /// <summary>
-        /// 是否接收推送通知
-        /// </summary>
-        public bool ReceivePushNotifications { get; set; }
-
-        /// <summary>
-        /// 账户是否处于激活状态
-        /// </summary>
-        public bool AccountActive { get; set; }
-
-        /// <summary>
-        /// 默认构造函数
-        /// </summary>
-        protected UserSettingEntity() { }
-
-        /// <summary>
-        /// 带参数的构造函数，初始化用户设置。
-        /// </summary>
-        public UserSettingEntity(long id,long userId, string gender, DateTime? birthday,
-                            string bio, bool isProfilePublic, bool showLearningProgress,
-                            bool allowMessages, bool receiveNotifications, bool receiveEmailUpdates,
-                            bool receivePushNotifications, bool accountActive)
+        public UserSettingEntity(
+            long userId,
+            string bio,
+            string gender,
+            DateTime? birthday,
+            string backgroundImage,
+            bool isProfilePublic,
+            bool allowMessages,
+            bool receiveEmailUpdates,
+            bool receiveNotifications,
+            bool receivePushNotifications,
+            bool showLearningProgress)
         {
-            Id = id;
             UserId = userId;
+            Bio = bio;
             Gender = gender;
             Birthday = birthday;
-            Bio = bio;
+            BackgroundImage = backgroundImage;
             IsProfilePublic = isProfilePublic;
-            ShowLearningProgress = showLearningProgress;
             AllowMessages = allowMessages;
-            ReceiveNotifications = receiveNotifications;
             ReceiveEmailUpdates = receiveEmailUpdates;
+            ReceiveNotifications = receiveNotifications;
             ReceivePushNotifications = receivePushNotifications;
-            AccountActive = accountActive;
+            ShowLearningProgress = showLearningProgress;
+            CreatedAt = DateTime.Now;
         }
 
-        public void Modify(string gender, DateTime? birthday,
-                            string bio, bool isProfilePublic, bool showLearningProgress,
-                            bool allowMessages, bool receiveNotifications, bool receiveEmailUpdates,
-                            bool receivePushNotifications, bool accountActive)
+        public void Modify(string bio,
+            string gender,
+            DateTime? birthday,
+            string backgroundImage,
+            bool isProfilePublic,
+            bool allowMessages,
+            bool receiveEmailUpdates,
+            bool receiveNotifications,
+            bool receivePushNotifications,
+            bool showLearningProgress)
         {
+            Bio = bio;
             Gender = gender;
             Birthday = birthday;
-            Bio = bio;
+            BackgroundImage = backgroundImage;
             IsProfilePublic = isProfilePublic;
-            ShowLearningProgress = showLearningProgress;
             AllowMessages = allowMessages;
-            ReceiveNotifications = receiveNotifications;
             ReceiveEmailUpdates = receiveEmailUpdates;
+            ReceiveNotifications = receiveNotifications;
             ReceivePushNotifications = receivePushNotifications;
-            AccountActive = accountActive;
+            ShowLearningProgress = showLearningProgress;
+            ModifyAt = DateTime.Now;
         }
     }
 }

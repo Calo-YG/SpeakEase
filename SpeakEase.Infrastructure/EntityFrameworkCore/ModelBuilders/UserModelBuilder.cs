@@ -37,13 +37,13 @@ namespace SpeakEase.Infrastructure.EntityFrameworkCore.ModelBuilders
             {
                 op.ToTable("UserSetting");
                 op.HasKey(p => p.Id);
+                op.HasIndex(p=>p.UserId);
                 op.Property(p => p.IsProfilePublic).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.ShowLearningProgress).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.AllowMessages).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.ReceiveNotifications).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.ReceiveEmailUpdates).IsRequired().HasDefaultValue(false);
                 op.Property(p => p.ReceivePushNotifications).IsRequired().HasDefaultValue(false);
-                op.Property(p => p.AccountActive).IsRequired().HasDefaultValue(false);
             });
 
             return builder;

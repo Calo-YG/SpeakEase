@@ -3,6 +3,10 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using SpeakEase.Application.Auth;
+using SpeakEase.Application.User;
+using SpeakEase.Contract.Auth;
+using SpeakEase.Contract.Users;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
@@ -110,6 +114,18 @@ namespace SpeakEase
 
             services.AddSingleton<IRedisService, RedisService>();
 
+            return services;
+        }
+
+        /// <summary>
+        /// 注册应用服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection BuilderApplication(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();    
             return services;
         }
     }

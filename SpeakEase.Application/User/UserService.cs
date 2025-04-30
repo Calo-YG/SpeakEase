@@ -13,12 +13,12 @@ using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
 
-namespace SpeakEase.Services
+namespace SpeakEase.Application.User
 {
     /// <summary>
     /// 用户服务类
     /// </summary>
-    public class UserService(ICaptcha captcha,IDbContext dbContext,IdGenerator idgenerator,IRedisService redisService,IWebHostEnvironment webHostEnvironment): IUserService
+    public class UserService(ICaptcha captcha, IDbContext dbContext, IdGenerator idgenerator, IRedisService redisService, IWebHostEnvironment webHostEnvironment) : IUserService
     {
         /// <summary>
         /// 头像类型限制
@@ -43,7 +43,7 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("邮箱格式不正确");
             }
 
-            if (request.Password.IsNullOrEmpty() 
+            if (request.Password.IsNullOrEmpty()
                 || request.Password.Length < 6 ||
                !Regex.IsMatch(request.Password, @"^(?=.*[0-9])(?=.*[a-zA-Z]).*$"))
             {
@@ -71,7 +71,7 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("验证码校验错误");
             }
 
-            var any = await dbContext.User.AsNoTracking().AnyAsync(p=>p.UserAccount == request.UserAccount || p.UserName == request.UserName);
+            var any = await dbContext.User.AsNoTracking().AnyAsync(p => p.UserAccount == request.UserAccount || p.UserName == request.UserName);
 
             if (any)
             {
@@ -83,7 +83,7 @@ namespace SpeakEase.Services
                 request.UserAccount,
                 BCrypt.Net.BCrypt.HashPassword(request.Password),
                 request.Email,
-                string.Empty,string.
+                string.Empty, string.
                 Empty);
 
             await dbContext.User.AddAsync(entity);
@@ -107,7 +107,7 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("密码长度至少6位，且必须包含字母和数字");
             }
 
-            if(request.OldPassword.IsNullOrEmpty()
+            if (request.OldPassword.IsNullOrEmpty()
                    || request.OldPassword.Length < 6 ||
                    !Regex.IsMatch(request.OldPassword, @"^(?=.*[0-9])(?=.*[a-zA-Z]).*$"))
             {
@@ -116,11 +116,11 @@ namespace SpeakEase.Services
 
             var currentuser = dbContext.GetUser();
 
-            var user =await dbContext.User.FirstAsync(p => p.Id == currentuser.Id);
+            var user = await dbContext.User.FirstAsync(p => p.Id == currentuser.Id);
 
             var checkpassword = BCrypt.Net.BCrypt.Verify(request.OldPassword, user.Password);
 
-            if(!checkpassword)
+            if (!checkpassword)
             {
                 ThrowUserFriendlyException.ThrowException("旧密码校验错误");
             }
@@ -138,12 +138,12 @@ namespace SpeakEase.Services
         {
             var user = dbContext.GetUser();
 
-            return await dbContext.QueryNoTracking<UserEntity>().Where(p=>p.Id == user.Id).Select(p=> new UserDto
+            return await dbContext.QueryNoTracking<UserEntity>().Where(p => p.Id == user.Id).Select(p => new UserDto
             {
                 UserId = p.Id,
                 UserName = p.UserName,
                 Email = p.Email,
-                Avatar =p.Avatar,
+                Avatar = p.Avatar,
                 Phone = p.Phone,
             }).FirstOrDefaultAsync();
         }
@@ -167,16 +167,16 @@ namespace SpeakEase.Services
                 ThrowUserFriendlyException.ThrowException("只支持 png,jpg,jpeg 文件类型上传");
             }
 
-            if(file.Length > fileSize)
+            if (file.Length > fileSize)
             {
                 ThrowUserFriendlyException.ThrowException("超出文件上传大小");
             }
 
             var rootpath = "wwwroot/Avatar";
 
-            var path = Path.Join(webHostEnvironment.ContentRootPath,rootpath);
+            var path = Path.Join(webHostEnvironment.ContentRootPath, rootpath);
 
-            
+
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -184,7 +184,7 @@ namespace SpeakEase.Services
 
             var currentuser = dbContext.GetUser();
 
-            var userentity = dbContext.User.First(p=>p.Id == currentuser.Id);
+            var userentity = dbContext.User.First(p => p.Id == currentuser.Id);
 
             var key = LongToStringConverter.Convert(idgenerator.CreateId());
 
@@ -198,7 +198,7 @@ namespace SpeakEase.Services
 
             userentity.SetAvatar(Path.Join($"/{rootpath}/{filename}"));
 
-            await dbContext.SaveChangesAsync(); 
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -212,17 +212,17 @@ namespace SpeakEase.Services
 
             var user = dbContext.GetUser();
 
-            var entity = new UserSettingEntity(id,user.Id,
-                request.Gender ?? string.Empty,
-                request.Birthday,
-                request.Bio ?? string.Empty,
-                request.IsProfilePublic,
-                request.ShowLearningProgress,
-                request.AllowMessages,
-                request.ReceiveNotifications,
-                request.ReceiveEmailUpdates,
-                request.ReceivePushNotifications,
-                request.AccountActive);
+            var entity = new UserSettingEntity(user.Id
+                , request.Bio
+                , request.Gender
+                , request.Birthday
+                , request.BackgroundImage
+                , request.IsProfilePublic
+                , request.AllowMessages
+                , request.ReceiveEmailUpdates
+                , request.ReceiveNotifications
+                , request.ReceivePushNotifications
+                , request.ShowLearningProgress);
 
             await dbContext.UserSetting.AddAsync(entity);
 
@@ -236,23 +236,24 @@ namespace SpeakEase.Services
         [EndpointSummary("更新当前用户请求")]
         public async Task UpdateUserSetting(UserSettingUpdateInput request)
         {
-            var entity = await dbContext.UserSetting.FirstAsync(p=>p.Id == request.Id);
+            var entity = await dbContext.UserSetting.FirstAsync(p => p.Id == request.Id);
 
-            if(entity == null)
+            if (entity == null)
             {
                 ThrowUserFriendlyException.ThrowException("数据错误");
             }
 
-            entity.Modify(request.Gender ?? string.Empty,
-                request.Birthday,
-                request.Bio ?? string.Empty,
-                request.IsProfilePublic,
-                request.ShowLearningProgress,
-                request.AllowMessages,
-                request.ReceiveNotifications,
-                request.ReceiveEmailUpdates,
-                request.ReceivePushNotifications,
-                request.AccountActive);
+            entity.Modify(request.Bio
+                , request.Gender
+                , request.Birthday
+                , request.BackgroundImage
+                , request.IsProfilePublic
+                , request.AllowMessages
+                , request.ReceiveEmailUpdates
+                , request.ReceiveNotifications
+                , request.ReceivePushNotifications
+                , request.ShowLearningProgress
+                );
 
             await dbContext.SaveChangesAsync();
         }
@@ -262,13 +263,13 @@ namespace SpeakEase.Services
         /// </summary>
         /// <returns></returns>
         [EndpointSummary("获取当前用户设置")]
-        public  Task<UserSettingDto> GetUserSetting()
+        public Task<UserSettingDto> GetUserSetting()
         {
             //获取当前用户
             var user = dbContext.GetUser();
 
-            return dbContext.UserSetting.Where(p=>p.UserId == user.Id)
-                .Select(p=> new UserSettingDto
+            return dbContext.UserSetting.Where(p => p.UserId == user.Id)
+                .Select(p => new UserSettingDto
                 {
                     Gender = p.Gender,
                     Birthday = p.Birthday,
@@ -278,8 +279,7 @@ namespace SpeakEase.Services
                     AllowMessages = p.AllowMessages,
                     ReceiveEmailUpdates = p.ReceiveEmailUpdates,
                     ReceiveNotifications = p.ReceiveNotifications,
-                    ReceivePushNotifications = p.ReceivePushNotifications,
-                    AccountActive = p.AccountActive
+                    ReceivePushNotifications = p.ReceivePushNotifications
                 }).FirstAsync();
         }
     }

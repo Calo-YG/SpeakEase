@@ -64,13 +64,16 @@ internal class Program
                 .ConfigureJson()
                 .ConfigureCors(configuration)
                 .ConfigureJwt(configuration)
+                .ConfigureRedis(configuration)
                 .RegisterLocalEventBus()
                 .AddCaptcha(builder.Configuration)
                 .AddIdGen(123, () => new IdGeneratorOptions())
                 .AddOpenApi(options =>
                 {
 
-                });
+                })
+                .BuilderApplication();
+
             var app = builder.Build();
 
             app.MapDefaultEndpoints();
@@ -81,13 +84,8 @@ internal class Program
             {
                 app.MapScalarApiReference(options =>
                 {
-                    options.AddHttpAuthentication("Bearer ", cfg =>
-                    {
-
-                    });
                     options.WithTitle("SpeakEase");
                     options.WithTheme(ScalarTheme.Moon);
-                    options.WithModels(true);
                 }); // scalar/v1
                 app.MapOpenApi();
             }
