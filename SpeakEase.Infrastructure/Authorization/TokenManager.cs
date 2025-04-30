@@ -18,9 +18,20 @@ namespace SpeakEase.Infrastructure.Authorization;
 /// <param name="httpContextAccessor"></param>
 public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAccessor httpContextAccessor,ILoggerFactory loggerFactory): ITokenManager
 {
+    /// <summary>
+    /// 获取jwtoptions
+    /// </summary>
     private readonly JwtOptions option = options.Value;
 
+    /// <summary>
+    /// 日志
+    /// </summary>
     private readonly ILogger logger = loggerFactory.CreateLogger("TokenManager");
+
+    /// <summary>
+    /// Token Handler
+    /// </summary>
+    private readonly JwtSecurityTokenHandler SecurityTokenHandler = new JwtSecurityTokenHandler();
 
     /// <summary>
     /// 生成token
@@ -61,6 +72,29 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
         return Convert.ToBase64String(randomNumber);
     }
 
+    /// <summary>
+    /// token
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public JwtSecurityToken GetSecurityToken()
+    {
+        var token = GetToken();
+
+        return SecurityTokenHandler.ReadJwtToken(token);
+    }
+
+    private string GetToken()
+    {
+        var tryget = httpContextAccessor.HttpContext.Request.Headers.TryGetValue(UserInfomationConst.AuthorizationHeader, out var token);
+
+        if (!tryget)
+        {
+            ThrowUserFriendlyException.ThrowException("can not get token value");
+        }
+
+        return token.ToString().Replace(UserInfomationConst.TokenPrefix,"");
+    }
 
     /// <summary>
     /// 解析token
@@ -68,14 +102,7 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
     /// <returns></returns>
     public bool ValidateTokenExpired()
     {
-        var tryget = httpContextAccessor.HttpContext.Request.Headers.TryGetValue(UserInfomationConst.AuthorizationHeader, out var token);
-
-        if(!tryget)
-        {
-            ThrowUserFriendlyException.ThrowException("can not get token value");
-        }
-
-        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = GetToken();
 
         var validationParameters = new TokenValidationParameters
         {
@@ -90,11 +117,9 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
 
         ClaimsPrincipal principal = null;
 
-        var currenttoken = token.ToString().Replace(UserInfomationConst.TokenPrefix,"");
-
         try
         {
-            principal = tokenHandler.ValidateToken(currenttoken, validationParameters, out SecurityToken validatedToken);
+            principal = SecurityTokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
         }
         catch (Exception ex)
         {

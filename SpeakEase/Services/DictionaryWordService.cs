@@ -20,17 +20,18 @@ namespace SpeakEase.Services
         /// <summary>
         /// 获取单词
         /// </summary>
-        /// <param name="word">单词</param>
+        /// <param name="id">单词</param>
         /// <returns></returns>
         public Task<DictionaryWordResponse> GetWord(long id)
         {
+            var ctx = context;
             throw new NotImplementedException();
         }
 
         /// <summary>
         /// 获取单词示例
         /// </summary>
-        /// <param name="word">单词</param>
+        /// <param name="id">单词</param>
         /// <returns></returns>
         public Task<List<WordExampleResponse>> GetWordExample(long id)
         {

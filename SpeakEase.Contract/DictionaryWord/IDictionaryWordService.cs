@@ -10,13 +10,13 @@ namespace SpeakEase.Contract.DictionaryWord
         /// <summary>
         /// 获取单词
         /// </summary>
-        /// <param name="word">单词</param>
+        /// <param name="id">单词</param>
         /// <returns></returns>
         Task<DictionaryWordResponse> GetWord(long id);
         /// <summary>
         /// 获取单词示例
         /// </summary>
-        /// <param name="word">单词</param>
+        /// <param name="id">单词</param>
         /// <returns></returns>
         Task<List<WordExampleResponse>> GetWordExample(long id);
         /// <summary>

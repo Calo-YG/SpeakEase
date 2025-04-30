@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using IdGen;
 using Lazy.Captcha.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using SpeakEase.Contract.Auth;
 using SpeakEase.Contract.Auth.Dto;
 using SpeakEase.Domain.Users;
@@ -24,8 +23,7 @@ namespace SpeakEase.Services
     /// <param name="idgenerator">id生成器</param>
     /// <param name="tokenManager">token生成器</param>
     /// <param name="redisService">redis缓存</param>
-    /// <param name="httpContextAccessor"></param>
-    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService,IHttpContextAccessor httpContextAccessor) :IAuthService
+    public class AuthService(IDbContext context,ICaptcha captcha,IdGenerator idgenerator,ITokenManager tokenManager,IRedisService redisService) :IAuthService
     {
         /// <summary>
         /// 获取验证码

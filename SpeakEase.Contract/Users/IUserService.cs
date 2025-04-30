@@ -26,7 +26,6 @@ public interface IUserService
     /// <summary>
     /// 当前登录用户信息
     /// </summary>
-    /// <param name="request"></param>
     /// <returns></returns>
     Task<UserResponse> CurrentUser();
 

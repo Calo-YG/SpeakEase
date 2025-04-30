@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace SpeakEase.Infrastructure.Authorization
 {
@@ -25,5 +26,11 @@ namespace SpeakEase.Infrastructure.Authorization
         /// </summary>
         /// <returns></returns>
         bool ValidateTokenExpired();
+
+        /// <summary>
+        /// 获取SecurityToken
+        /// </summary>
+        /// <returns></returns>
+        JwtSecurityToken GetSecurityToken();
     }
 }
