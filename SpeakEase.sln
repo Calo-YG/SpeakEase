@@ -33,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpeakEase.Socail", "SpeakEa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpeakEase.Gateway", "SpeakEase.Gateway", "{E81B3497-16B3-40A5-87C7-32D1E87E42E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Socail", "src\SpeakEase.Socail\SpeakEase.Socail\SpeakEase.Socail.csproj", "{6B90C366-09B7-813B-55C0-51908BF05D5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Gateway", "src\SpeakEase.Gateway\SpeakEase.Gateway\SpeakEase.Gateway.csproj", "{E9BE1CB6-84FD-44F3-C194-E8ADE15B03FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,14 @@ Global
 		{63E60BFE-603E-429B-B310-6DD3790BA2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63E60BFE-603E-429B-B310-6DD3790BA2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63E60BFE-603E-429B-B310-6DD3790BA2B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B90C366-09B7-813B-55C0-51908BF05D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B90C366-09B7-813B-55C0-51908BF05D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B90C366-09B7-813B-55C0-51908BF05D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B90C366-09B7-813B-55C0-51908BF05D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9BE1CB6-84FD-44F3-C194-E8ADE15B03FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9BE1CB6-84FD-44F3-C194-E8ADE15B03FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9BE1CB6-84FD-44F3-C194-E8ADE15B03FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9BE1CB6-84FD-44F3-C194-E8ADE15B03FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +107,8 @@ Global
 		{63E60BFE-603E-429B-B310-6DD3790BA2B2} = {93822B19-343D-4743-999E-5F854515F9C2}
 		{DEA3AFBF-65EC-4C58-8BE9-380F27265126} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{E81B3497-16B3-40A5-87C7-32D1E87E42E3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6B90C366-09B7-813B-55C0-51908BF05D5A} = {DEA3AFBF-65EC-4C58-8BE9-380F27265126}
+		{E9BE1CB6-84FD-44F3-C194-E8ADE15B03FE} = {E81B3497-16B3-40A5-87C7-32D1E87E42E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4BC6B51-537B-4432-B8ED-23187B0C022A}
