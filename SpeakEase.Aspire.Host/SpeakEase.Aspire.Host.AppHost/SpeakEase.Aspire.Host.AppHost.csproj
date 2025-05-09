@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SpeakEase\SpeakEase.csproj" />
+    <ProjectReference Include="..\..\src\SpeakEase.Gateway\SpeakEase.Gateway\SpeakEase.Gateway.csproj" />
+    <ProjectReference Include="..\..\src\SpeakEase.Socail\SpeakEase.Socail\SpeakEase.Socail.csproj" />
   </ItemGroup>
 
   <ItemGroup>

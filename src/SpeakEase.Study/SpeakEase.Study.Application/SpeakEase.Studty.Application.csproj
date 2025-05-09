@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+		<PackageReference Include="Lazy.Captcha.Core" Version="2.1.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\SpeakEase.Study.Contract\SpeakEase.Study.Contract.csproj" />
+	  <ProjectReference Include="..\SpeakEase.Study.Infrastructure\SpeakEase.Study.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>
