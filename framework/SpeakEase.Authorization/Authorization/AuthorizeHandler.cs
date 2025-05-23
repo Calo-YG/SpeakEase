@@ -42,7 +42,7 @@ public class AuthorizeHandler(
             return;
         }
 
-        using var scope = serviceProvider.CreateAsyncScope();
+        await using var scope = serviceProvider.CreateAsyncScope();
 
         var currentUser = scope.ServiceProvider.GetRequiredService<IUserContext>();
 
