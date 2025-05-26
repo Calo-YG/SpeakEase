@@ -1,6 +1,6 @@
 ﻿{
-  "ConnectionStrings": {
-    //"DefaultConnection": "User ID=postgres;Password=wyg154511LHL;Host=172.30.160.1;Port=5432;Database=SpeakEasDev;Pooling=true;",
-    "DefaultConnection": "User ID=postgres;Password=bb123456;Host=172.144.21.1;Port=15432;Database=SpeakEasStudy;Pooling=true;"
-  }
+    "ConnectionStrings": {
+        //"DefaultConnection": "User ID=postgres;Password=wyg154511LHL;Host=172.30.160.1;Port=5432;Database=SpeakEasDev;Pooling=true;",
+        "DefaultConnection": "User ID=postgres;Password=wyg123456;Host=192.168.110.32;Port=5432;Database=SpeakEasDev1;Pooling=true;"
+    }
 }
