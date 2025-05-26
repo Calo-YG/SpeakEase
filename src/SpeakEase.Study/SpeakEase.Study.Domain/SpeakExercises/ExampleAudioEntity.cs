@@ -1,33 +1,31 @@
 ﻿using SpeakEase.Study.Domain.Shared;
-using SpeakEase.Study.Domain.Shared.Enum;
 
 namespace SpeakEase.Study.Domain.SpeakExercises
 {
     /// <summary>
-    /// 口语练习实体类
+    /// 示范音频实体
     /// </summary>
-    public class SpeakingExerciseEntity:Entity<string>,ICreation
+    public class ExampleAudioEntity:Entity<string>,ICreation
     {
+        /// <summary>
+        /// 联系id
+        /// </summary>
+        public string ExerciseId { get; set; }
 
         /// <summary>
-        /// 标题
+        /// 音频url
         /// </summary>
-        public string Title { get; set; }
+        public string AudioUrl { get; set; }
 
         /// <summary>
-        /// 练习描述
+        /// 文本内容
         /// </summary>
-        public string Description { get; set; }
+        public string Substance { get; set; }
 
         /// <summary>
-        /// 目标文本
+        /// 音标
         /// </summary>
-        public string TargetText { get; set; }
-
-        /// <summary>
-        /// 难度级别
-        /// </summary>
-        public LevelEnum Level { get; set; }
+        public string Phonetic { get; set; }
 
         /// <summary>
         /// 创建人id

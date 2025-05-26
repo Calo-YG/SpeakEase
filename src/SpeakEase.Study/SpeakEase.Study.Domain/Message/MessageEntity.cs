@@ -1,33 +1,37 @@
-﻿using SpeakEase.Study.Domain.Shared;
-using SpeakEase.Study.Domain.Shared.Enum;
+﻿using SpeakEase.Study.Domain.Message.Enum;
+using SpeakEase.Study.Domain.Shared;
 
-namespace SpeakEase.Study.Domain.SpeakExercises
+namespace SpeakEase.Study.Domain.Message
 {
     /// <summary>
-    /// 口语练习实体类
+    /// 消息通知实体
     /// </summary>
-    public class SpeakingExerciseEntity:Entity<string>,ICreation
+    public class MessageEntity:Entity<string>,ICreation
     {
+        /// <summary>
+        /// 用户id
+        /// </summary>
+        public string UserId { get; set; }
 
         /// <summary>
-        /// 标题
+        /// 消息标题
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// 练习描述
+        /// 消息内容
         /// </summary>
-        public string Description { get; set; }
+        public string Substance {  get; set; }
 
         /// <summary>
-        /// 目标文本
+        /// 消息枚举类型
         /// </summary>
-        public string TargetText { get; set; }
+        public MessageEnum MessageEnum { get; set; }
 
         /// <summary>
-        /// 难度级别
+        /// 是否已读
         /// </summary>
-        public LevelEnum Level { get; set; }
+        public bool IsRead { get; set; }
 
         /// <summary>
         /// 创建人id
