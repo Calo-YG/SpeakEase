@@ -78,7 +78,9 @@ namespace SpeakEase.Application.User
                 ThrowUserFriendlyException.ThrowException("当前账号和用户名已存在，请重新输入");
             }
 
-            var entity = new UserEntity(idgenerator.CreateId(),
+            var id = LongToStringConverter.Convert(idgenerator.CreateId());
+
+            var entity = new UserEntity(id,
                 request.UserName,
                 request.UserAccount,
                 BCrypt.Net.BCrypt.HashPassword(request.Password),

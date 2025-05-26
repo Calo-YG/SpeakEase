@@ -1,17 +1,19 @@
-﻿namespace SpeakEase.Study.Domain.Shared
+﻿using SpeakEase.Study.Domain.Shared;
+
+namespace SpeakEase.Study.Domain.SpeakExercises
 {
     /// <summary>
-    /// 创建基类接口
+    /// 口语练习实体类
     /// </summary>
-    public interface ICreation
+    public class SpeakingExerciseEntity:Entity<string>,ICreation
     {
         /// <summary>
-        /// 用户id
+        /// 创建人id
         /// </summary>
         public string CreateById { get; set; }
 
         /// <summary>
-        /// 用户名称
+        /// 创建人名称
         /// </summary>
         public string CreateByName { get; set; }
 

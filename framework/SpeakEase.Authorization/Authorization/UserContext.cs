@@ -13,9 +13,9 @@ public class UserContext : IUserContext
     private readonly ITokenManager _tokenManager;
 
     public bool IsAuthenticated { get; }
-    public long UserId { get => _userId; }
+    public string UserId { get => _userId; }
 
-    private long _userId;
+    private string _userId;
     public string UserName { get => _userName; }
 
     public string _userName;
@@ -64,14 +64,7 @@ public class UserContext : IUserContext
              ThrowUserFriendlyException.ThrowException("Can not get user claims info -- this UserId");
         }
 
-        var tryget = long.TryParse(value, out var result);
-
-        if (!tryget)
-        {
-            ThrowUserFriendlyException.ThrowException("try get user claims info error -- this UserId");
-        }
-
-        _userId = result;
+        _userId = value;
     }
 
     private void SetOrganizationId()

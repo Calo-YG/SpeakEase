@@ -8,7 +8,7 @@ namespace SpeakEase.Study.Domain.Users
     public class UserSettingEntity:Entity<long>
     {
         /// <summary>外键：用户 ID，不可为空</summary>
-        public long UserId { get; private set; }
+        public string UserId { get; private set; }
 
         /// <summary>个人简介，可为 null</summary>
         public string Bio { get; private set; }
@@ -53,7 +53,7 @@ namespace SpeakEase.Study.Domain.Users
         /// 公共构造函数：初始化所有需外部赋值的属性
         /// </summary>
         public UserSettingEntity(
-            long userId,
+            string userId,
             string bio,
             string gender,
             DateTime? birthday,

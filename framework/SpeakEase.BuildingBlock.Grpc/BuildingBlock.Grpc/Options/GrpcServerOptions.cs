@@ -1,6 +1,6 @@
 ﻿namespace SpeakEase.BuildingBlock.Grpc.BuildingBlock.Grpc.Options
 {
-    public class GrpcClientOptions
+    public class GrpcServerOptions
     {
         /// <summary>
         /// 连接地址

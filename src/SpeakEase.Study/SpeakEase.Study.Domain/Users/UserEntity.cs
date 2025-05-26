@@ -2,7 +2,7 @@
 
 namespace SpeakEase.Study.Domain.Users;
 
-public class UserEntity:Entity<long>
+public class UserEntity:Entity<string>
 {
     /// <summary>
     /// 用户名称
@@ -58,7 +58,7 @@ public class UserEntity:Entity<long>
     {
     }
 
-    public UserEntity(long id, string userName, string userAccount, string userPassword, string email, string phone, string avatar)
+    public UserEntity(string id, string userName, string userAccount, string userPassword, string email, string phone, string avatar)
     {
         Id = id;
         UserName = userName;

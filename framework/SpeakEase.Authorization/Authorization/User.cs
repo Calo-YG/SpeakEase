@@ -1,3 +1,3 @@
 ﻿namespace SpeakEase.Infrastructure.Authorization;
 
-public record class User(long Id,string Name,string Account);
+public record class User(string Id,string Name,string Account);

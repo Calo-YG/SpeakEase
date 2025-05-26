@@ -20,5 +20,5 @@ public interface ISoftDeleted
       /// <summary>
       /// 当前删除时间
       /// </summary>
-      public DateTimeOffset DeleteTime { get; set; }
+      public DateTime DeleteTime { get; set; }
 }

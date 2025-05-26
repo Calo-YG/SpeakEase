@@ -10,7 +10,7 @@ public interface IUserContext
     /// <summary>
     /// 用户id
     /// </summary>
-    public long UserId { get; }
+    public string UserId { get; }
 
     /// <summary>
     /// 用户名称

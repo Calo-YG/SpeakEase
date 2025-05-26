@@ -1,7 +1,4 @@
-﻿
-
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using SpeakEase.BuildingBlock.Grpc.BuildingBlock.Grpc;
 using SpeakEase.BuildingBlock.Grpc.BuildingBlock.Grpc.Interface;
@@ -14,12 +11,12 @@ namespace SpeakEase.BuildingBlock.Grpc.Contrib.Grpc
     /// </summary>
     /// <param name="options">grppc</param>
     /// <param name="httpContextAccessor">httpContextAccessor</param>
-    public class DefaultGrpcServiceBuildFactory(IOptions<List<GrpcClientOptions>> options, IHttpContextAccessor httpContextAccessor) :IGrpcServiceBuildFactory
+    public class DefaultGrpcServiceBuildFactory(IOptions<List<GrpcServerOptions>> options, IHttpContextAccessor httpContextAccessor) :IGrpcServiceBuildFactory
     {
         /// <summary>
         /// grpc client options
         /// </summary>
-        private readonly IReadOnlyList<GrpcClientOptions> _options = options.Value; 
+        private readonly IReadOnlyList<GrpcServerOptions> _options = options.Value; 
 
         /// <summary>
         /// httpcontextaccessor
