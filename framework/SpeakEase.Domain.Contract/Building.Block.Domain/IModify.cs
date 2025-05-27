@@ -1,5 +1,8 @@
-﻿namespace SpeakEase.Study.Domain.Shared
+﻿namespace SpeakEase.Domain.Contract.Building.Block.Domain
 {
+    /// <summary>
+    /// 修改
+    /// </summary>
     public interface IModify
     {
         /// <summary>

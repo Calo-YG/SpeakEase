@@ -10,7 +10,7 @@ public static class SpeakEaseContextExtensions
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
-        sevices.AddDbContext<IDbContext, SpeakEaseContext>((builder) =>
+        sevices.AddDbContext<IDbContext, SpeakEaseStudyContext>((builder) =>
         {
             builder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), options =>
             {

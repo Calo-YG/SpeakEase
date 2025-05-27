@@ -7,4 +7,6 @@ builder.AddProject<Projects.SpeakEase_Gateway>("speakease-gateway");
 
 builder.AddProject<Projects.SpeakEase_Study_Host>("speakease-study-host");
 
+builder.AddProject<Projects.SpeakEase_Auth>("speakease-auth");
+
 builder.Build().Run();

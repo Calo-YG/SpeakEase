@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\SpeakEase.Auth\SpeakEase.Auth.csproj" />
     <ProjectReference Include="..\..\src\SpeakEase.Gateway\SpeakEase.Gateway\SpeakEase.Gateway.csproj" />
     <ProjectReference Include="..\..\src\SpeakEase.Socail\SpeakEase.Socail\SpeakEase.Socail.csproj" />
     <ProjectReference Include="..\..\src\SpeakEase.Study\SpeakEase.Study\SpeakEase.Study.Host.csproj" />
