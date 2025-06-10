@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Channels;
-using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -10,9 +9,14 @@ using SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 
 namespace SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;
 
-public class LocalEventBus(IServiceProvider serviceProvider, IEventHandlerStorage eventHandlerStorage, ILoggerFactory factory, IOptions<JsonOptions> options)
+public class LocalEventBus(IServiceProvider serviceProvider, IEventHandlerStorage eventHandlerStorage, ILoggerFactory factory)
     : IEventBus, IDisposable
 {
+    private readonly JsonSerializerOptions DefaultSerializerDefaults = new JsonSerializerOptions()
+    {
+       PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
     private readonly CancellationTokenSource _cts = new();
 
     private readonly ILogger _logger = factory.CreateLogger<IEventBus>();
@@ -58,7 +62,7 @@ public class LocalEventBus(IServiceProvider serviceProvider, IEventHandlerStorag
 
         while (await channel.Writer.WaitToWriteAsync())
         {
-            var data = JsonSerializer.Serialize(eto, options.Value.SerializerOptions);
+            var data = JsonSerializer.Serialize(eto, DefaultSerializerDefaults);
 
             await channel.Writer.WriteAsync(data, _cts.Token);
 
@@ -152,7 +156,7 @@ public class LocalEventBus(IServiceProvider serviceProvider, IEventHandlerStorag
                     {
                         while (reader.TryRead(out string str))
                         {
-                            var data = JsonSerializer.Deserialize(str!, item.EtoType, options.Value.SerializerOptions);
+                            var data = JsonSerializer.Deserialize(str!, item.EtoType, DefaultSerializerDefaults);
 
                             _logger.LogInformation($"Event Name：{attribute.EventName} --Start Execute Time：{DateTime.Now}");
 

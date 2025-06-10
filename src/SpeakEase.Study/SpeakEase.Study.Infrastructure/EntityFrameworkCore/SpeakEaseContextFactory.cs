@@ -2,9 +2,9 @@
 
 namespace SpeakEase.Study.Infrastructure.EntityFrameworkCore;
 
-public class SpeakEaseContextFactory(IDbContextFactory<SpeakEaseStudyContext> pooleFactory) : IDbContextFactory<SpeakEaseStudyContext>
+public class SpeakEaseContextFactory(IDbContextFactory<SpeakEaseContext> pooleFactory) : IDbContextFactory<SpeakEaseContext>
 {
-    public SpeakEaseStudyContext CreateDbContext()
+    public SpeakEaseContext CreateDbContext()
     {
         return pooleFactory.CreateDbContext();
     }

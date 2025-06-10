@@ -108,7 +108,7 @@ namespace SpeakEase.Application.Auth
             {
                 new Claim(type:UserInfomationConst.UserName,user.UserName),
                 new Claim(type:UserInfomationConst.UserAccount,user.UserAccount),
-                new Claim(type:UserInfomationConst.UserId,LongToStringConverter.Convert(user.Id)),
+                new Claim(type:UserInfomationConst.UserId,user.Id),
             };
 
             var toekn = tokenManager.GenerateAccessToken(clamis);
@@ -156,7 +156,7 @@ namespace SpeakEase.Application.Auth
         /// <returns></returns>
         public async Task<RefreshTokenDto> RefreshToken(RefreshTokenInput request)
         {
-            if (!request.Id.HasValue)
+            if (request.Id.IsNullOrEmpty())
             {
                 ThrowUserFriendlyException.ThrowException("请输入随机id");
             }
@@ -196,7 +196,7 @@ namespace SpeakEase.Application.Auth
             {
                 new Claim(type:UserInfomationConst.UserName,user.UserName),
                 new Claim(type:UserInfomationConst.UserAccount,user.UserAccount),
-                new Claim(type:UserInfomationConst.UserId,LongToStringConverter.Convert(user.Id)),
+                new Claim(type:UserInfomationConst.UserId,user.Id),
             };
 
             return new RefreshTokenDto

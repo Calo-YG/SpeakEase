@@ -5,9 +5,9 @@ using Microsoft.Extensions.Options;
 
 namespace SpeakEase.Study.Infrastructure.EntityFrameworkCore
 {
-    internal class SpeakEaseDesignFactory: IDesignTimeDbContextFactory<SpeakEaseStudyContext>
+    internal class SpeakEaseDesignFactory: IDesignTimeDbContextFactory<SpeakEaseContext>
     {
-        public SpeakEaseStudyContext CreateDbContext(string[] args)
+        public SpeakEaseContext CreateDbContext(string[] args)
         {
             var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SpeakEase");
 
@@ -21,11 +21,11 @@ namespace SpeakEase.Study.Infrastructure.EntityFrameworkCore
                 //.AddCommandLine(args)
                 .Build();
 
-            var options = new OptionsWrapper<DbContextOptions<SpeakEaseStudyContext>>(new DbContextOptionsBuilder<SpeakEaseStudyContext>()
+            var options = new OptionsWrapper<DbContextOptions<SpeakEaseContext>>(new DbContextOptionsBuilder<SpeakEaseContext>()
                 .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
                 .Options);
 
-            return new SpeakEaseStudyContext(options.Value);
+            return new SpeakEaseContext(options.Value);
         }
     }
 }

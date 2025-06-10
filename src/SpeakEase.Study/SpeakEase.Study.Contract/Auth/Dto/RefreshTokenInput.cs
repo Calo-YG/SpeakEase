@@ -8,7 +8,7 @@
         /// <summary>
         /// 用户id
         /// </summary>
-        public long? Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 刷新token
