@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SpeakEase.Authorization.Authorization;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Options;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace SpeakEase.Infrastructure.Authorization;
+namespace SpeakEase.Authorization.Authorization;
 
 public class AuthorizeRequirement : IAuthorizationRequirement
 {

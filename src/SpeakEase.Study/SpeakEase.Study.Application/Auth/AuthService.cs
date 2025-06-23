@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using IdGen;
 using Lazy.Captcha.Core;
 using Microsoft.EntityFrameworkCore;
+using SpeakEase.Authorization.Authorization;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Redis;

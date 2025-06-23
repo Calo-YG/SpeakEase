@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using SpeakEase.Authorization.Authorization;
 
 namespace SpeakEase.Infrastructure.Authorization;
 

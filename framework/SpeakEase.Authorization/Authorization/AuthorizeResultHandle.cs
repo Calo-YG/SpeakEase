@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpeakEase.Infrastructure.Filters;
 
-namespace SpeakEase.Infrastructure.Authorization;
+namespace SpeakEase.Authorization.Authorization;
 
 public class AuthorizeResultHandle(ILoggerFactory factory, IOptions<JsonOptions> options) : IAuthorizationMiddlewareResultHandler
 {

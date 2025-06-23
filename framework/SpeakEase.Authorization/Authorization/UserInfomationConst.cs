@@ -1,6 +1,6 @@
-﻿namespace SpeakEase.Infrastructure.Authorization;
+﻿namespace SpeakEase.Authorization.Authorization;
 
-public class UserInfomationConst
+public abstract class UserInfomationConst
 {
     /// <summary>
     /// claim type for user id

@@ -1,4 +1,5 @@
-﻿using SpeakEase.Infrastructure.SpeakEase.Core;
+﻿using SpeakEase.Authorization.Authorization;
+using SpeakEase.Infrastructure.SpeakEase.Core;
 
 namespace SpeakEase.Infrastructure.Authorization;
 

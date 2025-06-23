@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.Authorization;
+﻿namespace SpeakEase.Authorization.Authorization;
 
 public interface IPermissionCheck
 {

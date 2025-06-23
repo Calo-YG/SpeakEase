@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
+using SpeakEase.Authorization.Authorization;
 using SpeakEase.Infrastructure.Exceptions;
 
 namespace SpeakEase.Infrastructure.Authorization;

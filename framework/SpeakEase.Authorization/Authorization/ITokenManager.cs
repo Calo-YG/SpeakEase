@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace SpeakEase.Infrastructure.Authorization
+namespace SpeakEase.Authorization.Authorization
 {
     /// <summary>
     /// token 管理
