@@ -17,6 +17,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\framework\SpeakEase.Authorization\SpeakEase.Authorization.csproj" />
-      <ProjectReference Include="..\..\..\framework\SpeakEase.Domain.Contract\SpeakEase.Domain.Contract.csproj" />
+      <ProjectReference Include="..\SpeakEase.Gateway.Domain\SpeakEase.Gateway.Domain.csproj" />
     </ItemGroup>
 </Project>
