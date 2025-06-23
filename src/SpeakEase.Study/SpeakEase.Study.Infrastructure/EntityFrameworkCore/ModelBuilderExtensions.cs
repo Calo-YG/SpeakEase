@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Study.Domain.Shared;
 
-namespace SpeakEase.Domain
+namespace SpeakEase.Study.Infrastructure.EntityFrameworkCore
 {
     public static class ModelBuilderExtensions
     {

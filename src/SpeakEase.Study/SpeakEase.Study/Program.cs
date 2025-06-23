@@ -9,9 +9,9 @@ using SpeakEase.Infrastructure.Options;
 using SpeakEase.MapRoute;
 using SpeakEase.Study.Infrastructure.EntityFrameworkCore;
 
-namespace SpeakEase;
+namespace SpeakEase.Study.Host;
 
-internal class Program
+internal static class Program
 {
     public static async Task Main(string[] args)
     {

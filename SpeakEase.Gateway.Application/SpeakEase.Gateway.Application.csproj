@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SpeakEase.Gateway.Contract\SpeakEase.Gateway.Contract.csproj" />
+    <ProjectReference Include="..\src\SpeakEase.Gateway\SpeakEase.Gateway.Infrastructure\SpeakEase.Gateway.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
