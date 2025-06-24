@@ -28,4 +28,23 @@ public class RouterEntity:SpeakEaseEntity
     /// 匹配路径
     /// </summary>
     public string Path { get; set; }
+    
+    protected RouterEntity()
+    {
+        
+    }
+    /// <summary>
+    /// 创建路由
+    /// </summary>
+    /// <param name="appId"></param>
+    /// <param name="prefix"></param>
+    /// <param name="clusterId"></param>
+    /// <param name="path"></param>
+    public RouterEntity(string appId, string prefix, string clusterId, string path)
+    {
+        AppId = appId;
+        Prefix = prefix;
+        ClusterId = clusterId;
+        Path = path;
+    }
 }

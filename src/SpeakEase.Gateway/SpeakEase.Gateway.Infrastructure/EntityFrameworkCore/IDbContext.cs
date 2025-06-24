@@ -1,9 +1,12 @@
-﻿using SpeakEase.Authorization.Authorization;
+﻿using Microsoft.EntityFrameworkCore;
+using SpeakEase.Authorization.Authorization;
+using SpeakEase.Gateway.Domain.Entity.System;
 
 namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 
 public interface IDbContext
 {
+    DbSet<SysUser> SysUser { get; set; }
     /// <summary>
     /// 迁移
     /// </summary>

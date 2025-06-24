@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Authorization.Authorization;
 using SpeakEase.Domain.Contract.Building.Block.Domain;
+using SpeakEase.Gateway.Domain.Entity.System;
 
 // SpeakEaseGatewayContext类继承自DbContext并实现IDbContext接口
 // 它是用于管理数据库上下文的核心类
@@ -8,6 +9,8 @@ namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 
 public class SpeakEaseGatewayContext:DbContext,IDbContext   
 {
+    public DbSet<SysUser> SysUser { get; set; }
+    
     // 用户上下文，用于获取当前操作用户的信息
     private readonly IUserContext _userContext;
     
@@ -29,7 +32,13 @@ public class SpeakEaseGatewayContext:DbContext,IDbContext
     {
 
     }
-    
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Builder();
+        base.OnModelCreating(modelBuilder);
+    }
+
     // 重写SaveChangesAsync方法，在保存更改前执行额外操作
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

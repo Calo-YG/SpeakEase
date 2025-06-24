@@ -1,5 +1,4 @@
 ﻿// SpeakEase项目中用于扩展Entity Framework Core的DbContext注册功能的静态类
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
