@@ -6,7 +6,7 @@ using Serilog;
 using Serilog.Events;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Options;
-using SpeakEase.MapRoute;
+using SpeakEase.Study.Host.MapRoute;
 using SpeakEase.Study.Infrastructure.EntityFrameworkCore;
 
 namespace SpeakEase.Study.Host;
@@ -106,7 +106,7 @@ internal static class Program
             app.MapGet("SpeakEase/health", () => Results.Ok("SpeakEase"));
 
 
-            app.MapAuthEndponit();
+            app.MapAuthEndpoint();
             app.MapUserEndpoint();
             
             await app.RunAsync();
