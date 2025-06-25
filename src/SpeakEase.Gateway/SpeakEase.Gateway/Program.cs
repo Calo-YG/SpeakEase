@@ -1,3 +1,4 @@
+using Scalar.AspNetCore;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,14 @@ app.MapDefaultEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("SpeakEase.Gateway");
+        options.WithTheme(ScalarTheme.Moon);
+    }); 
     app.MapOpenApi();
 }
+
+app.MapGet("SpeakEase/health", () => Results.Ok("SpeakEase.Gateway"));
 
 await app.RunAsync();
