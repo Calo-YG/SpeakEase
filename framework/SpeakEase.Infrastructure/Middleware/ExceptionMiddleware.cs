@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using SpeakEase.Infrastructure.Exceptions;
-using SpeakEase.Infrastructure.Filters;
 using System.Diagnostics;
 using System.Text.Json;
+using SpeakEase.Infrastructure.Shared;
 
 namespace SpeakEase.Infrastructure.Middleware
 {
@@ -49,11 +49,11 @@ namespace SpeakEase.Infrastructure.Middleware
                 var duration = _stopwatch.ElapsedMilliseconds;
                 BuildLogMessage(context);
             }
-            catch (UserFriednlyException ex)
+            catch (UserFriendlyException ex)
             {
                 await HandleExceptionAsync(context, ex, 499);
             }
-            catch (RefeshTokenValidateException ex)
+            catch (RefreshTokenValidateException ex)
             {
                 await HandleExceptionAsync(context, ex, 999);
             }

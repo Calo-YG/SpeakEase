@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.Filters;
+﻿namespace SpeakEase.Infrastructure.Shared;
 
 [Serializable]
 public class ResponseBase

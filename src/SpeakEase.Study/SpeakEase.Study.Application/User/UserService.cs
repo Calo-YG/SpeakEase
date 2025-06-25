@@ -13,7 +13,7 @@ using SpeakEase.Study.Domain.Users;
 using SpeakEase.Study.Domain.Users.Const;
 using SpeakEase.Study.Infrastructure.EntityFrameworkCore;
 
-namespace SpeakEase.Application.User
+namespace SpeakEase.Study.Application.User
 {
     /// <summary>
     /// 用户服务类
@@ -116,13 +116,13 @@ namespace SpeakEase.Application.User
                 ThrowUserFriendlyException.ThrowException("旧密码密码长度至少6位，且必须包含字母和数字");
             }
 
-            var currentuser = dbContext.GetUser();
+            var currentUser = dbContext.GetUser();
 
-            var user = await dbContext.User.FirstAsync(p => p.Id == currentuser.Id);
+            var user = await dbContext.User.FirstAsync(p => p.Id == currentUser.Id);
 
-            var checkpassword = BCrypt.Net.BCrypt.Verify(request.OldPassword, user.Password);
+            var checkPassword = BCrypt.Net.BCrypt.Verify(request.OldPassword, user.Password);
 
-            if (!checkpassword)
+            if (!checkPassword)
             {
                 ThrowUserFriendlyException.ThrowException("旧密码校验错误");
             }
@@ -162,7 +162,7 @@ namespace SpeakEase.Application.User
                 ThrowUserFriendlyException.ThrowException("请选择头像上传");
             }
 
-            var suffix = file.FileName.Split('.')[1];
+            var suffix = file!.FileName.Split('.')[1];
 
             if (!_fileType.Contains(suffix))
             {
@@ -184,21 +184,21 @@ namespace SpeakEase.Application.User
                 Directory.CreateDirectory(path);
             }
 
-            var currentuser = dbContext.GetUser();
+            var currentUser = dbContext.GetUser();
 
-            var userentity = dbContext.User.First(p => p.Id == currentuser.Id);
+            var entity = dbContext.User.First(p => p.Id == currentUser.Id);
 
             var key = LongToStringConverter.Convert(idgenerator.CreateId());
 
-            var filename = $"{currentuser.Name}_{key}.{suffix}";
+            var filename = $"{currentUser.Name}_{key}.{suffix}";
 
-            var filepath = Path.Join(path, $"{currentuser.Name}_{key}.{suffix}");
+            var filepath = Path.Join(path, $"{currentUser.Name}_{key}.{suffix}");
 
-            using var filestream = new FileStream(filepath, FileMode.Create);
+            await using var filestream = new FileStream(filepath, FileMode.Create);
 
             await file.CopyToAsync(filestream);
 
-            userentity.SetAvatar(Path.Join($"/{rootpath}/{filename}"));
+            entity.SetAvatar(Path.Join($"/{rootpath}/{filename}"));
 
             await dbContext.SaveChangesAsync();
         }
@@ -245,7 +245,7 @@ namespace SpeakEase.Application.User
                 ThrowUserFriendlyException.ThrowException("数据错误");
             }
 
-            entity.Modify(request.Bio
+            entity!.Modify(request.Bio
                 , request.Gender
                 , request.Birthday
                 , request.BackgroundImage

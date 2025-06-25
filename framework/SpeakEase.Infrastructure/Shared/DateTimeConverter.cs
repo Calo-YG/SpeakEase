@@ -1,18 +1,21 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SpeakEase.Infrastructure.Filters;
+namespace SpeakEase.Infrastructure.Shared;
 
+/// <summary>
+/// 时间转换
+/// </summary>
 public class DateTimeOffsetConverter : JsonConverter<DateTime>
 {
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         // 从 JSON 读取字符串
-        string dateString = reader.GetString();
+        var dateString = reader.GetString();
 
-        var tryconventerr = DateTime.TryParse(dateString, out var result);
+        var converter = DateTime.TryParse(dateString, out var result);
 
-        if (!tryconventerr)
+        if (!converter)
         {
             throw new JsonException($"无法将 \"{dateString}\" 解析为 DateTime");
         }
@@ -26,20 +29,23 @@ public class DateTimeOffsetConverter : JsonConverter<DateTime>
     }
 }
 
+/// <summary>
+/// 时间转换
+/// </summary>
 public class DateTimeOffsetNullableConverter : JsonConverter<DateTime?>
 {
     public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string dateString = reader.GetString();
+        var dateString = reader.GetString();
 
         if(dateString is null)
         {
             return null;
         }
 
-        var tryconventerr = DateTime.TryParse(dateString, out var result);
+        var converter = DateTime.TryParse(dateString, out var result);
 
-        if (!tryconventerr)
+        if (!converter)
         {
             throw new JsonException($"无法将 \"{dateString}\" 解析为 DateTime");
         }

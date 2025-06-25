@@ -1,12 +1,12 @@
 ﻿namespace SpeakEase.Infrastructure.Exceptions
 {
-    public sealed class RefeshTokenValidateException:Exception
+    public sealed class RefreshTokenValidateException:Exception
     {
-        public RefeshTokenValidateException()
+        public RefreshTokenValidateException()
         {
         }
 
-        public RefeshTokenValidateException(string message) : base(message)
+        public RefreshTokenValidateException(string message) : base(message)
         {
         }
     }

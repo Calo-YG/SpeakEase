@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SpeakEase.Infrastructure.Filters;
+using SpeakEase.Infrastructure.Shared;
 
 namespace SpeakEase.Authorization.Authorization;
 

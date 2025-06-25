@@ -21,7 +21,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\SpeakEase.Aspire.Host\SpeakEase.Aspire.Host.ServiceDefaults\SpeakEase.Aspire.Host.ServiceDefaults.csproj" />
-      <ProjectReference Include="..\SpeakEase.Study.Application\SpeakEase.Studty.Application.csproj" />
+      <ProjectReference Include="..\SpeakEase.Study.Application\SpeakEase.Study.Application.csproj" />
     </ItemGroup>
 
 </Project>

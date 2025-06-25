@@ -3,15 +3,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using SpeakEase.Application.Auth;
-using SpeakEase.Application.User;
 using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
+using SpeakEase.Study.Application.Auth;
+using SpeakEase.Study.Application.User;
 using SpeakEase.Study.Contract.Auth;
 using SpeakEase.Study.Contract.Users;
 
-namespace SpeakEase
+namespace SpeakEase.Study.Host
 {
     /// <summary>
     /// 基础服务构建

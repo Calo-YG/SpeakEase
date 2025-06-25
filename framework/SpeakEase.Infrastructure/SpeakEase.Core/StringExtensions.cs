@@ -2,6 +2,12 @@
 
 public static class StringExtensions
 {
+    /// <summary>
+    /// 移除指定后缀
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="postFixes"></param>
+    /// <returns></returns>
     public static string RemoteFix(this string str, params string[] postFixes)
     {
         if (str == null)
@@ -31,7 +37,7 @@ public static class StringExtensions
     }
 
 
-    public static string Left(this string str, int len)
+    private static string Left(this string str, int len)
     {
         if (str == null)
         {

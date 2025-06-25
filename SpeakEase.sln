@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Study.Host", "src\SpeakEase.Study\SpeakEase.Study\SpeakEase.Study.Host.csproj", "{8A55B532-BCC0-3C34-D5C7-B9EDCA2B9C37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Studty.Application", "src\SpeakEase.Study\SpeakEase.Study.Application\SpeakEase.Studty.Application.csproj", "{ED51FC4B-B05F-D63A-4E65-0FD131FBD440}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Study.Application", "src\SpeakEase.Study\SpeakEase.Study.Application\SpeakEase.Study.Application.csproj", "{ED51FC4B-B05F-D63A-4E65-0FD131FBD440}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Study.Contract", "src\SpeakEase.Study\SpeakEase.Study.Contract\SpeakEase.Study.Contract.csproj", "{A627B1EF-F456-6F16-3901-09FD07DA8276}"
 EndProject

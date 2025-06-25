@@ -4,7 +4,6 @@ using IdGen;
 using Lazy.Captcha.Core;
 using Microsoft.EntityFrameworkCore;
 using SpeakEase.Authorization.Authorization;
-using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.SpeakEase.Core;
@@ -14,7 +13,7 @@ using SpeakEase.Study.Domain.Users;
 using SpeakEase.Study.Domain.Users.Const;
 using SpeakEase.Study.Infrastructure.EntityFrameworkCore;
 
-namespace SpeakEase.Application.Auth
+namespace SpeakEase.Study.Application.Auth
 {
     /// <summary>
     /// 授权服务
@@ -36,19 +35,19 @@ namespace SpeakEase.Application.Auth
 
             var key = LongToStringConverter.Convert(id);
 
-            var capchakey = capcha switch
+            var capcheKey = capcha switch
             {
                 "Login" => string.Format(UserConst.LoginCapcahCache, key),
                 "Register" => string.Format(UserConst.RegiesCapchaCache, key),
                 "Modify" => string.Format(UserConst.ModifyUserCapchaCache, key),
-                _ => throw new UserFriednlyException("参数错误")
+                _ => throw new UserFriendlyException("参数错误")
             };
 
             var unique = LongToStringConverter.Convert(id);
 
             var code = captcha.Generate(LongToStringConverter.Convert(id), 240);
 
-            await redisService.SetAsync(capchakey, code.Code, 600);
+            await redisService.SetAsync(capcheKey, code.Code, 600);
 
             return new VerificationCodeDto
             {
@@ -98,7 +97,7 @@ namespace SpeakEase.Application.Auth
                 ThrowUserFriendlyException.ThrowException("用户不存在");
             }
 
-            var checkpassword = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            var checkpassword = BCrypt.Net.BCrypt.Verify(request.Password, user!.Password);
 
             if (!checkpassword)
             {
@@ -112,7 +111,7 @@ namespace SpeakEase.Application.Auth
                 new Claim(type:UserInfomationConst.UserId,user.Id),
             };
 
-            var toekn = tokenManager.GenerateAccessToken(clamis);
+            var token = tokenManager.GenerateAccessToken(clamis);
             var refreshToken = tokenManager.GenerateRefreshToken();
 
             var entity = new RefreshTokenEntity(idgenerator.CreateId(),
@@ -129,7 +128,7 @@ namespace SpeakEase.Application.Auth
 
             var res = new TokenDto
             {
-                Token = toekn,
+                Token = token,
                 RefreshToken = refreshToken,
             };
 
@@ -174,9 +173,9 @@ namespace SpeakEase.Application.Auth
                 ThrowUserFriendlyException.ThrowException("非法RefreshToken");
             }
 
-            if (entity.ExpireAt <= DateTime.Now)
+            if (entity!.ExpireAt <= DateTime.Now)
             {
-                throw new RefeshTokenValidateException("刷新token 过期");
+                throw new UserFriendlyException("刷新token 过期");
             }
 
             var expired = tokenManager.ValidateTokenExpired();
@@ -195,7 +194,7 @@ namespace SpeakEase.Application.Auth
 
             var clamis = new List<Claim>()
             {
-                new Claim(type:UserInfomationConst.UserName,user.UserName),
+                new Claim(type:UserInfomationConst.UserName,user!.UserName),
                 new Claim(type:UserInfomationConst.UserAccount,user.UserAccount),
                 new Claim(type:UserInfomationConst.UserId,user.Id),
             };

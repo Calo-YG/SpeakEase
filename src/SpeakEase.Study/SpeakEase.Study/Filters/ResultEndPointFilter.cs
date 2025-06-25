@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using SpeakEase.Infrastructure.Shared;
 
 namespace SpeakEase.Infrastructure.Filters
 {

@@ -1,12 +1,12 @@
 ﻿namespace SpeakEase.Infrastructure.Exceptions;
 
-public class UserFriednlyException : Exception
+public class UserFriendlyException : Exception
 {
-    public UserFriednlyException()
+    public UserFriendlyException()
     {
     }
 
-    public UserFriednlyException(string message) : base(message)
+    public UserFriendlyException(string message) : base(message)
     {
     }
 }
@@ -15,6 +15,6 @@ public static class ThrowUserFriendlyException
 {
     public static void ThrowException(string message)
     {
-        throw new UserFriednlyException(message);
+        throw new UserFriendlyException(message);
     }
 }
