@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Authorization.Authorization;
 using SpeakEase.Domain.Contract.Building.Block.Domain;
+using SpeakEase.Gateway.Domain.Entity.Gateway;
 using SpeakEase.Gateway.Domain.Entity.System;
 
 // SpeakEaseGatewayContext类继承自DbContext并实现IDbContext接口
@@ -9,7 +10,32 @@ namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 
 public class SpeakEaseGatewayContext:DbContext,IDbContext   
 {
+    #region System
+
+    /// <summary>
+    /// 网关系统用户
+    /// </summary>
     public DbSet<SysUser> SysUser { get; set; }
+
+    #endregion
+
+    #region Gateway
+    
+    /// <summary>
+    /// 应用实体
+    /// </summary>
+    public DbSet<AppEntity> App { get; set; }
+    
+    /// <summary>
+    /// 路由实体
+    /// </summary>
+    public DbSet<RouterEntity> Router { get; set; }
+    
+    /// <summary>
+    /// 集群实体namespace SpeakEase.Gateway.Contract.App.Dto;
+    /// </summary>
+    public DbSet<ClusterEntity> Cluster { get; set; }
+    #endregion
     
     // 用户上下文，用于获取当前操作用户的信息
     private readonly IUserContext _userContext;
