@@ -1,0 +1,64 @@
+version: '3.8' # 对应 Docker 版本: https://docs.docker.com/compose/compose-file/compose-versioning/
+
+services:
+  mysql:
+    restart: always # 重启策略
+    image: mysql:8.0.31 # 镜像名
+    container_name: mysql # 容器名 (自定义)
+    ports:
+      - 3306:3306 # 端口号 (宿主机:容器)
+    volumes: # 挂载数据卷 (先跑不挂载数据卷服务, 然后把拷贝文件到宿主机, 最后停止并删除服务, 再跑挂载数据卷服务)
+      - /opt/docker/mysql/conf.d:/etc/mysql/conf.d # 配置文件夹 (宿主机:容器)
+      - /opt/docker/mysql/mysql:/var/lib/mysql # 数据文件夹 (宿主机:容器)
+      - /opt/docker/mysql/logs:/logs # 日志文件夹 (宿主机:容器)
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456 # root密码 (自定义)
+      TZ: Asia/Shanghai # mysql时区
+    command:
+      # MySQL8的密码验证方式默认是 caching_sha2_password，但是很多的连接工具还不支持该方式
+      # 就需要手动设置下mysql的密码认证方式为以前的 mysql_native_password 方式
+      --default-authentication-plugin=mysql_native_password
+    healthcheck: # 健康检查
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    networks: # 网络桥段
+      - app # 指定在app网络桥段下网络互通
+
+  nacos:
+    restart: always # 重启策略
+    image: nacos/nacos-server:v2.2.2 # 镜像名
+    container_name: nacos # 容器名 (自定义)
+    ports: # 端口号
+      - 8848:8848
+      - 9848:9848 # 客户端gRPC请求服务端端口，用于客户端向服务端发起连接和请求
+      - 9849:9849 # 服务端gRPC请求服务端端口，用于服务间同步等
+    volumes: # 挂载数据卷 (先跑不挂载数据卷服务, 然后把拷贝文件到宿主机, 最后停止并删除服务, 再跑挂载数据卷服务)
+      - /opt/docker/nacos/logs/:/home/nacos/logs/ # 配置文件 (宿主机:容器)
+      - /opt/docker/nacos/conf/:/home/nacos/conf/ # 数据文件夹 (宿主机:容器)
+    environment:
+      JVM_XMS: 256m # JVM初始堆大小 default:2g (根据服务器的内存大小来设置)
+      JVM_XMX: 256m # JVM最大堆大小 default:2g (根据服务器的内存大小来设置)
+      MODE: standalone # 单机启动
+      PREFER_HOST_MODE: 117.72.66.170 # 如果支持主机名可以使用hostname,否则使用ip，默认也是ip
+      SPRING_DATASOURCE_PLATFORM: mysql # 数据源平台 仅支持mysql或不保存empty
+      MYSQL_SERVICE_HOST: 117.72.66.170 # 数据库服务地址
+      MYSQL_SERVICE_DB_NAME: nacos # 数据库名称
+      MYSQL_SERVICE_PORT: 3306 # 数据库端口
+      MYSQL_SERVICE_USER: root # 数据库用户名
+      MYSQL_SERVICE_PASSWORD: 123456 # 数据库密码
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      NACOS_AUTH_ENABLE: false # 是否开启权限控制
+      NACOS_AUTH_IDENTITY_KEY: wyg # 鉴权标识
+      NACOS_AUTH_IDENTITY_VALUE: wyg# 鉴权标识
+      NACOS_AUTH_TOKEN: SecretKey012345678901234567890123456789012345678901234567890123456789wyg1
+    depends_on: # 依赖项
+      mysql:
+        condition: service_healthy
+    networks: # 网络桥段
+      - app # 指定在app网络桥段下网络互通
+
+networks:
+  app: # 使用默认配置
+    name: app # 否则会多创建一个 docker_app 桥段 (可选)
