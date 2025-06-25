@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Domain.Contract.Building.Block.Domain;
+using SpeakEase.Gateway.Domain.Entity.Gateway;
 using SpeakEase.Gateway.Domain.Entity.System;
 
 namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
@@ -58,6 +59,45 @@ public static class EntityBuildExtensions
 
         #endregion
 
+        #region Gateway
+
+        builder.Entity<AppEntity>(op =>
+        {
+            op.HasKey(p => p.Id);
+            op.Property(p => p.Id).HasMaxLength(50);
+            op.Property(p => p.AppName).HasMaxLength(50).IsRequired();
+            op.Property(p => p.AppKey).HasMaxLength(50).IsRequired();
+            op.Property(p => p.AppCode).HasMaxLength(50).IsRequired();
+            op.Property(p => p.AppDescription).HasMaxLength(255).IsRequired(false);
+        }).BuilderCration<AppEntity>().BuilderModify<AppEntity>();
+
+        builder.Entity<RouterEntity>(op =>
+        { 
+            op.HasKey(p => p.Id);
+            op.Property(p => p.Id).HasMaxLength(50);
+            op.Property(p => p.AppId).HasMaxLength(50).IsRequired();
+            op.Property(p => p.AppName).HasMaxLength(50).IsRequired();
+            op.Property(p => p.Prefix).HasMaxLength(50).IsRequired();
+            op.Property(p => p.ClusterId).HasMaxLength(50).IsRequired();
+            op.Property(p => p.AuthorizationPolicy).HasMaxLength(50).IsRequired(false);
+            op.Property(p => p.RateLimiterPolicy).HasMaxLength(50).IsRequired(false);
+            op.Property(p => p.OutputCachePolicy).HasMaxLength(50).IsRequired(false);
+            op.Property(p => p.TimeoutPolicy).HasMaxLength(50).IsRequired(false);
+            op.Property(p => p.CorsPolicy).HasMaxLength(50).IsRequired(false);
+            op.Property(p => p.MaxRequestBodySize).HasMaxLength(50).IsRequired(false);
+        }).BuilderCration<RouterEntity>().BuilderModify<RouterEntity>();
+
+        builder.Entity<ClusterEntity>(op =>
+            {
+                op.HasKey(p => p.Id);
+                op.Property(p => p.Id).HasMaxLength(50);
+                op.Property(p => p.ClusterId).HasMaxLength(50).IsRequired();
+                op.Property(p => p.LoadBalance).HasMaxLength(50).IsRequired();
+                op.Property(p => p.Policy).HasMaxLength(50).IsRequired();
+                op.Property(p => p.Path).HasMaxLength(50).IsRequired();
+            }
+        ).BuilderCration<ClusterEntity>().BuilderModify<ClusterEntity>();
+        #endregion
         return builder;
     }
 }

@@ -1,0 +1,48 @@
+version: '3'
+services:
+  agile_config_admin:
+    image: "kklldog/agile_config"
+    ports:
+      - "15000:5000"
+    networks:
+      - net0
+    volumes:
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+      - adminConsole=true
+      - cluster=true
+      - db__provider=mysql
+      - db__conn=Database=configcenter;Data Source=192.168.110.32;User Id=root;Password=123456;port=13306;Allow User Variables=true;AllowPublicKeyRetrieval=true
+  agile_config_node1:
+    image: "kklldog/agile_config"
+    ports:
+      - "15001:5000"
+    networks:
+      - net0
+    volumes:
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+      - cluster=true
+      - db__provider=mysql
+      - db__conn=Database=configcenter;Data Source=192.168.110.32;User Id=root;Password=123456;port=13306;Allow User Variables=true;AllowPublicKeyRetrieval=true
+    depends_on:
+      - agile_config_admin
+  agile_config_node2:
+    image: "kklldog/agile_config"
+    ports:
+      - "15002:5000"
+    networks:
+      - net0
+    volumes:
+      - /etc/localtime:/etc/localtime
+    environment:
+      - TZ=Asia/Shanghai
+      - cluster=true
+      - db__provider=mysql
+      - db__conn=Database=configcenter;Data Source=192.168.110.32;User Id=root;Password=123456;port=13306;Allow User Variables=true;AllowPublicKeyRetrieval=true
+    depends_on:
+      - agile_config_admin
+networks:
+  net0:
