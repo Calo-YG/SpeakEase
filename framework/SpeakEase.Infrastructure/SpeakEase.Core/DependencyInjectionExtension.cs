@@ -17,12 +17,12 @@ public interface ITransientDependency
 
 public static class DependencyInjectionExtension
 {
-    public static Type[] InjectionTypes = new Type[]
-    {
+    private static readonly Type[] InjectionTypes =
+    [
         typeof(ISingletonDependency),
         typeof(IScopedDependency),
         typeof(ITransientDependency)
-    };
+    ];
 
     public static IServiceCollection AddAssemblyDependencyInjection(this IServiceCollection services, Assembly assembly)
     {
@@ -40,15 +40,15 @@ public static class DependencyInjectionExtension
     private static void InjectionWithInterface(IServiceCollection services, Type type)
     {
         //获取所有接口
-        var interfasces = type.GetInterfaces();
+        var interfaces = type.GetInterfaces();
 
-        if (interfasces.Length <= 1)
+        if (interfaces.Length <= 1)
         {
             return;
         }
 
         //判断接口是否为依赖注入接口
-        var hasInjectionInterface = interfasces.Any(p => InjectionTypes.Any(x => x == p));
+        var hasInjectionInterface = interfaces.Any(p => InjectionTypes.Any(x => x == p));
 
         if (!hasInjectionInterface)
         {
@@ -56,50 +56,48 @@ public static class DependencyInjectionExtension
         }
 
         //获取具体生命周期接口
-        var injectionInterface = interfasces.FirstOrDefault(p => InjectionTypes.Contains(p));
+        var injectionInterface = interfaces.FirstOrDefault(p => InjectionTypes.Contains(p));
 
-        Type interfaceImplete = null;
+        Type interfaceImpl;
 
-        var firstInterface = interfasces[0];
+        var firstInterface = interfaces.FirstOrDefault();
 
         //获取实现的接口
-        if (firstInterface != injectionInterface)
+        if (firstInterface != injectionInterface || firstInterface == null)
         {
-            interfaceImplete = firstInterface;
+            interfaceImpl = firstInterface;
         }
         else
         {
-            interfaceImplete = interfasces[1];
+            interfaceImpl = interfaces[1];
         }
-
-        ///判断是否注入容器中、
-        if (interfaceImplete == null || services.Any(p => p.ServiceType == injectionInterface))
+        
+        if (interfaceImpl == null || services.Any(p => p.ServiceType == injectionInterface))
         {
             return;
         }
 
         //注入接口
-        AddServieWithInterface(services, interfaceImplete, type, injectionInterface);
-        ;
+        AddServiceWithInterface(services, interfaceImpl, type, injectionInterface);
     }
 
-    private static void AddServieWithInterface(IServiceCollection services, Type interfaces, Type implete, Type injection)
+    private static void AddServiceWithInterface(IServiceCollection services, Type interfaces, Type interfaceImpl, Type injection)
     {
         if (injection == typeof(ISingletonDependency))
         {
-            services.AddSingleton(interfaces, implete);
+            services.AddSingleton(interfaces, interfaceImpl);
             return;
         }
 
         if (injection == typeof(IScopedDependency))
         {
-            services.AddScoped(interfaces, implete);
+            services.AddScoped(interfaces, interfaceImpl);
             return;
         }
 
         if (injection == typeof(ITransientDependency))
         {
-            services.AddTransient(interfaces, implete);
+            services.AddTransient(interfaces, interfaceImpl);
         }
     }
 }
