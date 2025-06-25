@@ -19,7 +19,7 @@ namespace SpeakEase.BuildingBlock.Grpc.Contrib.Grpc
         private readonly IReadOnlyList<GrpcServerOptions> _options = options.Value; 
 
         /// <summary>
-        /// httpcontextaccessor
+        /// httpContextAccessor
         /// </summary>
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 

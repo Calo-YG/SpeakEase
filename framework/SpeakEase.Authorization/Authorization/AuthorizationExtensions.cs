@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using SpeakEase.Authorization.Authorization;
+using SpeakEase.Infrastructure.Authorization;
 
-namespace SpeakEase.Infrastructure.Authorization;
+namespace SpeakEase.Authorization.Authorization;
 
-public static class AuthorizetionExtensions
+public static class AuthorizationExtensions
 {
-      public static IServiceCollection RegisterAuthorizetion(this IServiceCollection services)
+      public static IServiceCollection RegisterAuthorization(this IServiceCollection services)
       {
             services.AddScoped<IPermissionCheck, PermissionCheck>();
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();

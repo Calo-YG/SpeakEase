@@ -6,11 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SpeakEase.Authorization.Authorization;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Options;
 
-namespace SpeakEase.Infrastructure.Authorization;
+namespace SpeakEase.Authorization.Authorization;
 
 /// <summary>
 /// token 管理
@@ -22,17 +21,17 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
     /// <summary>
     /// 获取jwtoptions
     /// </summary>
-    private readonly JwtOptions option = options.Value;
+    private readonly JwtOptions _option = options.Value;
 
     /// <summary>
     /// 日志
     /// </summary>
-    private readonly ILogger logger = loggerFactory.CreateLogger("TokenManager");
+    private readonly ILogger _logger = loggerFactory.CreateLogger("TokenManager");
 
     /// <summary>
     /// Token Handler
     /// </summary>
-    private readonly JwtSecurityTokenHandler SecurityTokenHandler = new JwtSecurityTokenHandler();
+    private readonly JwtSecurityTokenHandler _securityTokenHandler = new JwtSecurityTokenHandler();
 
     /// <summary>
     /// 生成token
@@ -41,20 +40,20 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
     /// <returns></returns>
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        if (string.IsNullOrEmpty(option.SecretKey) || string.IsNullOrEmpty(option.Issuer) || string.IsNullOrEmpty(option.Issuer))
+        if (string.IsNullOrEmpty(_option.SecretKey) || string.IsNullOrEmpty(_option.Issuer) || string.IsNullOrEmpty(_option.Issuer))
         {
             ThrowUserFriendlyException.ThrowException("validate jwt options failed");
         }
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(option.SecretKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_option!.SecretKey!));
 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: option.Issuer,
-            audience: option.Audience,
+            issuer: _option.Issuer,
+            audience: _option.Audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(option.ExpMinutes), // 短有效期
+            expires: DateTime.Now.AddMinutes(_option.ExpMinutes), // 短有效期
             signingCredentials: credentials
         );
 
@@ -82,12 +81,12 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
     {
         var token = GetToken();
 
-        return SecurityTokenHandler.ReadJwtToken(token);
+        return _securityTokenHandler.ReadJwtToken(token);
     }
 
     private string GetToken()
     {
-        var tryget = httpContextAccessor.HttpContext.Request.Headers.TryGetValue(UserInfomationConst.AuthorizationHeader, out var token);
+        var tryget = httpContextAccessor!.HttpContext!.Request.Headers.TryGetValue(UserInfomationConst.AuthorizationHeader, out var token);
 
         if (!tryget)
         {
@@ -111,16 +110,14 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = option.Issuer, // 替换为实际的发行者
-            ValidAudience = option.Audience, // 替换为实际的受众
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(option.SecretKey)) // 替换为实际的密钥
+            ValidIssuer = _option.Issuer, // 替换为实际的发行者
+            ValidAudience = _option.Audience, // 替换为实际的受众
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_option.SecretKey)) // 替换为实际的密钥
         };
-
-        ClaimsPrincipal principal = null;
-
+        
         try
         {
-            principal = SecurityTokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+            _securityTokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
         }
         catch (Exception ex)
         {

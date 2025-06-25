@@ -47,7 +47,7 @@ public class AuthorizeHandler(
 
         var currentUser = scope.ServiceProvider.GetRequiredService<IUserContext>();
 
-        var permisscheck = scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
+        var permissionCheck = scope.ServiceProvider.GetRequiredService<IPermissionCheck>();
 
         if (!currentUser.IsAuthenticated)
         {
@@ -56,7 +56,7 @@ public class AuthorizeHandler(
             return;
         }
 
-        if (!await permisscheck.IsGranted(currentUser.UserId!, authorizeData.Policy))
+        if (!await permissionCheck.IsGranted(currentUser.UserId!, authorizeData.Policy))
         {
             failureReason = new AuthorizationFailureReason(this,
                 $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? string.Empty}");

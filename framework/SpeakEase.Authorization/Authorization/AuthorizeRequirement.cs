@@ -2,12 +2,7 @@
 
 namespace SpeakEase.Authorization.Authorization;
 
-public class AuthorizeRequirement : IAuthorizationRequirement
+public class AuthorizeRequirement(params string[] authorizeName) : IAuthorizationRequirement
 {
-    public virtual string[] AuthorizeName { get; private set; }
-
-    public AuthorizeRequirement(params string[] authorizeName)
-    {
-        AuthorizeName = authorizeName;
-    }
+    public  string[] AuthorizeName { get; private set; } = authorizeName;
 }
