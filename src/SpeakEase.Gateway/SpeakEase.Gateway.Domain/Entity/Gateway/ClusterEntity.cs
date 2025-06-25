@@ -25,12 +25,12 @@ public class ClusterEntity:SpeakEaseEntity
     //
     // 摘要:
     //     健康检查间隔
-    public TimeSpan? Interval { get; private set; }
+    public int? Interval { get; private set; }
 
     //
     // 摘要:
     //     健康检查超时时间
-    public TimeSpan? Timeout { get; private set; }
+    public int? Timeout { get; private set; }
 
     //
     // 摘要:

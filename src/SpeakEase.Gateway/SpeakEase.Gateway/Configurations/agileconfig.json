@@ -1,0 +1,16 @@
+﻿{
+  "AgileConfig": {
+    "appId": "SpeakEase.Gateway",
+    "secret": "SpeakEase.Gateway",
+    "nodes": "http://117.72.66.170:15000",
+    "name": "SpeakEase.Gateway",
+    "tag": "SpeakEase.Gateway",
+
+    "serviceRegister": { 
+      "serviceId": "SpeakEase.Gateway", 
+      "serviceName": "SpeakEase.Gateway",
+      "ip": "127.0.0.1",
+      "port": 5005
+    }
+  }
+}

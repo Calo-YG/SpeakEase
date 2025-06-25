@@ -27,7 +27,7 @@ public class RouterEntity:SpeakEaseEntity
     //
     // 摘要:排序序号
     //
-    public int? Order { get; init; }
+    public int? Sort { get; init; }
 
     //
     // 摘要:路由集群id
@@ -78,7 +78,7 @@ public class RouterEntity:SpeakEaseEntity
     /// <param name="appId">appId</param>
     /// <param name="appName">app名称</param>
     /// <param name="prefix">路由前缀</param>
-    /// <param name="order">排序</param>
+    /// <param name="sort">排序</param>
     /// <param name="clusterId">集群id</param>
     /// <param name="authorizationPolicy">授权策略</param>
     /// <param name="rateLimiterPolicy">限流测率</param>
@@ -87,12 +87,12 @@ public class RouterEntity:SpeakEaseEntity
     /// <param name="timeout">超时时间</param>
     /// <param name="corsPolicy">跨域策略</param>
     /// <param name="maxRequestBodySize">请求体body限制</param>
-    public RouterEntity(string appId, string appName, string prefix, int? order, string clusterId, string authorizationPolicy, string rateLimiterPolicy, string outputCachePolicy, string timeoutPolicy, TimeSpan? timeout, string corsPolicy, long? maxRequestBodySize)
+    public RouterEntity(string appId, string appName, string prefix, int? sort, string clusterId, string authorizationPolicy, string rateLimiterPolicy, string outputCachePolicy, string timeoutPolicy, TimeSpan? timeout, string corsPolicy, long? maxRequestBodySize)
     { 
         AppId = appId;
         AppName = appName;
         Prefix = prefix;
-        Order = order;
+        Sort = sort;
         ClusterId = clusterId;
         AuthorizationPolicy = authorizationPolicy;
         RateLimiterPolicy = rateLimiterPolicy;

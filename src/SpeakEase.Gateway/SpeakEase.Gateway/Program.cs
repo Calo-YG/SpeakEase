@@ -2,6 +2,8 @@ using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseAgileConfig(("Configurations/agileconfig.json"));
+
 builder.AddServiceDefaults();
 
 builder.Services.AddOpenApi();

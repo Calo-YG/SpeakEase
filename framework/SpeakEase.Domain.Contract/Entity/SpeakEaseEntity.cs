@@ -30,6 +30,6 @@ namespace SpeakEase.Domain.Contract.Entity
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime ModifyAt { get; set; }
+        public DateTime? ModifyAt { get; set; }
     }
 }

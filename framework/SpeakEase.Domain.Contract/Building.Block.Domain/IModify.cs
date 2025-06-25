@@ -18,6 +18,6 @@
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime ModifyAt { get; set; }
+        public DateTime? ModifyAt { get; set; }
     }
 }

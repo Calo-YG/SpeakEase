@@ -13,7 +13,8 @@ public static class EntityBuildExtensions
     private static ModelBuilder BuilderCration<T>(this ModelBuilder builder) where T : class,ICreation
     {
         builder.Entity<T>(op =>
-        {
+        {            
+            op.Property(p => p.CreatedAt).HasColumnType("timestamp with time zone");
             op.Property(p => p.CreateByName).HasMaxLength(50);
             op.Property(p=>p.CreateById).HasMaxLength(50);
         });
@@ -25,6 +26,7 @@ public static class EntityBuildExtensions
     {
         builder.Entity<T>(op =>
         {
+            op.Property(p => p.ModifyAt).HasColumnType("timestamp with time zone");
             op.Property(p => p.ModifyByName).HasMaxLength(50);
             op.Property(p => p.ModifyById).HasMaxLength(50);
         });
@@ -36,6 +38,8 @@ public static class EntityBuildExtensions
     {
         builder.Entity<T>(op =>
         {
+            op.Property(p => p.IsDeleted);
+            op.Property(p => p.DeleteAt).HasColumnType("timestamp with time zone");
             op.Property(p => p.DeletedByName).HasMaxLength(50);
             op.Property(p => p.DeletedById).HasMaxLength(50);
         });
@@ -49,6 +53,7 @@ public static class EntityBuildExtensions
 
         builder.Entity<SysUser>(op =>
         {
+            op.ToTable("sys_user");
             op.HasKey(p => p.Id);
             op.Property(p => p.Id).HasMaxLength(50);
             op.Property(p => p.Account).HasMaxLength(50).IsRequired();
@@ -63,6 +68,7 @@ public static class EntityBuildExtensions
 
         builder.Entity<AppEntity>(op =>
         {
+            op.ToTable("app");
             op.HasKey(p => p.Id);
             op.Property(p => p.Id).HasMaxLength(50);
             op.Property(p => p.AppName).HasMaxLength(50).IsRequired();
@@ -72,7 +78,8 @@ public static class EntityBuildExtensions
         }).BuilderCration<AppEntity>().BuilderModify<AppEntity>();
 
         builder.Entity<RouterEntity>(op =>
-        { 
+        {
+            op.ToTable("route");
             op.HasKey(p => p.Id);
             op.Property(p => p.Id).HasMaxLength(50);
             op.Property(p => p.AppId).HasMaxLength(50).IsRequired();
@@ -89,6 +96,7 @@ public static class EntityBuildExtensions
 
         builder.Entity<ClusterEntity>(op =>
             {
+                op.ToTable("cluster");
                 op.HasKey(p => p.Id);
                 op.Property(p => p.Id).HasMaxLength(50);
                 op.Property(p => p.ClusterId).HasMaxLength(50).IsRequired();

@@ -9,7 +9,7 @@ namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore
     {
         public SpeakEaseGatewayContext CreateDbContext(string[] args)
         {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SpeakEase");
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SpeakEase.Gateway");
 
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(basePath)

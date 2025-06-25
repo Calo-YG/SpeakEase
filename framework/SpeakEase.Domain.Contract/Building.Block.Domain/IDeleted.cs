@@ -23,6 +23,6 @@
         /// <summary>
         /// 删除日期      
         /// </summary>
-        public DateTime? DeleteDate { get; set; }
+        public DateTime? DeleteAt { get; set; }
     }
 }
