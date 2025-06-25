@@ -13,6 +13,6 @@ services:
       - adminConsole=true
       - cluster=true
       - db__provider=mysql
-      - db__conn=Database=configcenter;Data Source=117.72.66.170;User Id=root;Password=123456;port=3306;Allow User Variables=true;AllowPublicKeyRetrieval=true
+      - db__conn=Database=configcenter;Data Source=yourip;User Id=root;Password=123456;port=3306;Allow User Variables=true;AllowPublicKeyRetrieval=true
 networks:
   net0:
