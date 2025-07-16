@@ -46,4 +46,34 @@ public class ClusterEntity:SpeakEaseEntity
     /// 可用目的地策略
     /// </summary>
     public string AvailableDestinationsPolicy { get; private set; }
+    
+    /// <summary>
+    /// 无参构造函数
+    /// </summary>
+    protected ClusterEntity()
+    { 
+    }
+    
+    /// <summary>
+    /// 有参构造函数
+    /// </summary>
+    /// <param name="clusterId"></param>
+    /// <param name="loadBalance"></param>
+    /// <param name="enabled"></param>
+    /// <param name="interval"></param>
+    /// <param name="timeout"></param>
+    /// <param name="policy"></param>
+    /// <param name="path"></param>
+    /// <param name="availableDestinationsPolicy"></param>
+    public ClusterEntity(string clusterId, string loadBalance, bool enabled, int? interval, int? timeout, string policy, string path, string availableDestinationsPolicy)
+    {
+        ClusterId = clusterId;
+        LoadBalance = loadBalance;
+        Enabled = enabled;
+        Interval = interval;
+        Timeout = timeout;
+        Policy = policy;
+        Path = path;
+        AvailableDestinationsPolicy = availableDestinationsPolicy;
+    }
 }

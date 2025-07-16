@@ -6,7 +6,7 @@ public class ResponseBase
     /// <summary>
     /// 是否成功
     /// </summary>
-    public bool Success { get; protected set; }
+    public bool Successed { get; protected set; }
 
     /// <summary>
     /// 错误信息
@@ -27,13 +27,13 @@ public class Response<TResult> : ResponseBase
     public Response(TResult result)
     {
         Data = result;
-        Success = true;
+        Successed = true;
         Status = 200;
     }
 
     public Response(string errorMessage = "", int code = 500)
     {
-        Success = false;
+        Successed = false;
         Message = errorMessage;
         Status = code;
     }
@@ -58,7 +58,7 @@ public class Response : Response<object>
     {
     }
 
-    public static Response Sucess(object result)
+    public static Response Success(object result)
     {
        return new Response(result);
     }

@@ -18,8 +18,8 @@ namespace SpeakEase.Infrastructure.Middleware
         /// <summary>
         /// 模板
         /// </summary>
-        private readonly string Template = "\n-----------请求Start----------\n 请求路径：{0}\n 请求方式：{1} \n 耗时：{2} 毫秒 \n 异常：{3}\n 响应状态码：{4} \n-----------请求end----------";
-
+        private readonly string _template = "\n 请求开始时间:{0}\n 请求路径：{1}\n 请求方式：{2} \n 耗时：{3} 毫秒 \n 异常：{4}\n 响应状态码：{5} \n  请求结束时间：{6}";
+ 
         /// <summary>
         /// 开启时间
         /// </summary>
@@ -28,7 +28,7 @@ namespace SpeakEase.Infrastructure.Middleware
         /// <summary>
         /// 配置序列化
         /// </summary>
-        private readonly JsonSerializerOptions options = new JsonSerializerOptions()
+        private readonly JsonSerializerOptions _options = new JsonSerializerOptions()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
@@ -72,7 +72,7 @@ namespace SpeakEase.Infrastructure.Middleware
             var duration = _stopwatch.ElapsedMilliseconds;
             var response = Response.Fail(ex.Message, statusCode);
             BuildLogMessage(context, ex, statusCode);
-            await context.Response.WriteAsync(JsonSerializer.Serialize(response, options));
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response, _options));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace SpeakEase.Infrastructure.Middleware
         /// <param name="statusCode">状态码</param>
         private void BuildLogMessage(HttpContext context, Exception ex = null, int statusCode = 200)
         {
-            var message = string.Format(Template, context.Request?.Path, context.Request?.Method, _stopwatch.ElapsedMilliseconds, ex?.StackTrace, statusCode);
+            var message = string.Format(_template, DateTime.Now,context.Request?.Path, context.Request?.Method, _stopwatch.ElapsedMilliseconds, ex?.StackTrace, statusCode, DateTime.Now);
 
             _logger.LogInformation(message);
         }

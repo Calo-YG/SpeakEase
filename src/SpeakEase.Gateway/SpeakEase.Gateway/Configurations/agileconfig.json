@@ -1,16 +1,22 @@
 ﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
   "AgileConfig": {
-    "appId": "SpeakEase.Gateway",
-    "secret": "SpeakEase.Gateway",
-    "nodes": "http://117.72.66.170:15000",
-    "name": "SpeakEase.Gateway",
-    "tag": "SpeakEase.Gateway",
-
-    "serviceRegister": { 
-      "serviceId": "SpeakEase.Gateway", 
-      "serviceName": "SpeakEase.Gateway",
-      "ip": "127.0.0.1",
-      "port": 5005
+    "appId": "speakease.gateway",
+    "secret": "speakease.gateway",
+    "nodes": "http://10.126.126.1:15000",
+    "tag": "speakease",
+    "env": "DEV",
+    "serviceRegister": {
+      "serviceId": "speakease.gateway",
+      "serviceName": "SpeakEase网关服务",
+      "Ip": "10.126.126.2",
+      "Port": 5042
     }
   }
 }

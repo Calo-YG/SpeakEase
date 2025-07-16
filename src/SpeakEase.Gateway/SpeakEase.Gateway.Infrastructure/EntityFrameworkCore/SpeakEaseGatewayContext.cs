@@ -100,16 +100,16 @@ public class SpeakEaseGatewayContext:DbContext,IDbContext
 
         foreach (var item in changeTracker)
         {
-            if (item.State == EntityState.Added && item.Entity is ICreation creation)
+            if (item is { State: EntityState.Added, Entity: ICreation creation })
             {
                 creation.CreatedAt = DateTime.Now;
-                creation.CreateById = _userContext.UserId;
-                creation.CreateByName = _userContext.UserName;
+                creation.CreateById = _userContext?.UserId ?? "system";
+                creation.CreateByName = _userContext?.UserName ?? "system";
             }
-            if(item.State == EntityState.Modified && item.Entity is IModify modify)
+            if(item is { State: EntityState.Modified, Entity: IModify modify })
             {
-                modify.ModifyById = _userContext.UserId;
-                modify.ModifyByName = _userContext.UserName;
+                modify.ModifyById = _userContext?.UserId ?? "system";
+                modify.ModifyByName = _userContext?.UserName ?? "system";
                 modify.ModifyAt = DateTime.Now;
             }
         }

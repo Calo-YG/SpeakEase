@@ -11,4 +11,8 @@
     <ProjectReference Include="..\SpeakEase.Gateway.Infrastructure\SpeakEase.Gateway.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
+  </ItemGroup>
+
 </Project>

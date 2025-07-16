@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeakEase.Authorization.Authorization;
-using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Study.Domain.Shared;
 using SpeakEase.Study.Domain.Users;
 using SpeakEase.Study.Infrastructure.EntityFrameworkCore.ModelBuilders;

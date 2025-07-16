@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using SpeakEase.Infrastructure.Shared;
 
-namespace SpeakEase.Infrastructure.Filters
+namespace SpeakEase.Gateway.Filter
 {
     /// <summary>
     /// 结果过滤器
@@ -14,7 +14,7 @@ namespace SpeakEase.Infrastructure.Filters
         /// <param name="context"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        public async ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {
             var result = await next(context);
 

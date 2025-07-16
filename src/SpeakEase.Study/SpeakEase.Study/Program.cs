@@ -28,13 +28,9 @@ internal static class Program
 
             var builder = WebApplication.CreateSlimBuilder(args);
 
-            //builder.Host.UseAgileConfig(($"Configurations/agileconfig.json"));
+            builder.Host.UseAgileConfig(($"Configurations/agileconfig.json"));
 
-            builder.Configuration.AddJsonFile("Configurations/redis.json", true, true)
-                .AddJsonFile("Configurations/database.json", true, true)
-                .AddJsonFile("Configurations/jwt.json", true, true)
-                .AddJsonFile("Configurations/database.json", true, true)
-                .AddJsonFile("Configurations/cors.json", true, true);   
+            builder.Configuration.AddJsonFile("Configurations/agileconfig.json", true, true);
 
             builder.Host.UseSerilog(
                 (context, services, configuration) =>

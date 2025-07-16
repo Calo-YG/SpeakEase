@@ -67,7 +67,7 @@ public class RouterEntity:SpeakEaseEntity
     //
     public long? MaxRequestBodySize { get; init; }
     
-    public RouterEntity()
+    protected RouterEntity()
     {
         
     }

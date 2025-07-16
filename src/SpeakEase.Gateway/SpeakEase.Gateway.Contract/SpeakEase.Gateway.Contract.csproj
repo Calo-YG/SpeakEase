@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="App\Dto\" />
     <Folder Include="Cluster\Dto\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\framework\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

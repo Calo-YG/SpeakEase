@@ -1,6 +1,0 @@
-{
-    "CorsOptions": {
-        "Origins": "https://localhost:3000,http://localhost:3000, http://localhost:8080",
-        "Policy": "SpeakEase"
-    }
-}

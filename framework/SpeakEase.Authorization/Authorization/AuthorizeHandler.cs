@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using SpeakEase.Authorization.Authorization;
 
-namespace SpeakEase.Infrastructure.Authorization;
+namespace SpeakEase.Authorization.Authorization;
 
 public class AuthorizeHandler(
     IServiceProvider serviceProvider,
@@ -25,10 +24,10 @@ public class AuthorizeHandler(
             return;
         }
 
-        var allowanymouse = currentEndpoint.Metadata.GetMetadata<IAllowAnonymous>();
+        var allowAnonymousee = currentEndpoint.Metadata.GetMetadata<IAllowAnonymous>();
 
         // 如果是匿名访问，直接通过
-        if (allowanymouse is not null)
+        if (allowAnonymousee is not null)
         {
             context.Succeed(requirement);
             return;

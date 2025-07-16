@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SpeakEase.Authorization.Authorization;
-using SpeakEase.Infrastructure.Authorization;
 using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Study.Application.Auth;
