@@ -70,21 +70,87 @@ public class AppService(IDbContext context):IAppService
         query = query.WhereIf(input.StartTime != null, x => x.CreatedAt >= input.StartTime);
         query = query.WhereIf(input.EndTime != null, x => x.CreatedAt <= input.EndTime);
         
-        var count = await query.CountAsync();
-        var list = await query
-            .Select(p=> new AppPageDto
+        return await query
+            .Select(p => new AppPageDto
             {
                 Id = p.Id,
                 AppName = p.AppName,
                 AppKey = p.AppKey,
                 AppCode = p.AppCode,
                 AppDescription = p.AppDescription,
-                CreatedAt = p.CreatedAt 
+                CreatedAt = p.CreatedAt
             })
             .OrderByDescending(x => x.CreatedAt)
-            .Skip((input.Pagination.Page - 1) * input.Pagination.PageSize)
-            .Take(input.Pagination.PageSize).ToListAsync();
+            .ToPageResultAsync(input.Pagination);
+    }
+    
+    /// <summary>
+    /// 获取应用详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Task<AppDto> GetAppById(string id)
+    { 
+        return context.QueryNoTracking<AppEntity>()
+            .Where(p=>p.Id == id)
+            .Select(p => new AppDto
+            {
+                AppName = p.AppName,
+                AppKey = p.AppKey,
+                AppCode = p.AppCode,
+                AppDescription = p.AppDescription
+            })
+            .FirstOrDefaultAsync();
+    }
 
-        return PageResult<AppPageDto>.Create(count, list);
+    /// <summary>
+    /// 修改应用
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task UpdateAppAsync(UpdateAppInput input)
+    {
+        if (string.IsNullOrEmpty(input.AppName))
+        {
+            throw new UserFriendlyException("请输入应用名称");
+        }
+
+        if (string.IsNullOrEmpty(input.AppKey))
+        {
+            throw new UserFriendlyException("请输入应用密钥");
+        }
+        
+        if (string.IsNullOrEmpty(input.AppCode))
+        {
+            throw new UserFriendlyException("请输入应用编码");
+        }
+        
+        var entity = context.App.FirstOrDefault(x => x.Id == input.Id);
+
+        if (entity is null)
+        {
+            throw new UserFriendlyException("应用不存在");
+        }
+        
+        entity.Update(input.AppName, input.AppKey, input.AppCode, input.AppDescription);
+        
+        await context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// 获取应用下拉列表 
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public Task<List<AppSelectDto>> GetSelectAsync(string name)
+    {
+        return  context.QueryNoTracking<AppEntity>()
+            .WhereIf(string.IsNullOrEmpty( name),p=>p.AppName.Contains( name) || p.AppCode.Contains( name))
+            .Select(x => new AppSelectDto
+           {
+               Id = x.Id,
+               AppName = x.AppName,
+               AppCode = x.AppCode
+            }).ToListAsync();
     }
 }

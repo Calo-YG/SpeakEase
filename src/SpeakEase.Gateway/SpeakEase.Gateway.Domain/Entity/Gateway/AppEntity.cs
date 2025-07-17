@@ -62,5 +62,20 @@ namespace SpeakEase.Gateway.Domain.Entity.Gateway
             ApplyDate = applyDate;
             ApplyBy = applyBy;
         }
+        
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="appName"></param>
+        /// <param name="appKey"></param>
+        /// <param name="appCode"></param>
+        /// <param name="appDescription"></param>
+        public void Update(string appName, string appKey, string appCode, string appDescription)
+        { 
+            AppName = appName;
+            AppKey = appKey;
+            AppCode = appCode;
+            AppDescription = appDescription;
+        }
     }
 }

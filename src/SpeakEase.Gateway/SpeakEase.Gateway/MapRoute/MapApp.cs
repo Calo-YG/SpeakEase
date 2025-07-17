@@ -19,5 +19,8 @@ public static class MapApp
         
         group.MapPost("create", (IAppService appService, CreateAppInput input) => appService.CreateAppAsync(input)).WithSummary("创建应用");
         group.MapPost("getList", (IAppService appService, AppPageInput input) => appService.GetList(input)).WithSummary("分页列表");
+        group.MapGet("getById/{id}", (IAppService appService, string id) => appService.GetAppById(id)).WithSummary("获取应用");
+        group.MapPut("update", (IAppService appService, UpdateAppInput input) => appService.UpdateAppAsync(input)).WithSummary("更新应用");
+        group.MapGet("getSelect", (IAppService appService, string name) => appService.GetSelectAsync(name)).WithSummary("获取应用下拉列表");
     }
 }

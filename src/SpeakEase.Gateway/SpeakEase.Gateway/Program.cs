@@ -54,5 +54,4 @@ if (app.Environment.IsDevelopment())
 app.MapGet("SpeakEase/health", () => Results.Ok("SpeakEase.Gateway"));
 app.MapAppEndPoint();
 
-
 await app.RunAsync();
