@@ -52,6 +52,18 @@ namespace SpeakEase.Infrastructure.Redis
         }
 
         /// <summary>
+        /// 设置字符串值，如果键不存在
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="expireSeconds">过期时间（秒），默认1000秒</param>
+        /// <returns>是否成功设置</returns>
+        public Task<bool> SetNxAsync(string key, string value, int expireSeconds = 1000)
+        {
+            return _redis.SetNxAsync(key, value, expireSeconds);
+        }
+
+        /// <summary>
         /// 获取字符串值
         /// </summary>
         /// <param name="key">键</param>

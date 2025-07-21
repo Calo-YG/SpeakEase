@@ -18,7 +18,7 @@ namespace SpeakEase.Infrastructure.Middleware
         /// <summary>
         /// 模板
         /// </summary>
-        private readonly string _template = "\n 请求开始时间:{0}\n 请求路径：{1}\n 请求方式：{2} \n 耗时：{3} 毫秒 \n 异常：{4}\n 响应状态码：{5} \n  请求结束时间：{6}";
+        private readonly string _template = "\n 请求开始时间:{0}\n 请求路径：{1}\n 请求方式：{2} \n 耗时：{3} 毫秒 \n 异常：{4}\n 响应状态码：{5} \n 请求结束时间：{6}";
  
         /// <summary>
         /// 开启时间

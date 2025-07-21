@@ -6,6 +6,7 @@ using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.SpeakEase.Core;
+using SpeakEase.Infrastructure.WorkIdGenerate;
 using Yitter.IdGenerator;
 
 namespace SpeakEase.Gateway.Application.App;
@@ -13,7 +14,7 @@ namespace SpeakEase.Gateway.Application.App;
 /// <summary>
 /// 应用服务
 /// </summary>
-public class AppService(IDbContext context):IAppService
+public class AppService(IDbContext context,IIdGenerate idGenerate):IAppService
 {
     /// <summary>
     /// 创建应用
@@ -44,9 +45,8 @@ public class AppService(IDbContext context):IAppService
         {
             throw new UserFriendlyException("应用已存在");
         }
-
-        var longId = YitIdHelper.NextId();
-        var id = LongToStringConverter.Convert(longId);
+        
+        var id = idGenerate.NewIdString();
         var entity = new AppEntity(id,input.AppName, input.AppKey, input.AppCode, input.AppDescription,DateTime.Now);
 
         await context.App.AddAsync(entity);
@@ -138,7 +138,7 @@ public class AppService(IDbContext context):IAppService
     }
 
     /// <summary>
-    /// 获取应用下拉列表 
+    /// 获取下拉框列表
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>

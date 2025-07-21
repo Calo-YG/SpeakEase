@@ -56,6 +56,15 @@
         bool SetNx(string key, string value, int expireSeconds = 1000);
 
         /// <summary>
+        /// 如果键不存在，则设置其字符串值。
+        /// </summary>
+        /// <param name="key">键。</param>
+        /// <param name="value">值。</param>
+        /// <param name="expireSeconds">过期时间（秒），默认1000秒。</param>
+        /// <returns>如果设置成功，则返回true；否则返回false。</returns>
+        Task<bool> SetNxAsync(string key, string value, int expireSeconds = 1000);
+
+        /// <summary>
         /// 获取指定键的字符串值。
         /// </summary>
         /// <param name="key">键。</param>

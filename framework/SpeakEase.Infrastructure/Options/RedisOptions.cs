@@ -5,12 +5,12 @@
         /// <summary>
         /// 无密码连接字符串
         /// </summary>
-        private readonly string NoPassWordConnectionString = "{0}:{1};defaultDatabase={2};max poolsize={3};min poolsize={4};connectTimeout={5};retry={6};prefix={7}";
+        private readonly string NoPassWordConnectionString = "{0}:{1},defaultDatabase={2},max poolsize={3},min poolsize={4},connectTimeout={5},retry={6},prefix={7}";
 
         /// <summary>
         /// 有密码连接字符串
         /// </summary>
-        private readonly string Connection = "{0}:{1};user={2};password={3};defaultDatabase={4};max poolsize={5};min poolsize={6};connectTimeout={7};retry={8};prefix={9}";
+        private readonly string Connection = "{0}:{1},user={2},password={3},defaultDatabase={4},max poolsize={5},min poolsize={6},connectTimeout={7},retry={8},prefix={9}";
 
         /// <summary>
         /// 连接字符串
