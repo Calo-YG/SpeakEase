@@ -124,4 +124,5 @@ public class RouterEntity:SpeakEaseEntity
         CorsPolicy = corsPolicy;
         MaxRequestBodySize = maxRequestBodySize;
     }
+    
 }

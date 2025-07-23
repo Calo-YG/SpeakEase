@@ -11,6 +11,11 @@ public class ClusterEntity:SpeakEaseEntity
     /// 集群id
     /// </summary>
     public string ClusterId { get;private set; }
+    
+    /// <summary>
+    /// 地址
+    /// </summary>
+    public string Address { get;private set; }
 
     /// <summary>
     /// 负载均衡策略
@@ -57,6 +62,7 @@ public class ClusterEntity:SpeakEaseEntity
     /// <summary>
     /// 有参构造函数
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="clusterId"></param>
     /// <param name="loadBalance"></param>
     /// <param name="enabled"></param>
@@ -65,8 +71,9 @@ public class ClusterEntity:SpeakEaseEntity
     /// <param name="policy"></param>
     /// <param name="path"></param>
     /// <param name="availableDestinationsPolicy"></param>
-    public ClusterEntity(string clusterId, string loadBalance, bool enabled, int? interval, int? timeout, string policy, string path, string availableDestinationsPolicy)
+    public ClusterEntity(string id,string clusterId, string loadBalance, bool enabled, int? interval, int? timeout, string policy, string path, string availableDestinationsPolicy)
     {
+        Id = id;
         ClusterId = clusterId;
         LoadBalance = loadBalance;
         Enabled = enabled;
@@ -76,4 +83,34 @@ public class ClusterEntity:SpeakEaseEntity
         Path = path;
         AvailableDestinationsPolicy = availableDestinationsPolicy;
     }
+    
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="loadBalance"></param>
+    /// <param name="enabled"></param>
+    /// <param name="interval"></param>
+    /// <param name="timeout"></param>
+    /// <param name="policy"></param>
+    /// <param name="path"></param>
+    /// <param name="availableDestinationsPolicy"></param>
+    public void Update(string loadBalance, bool enabled, int? interval, int? timeout, string policy, string path, string availableDestinationsPolicy)
+    {
+        LoadBalance = loadBalance;
+        Enabled = enabled;
+        Interval = interval;
+        Timeout = timeout;
+        Policy = policy;
+        Path = path;
+        AvailableDestinationsPolicy = availableDestinationsPolicy;
+    }
+    
+    /// <summary>
+    /// 设置集群Ip
+    /// </summary>
+    /// <param name="address"></param>
+    public void SetAddress(string address)
+    {
+       Address = address;
+    }   
 }

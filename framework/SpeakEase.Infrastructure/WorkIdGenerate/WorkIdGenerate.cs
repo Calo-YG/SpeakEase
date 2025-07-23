@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -129,10 +128,12 @@ public class WorkIdGenerate : BackgroundService,IWorkIdGenerate
     /// 停止
     /// </summary>
     /// <param name="cancellationToken"></param>
-    public  override async Task StopAsync(CancellationToken cancellationToken)
+    public override async Task StopAsync(CancellationToken cancellationToken)
     {
         var workIdKey = GetWorkerIdKey(_workId!.Value);
 
         await _redisService.DeleteAsync(workIdKey);
+        
+        await base.StopAsync(cancellationToken);
     }
 }

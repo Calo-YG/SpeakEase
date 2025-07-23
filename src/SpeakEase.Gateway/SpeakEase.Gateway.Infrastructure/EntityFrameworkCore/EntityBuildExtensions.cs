@@ -81,6 +81,7 @@ public static class EntityBuildExtensions
         {
             op.ToTable("route");
             op.HasKey(p => p.Id);
+            op.HasIndex(p => p.ClusterId);
             op.Property(p => p.Id).HasMaxLength(50);
             op.Property(p => p.AppId).HasMaxLength(50).IsRequired();
             op.Property(p => p.AppName).HasMaxLength(50).IsRequired();
@@ -98,11 +99,14 @@ public static class EntityBuildExtensions
             {
                 op.ToTable("cluster");
                 op.HasKey(p => p.Id);
+                op.HasIndex(p => p.ClusterId);
                 op.Property(p => p.Id).HasMaxLength(50);
                 op.Property(p => p.ClusterId).HasMaxLength(50).IsRequired();
                 op.Property(p => p.LoadBalance).HasMaxLength(50).IsRequired();
                 op.Property(p => p.Policy).HasMaxLength(50).IsRequired();
                 op.Property(p => p.Path).HasMaxLength(50).IsRequired();
+                op.Property(p => p.AvailableDestinationsPolicy).HasMaxLength(50).IsRequired(false);
+                op.Property(p => p.Address).HasMaxLength(2550).IsRequired(false);
             }
         ).BuilderCration<ClusterEntity>().BuilderModify<ClusterEntity>();
         #endregion

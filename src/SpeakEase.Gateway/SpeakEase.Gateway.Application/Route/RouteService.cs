@@ -7,6 +7,7 @@ using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.SpeakEase.Core;
+using SpeakEase.Infrastructure.WorkIdGenerate;
 using Yitter.IdGenerator;
 
 namespace SpeakEase.Gateway.Application.Route;
@@ -14,7 +15,7 @@ namespace SpeakEase.Gateway.Application.Route;
 /// <summary>
 /// 路由服务
 /// </summary>
-public class RouteService(IDbContext  context): IRouteService
+public class RouteService(IDbContext  context,IIdGenerate idGenerate): IRouteService
 {
     /// <summary>
     /// 创建路由
@@ -34,8 +35,7 @@ public class RouteService(IDbContext  context): IRouteService
             throw new UserFriendlyException("请输入路由前缀");
         }
         
-        var longId = YitIdHelper.NextId();
-        var id = LongToStringConverter.Convert(longId);
+        var id = idGenerate.NewIdString();
         
         var entity = new RouterEntity(id,
             input.AppId, 
@@ -49,6 +49,8 @@ public class RouteService(IDbContext  context): IRouteService
             input.Timeout, 
             input.CorsPolicy, 
             input.MaxRequestBodySize);
+        
+        entity.SetClusterId(idGenerate.NewIdString());
 
         await context.Router.AddAsync(entity);
         

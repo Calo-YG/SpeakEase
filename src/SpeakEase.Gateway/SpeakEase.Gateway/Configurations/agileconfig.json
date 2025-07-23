@@ -15,8 +15,8 @@
     "serviceRegister": {
       "serviceId": "speakease.gateway",
       "serviceName": "SpeakEase网关服务",
-      "Ip": "10.126.126.2",
-      "Port": 5042
+      "Ip": "http://localhost",
+      "Port": 5046
     }
   }
 }

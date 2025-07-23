@@ -1,4 +1,6 @@
-﻿namespace SpeakEase.Infrastructure.SpeakEase.Core;
+﻿using System.Net;
+
+namespace SpeakEase.Infrastructure.SpeakEase.Core;
 
 public static class StringExtensions
 {
@@ -58,4 +60,39 @@ public static class StringExtensions
     /// <param name="str"></param>
     /// <returns></returns>
     public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
+    
+    /// <summary>
+    /// 添加http前缀
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public static string EnsureHttpPrefix(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return url;
+
+        // 判断是否以 http:// 或 https:// 开头（忽略大小写）
+        if (!url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+            !url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            // 没带协议，默认加 http://
+            url = "http://" + url;
+        }
+
+        return url;
+    }
+    
+    /// <summary>
+    /// 专门判断IPv6地址
+    /// </summary>
+    public static bool IsIPv6Address(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return false;
+        }
+
+        return IPAddress.TryParse(input, out IPAddress addr) && 
+               addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6;
+    }
 }

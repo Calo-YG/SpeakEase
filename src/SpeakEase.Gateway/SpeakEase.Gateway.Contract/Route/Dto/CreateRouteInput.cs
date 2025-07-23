@@ -26,11 +26,6 @@ public sealed class CreateRouteInput
     public int? Sort { get; init; }
 
     //
-    // 摘要:路由集群id
-    //
-    public string ClusterId { get;  set; }
-
-    //
     // 摘要:授权策略
     public string AuthorizationPolicy { get; set; }
 
