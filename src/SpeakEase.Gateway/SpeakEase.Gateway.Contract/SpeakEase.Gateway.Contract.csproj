@@ -10,8 +10,4 @@
     <ProjectReference Include="..\..\..\framework\SpeakEase.Infrastructure\SpeakEase.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SysUser\Dto\" />
-  </ItemGroup>
-
 </Project>

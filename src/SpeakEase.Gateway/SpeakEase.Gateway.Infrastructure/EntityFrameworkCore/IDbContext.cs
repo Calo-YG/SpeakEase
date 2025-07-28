@@ -10,7 +10,7 @@ public interface IDbContext
     /// <summary>
     /// 网关系统用户实体
     /// </summary>
-    DbSet<SysUser> SysUser { get; set; }
+    DbSet<SysUserEntity> SysUser { get; set; }
     
     /// <summary>
     /// 应用实体

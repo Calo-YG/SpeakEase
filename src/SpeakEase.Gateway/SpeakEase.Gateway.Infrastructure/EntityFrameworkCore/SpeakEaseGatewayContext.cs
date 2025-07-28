@@ -15,7 +15,7 @@ public class SpeakEaseGatewayContext:DbContext,IDbContext
     /// <summary>
     /// 网关系统用户
     /// </summary>
-    public DbSet<SysUser> SysUser { get; set; }
+    public DbSet<SysUserEntity> SysUser { get; set; }
 
     #endregion
 

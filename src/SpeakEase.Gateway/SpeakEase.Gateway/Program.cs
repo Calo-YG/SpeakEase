@@ -1,4 +1,8 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using SpeakEase.Authorization.Authorization;
 using SpeakEase.Gateway.Application.App;
 using SpeakEase.Gateway.Application.Cluster;
 using SpeakEase.Gateway.Application.Route;
@@ -11,8 +15,10 @@ using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Gateway.Infrastructure.Yarp.Core;
 using SpeakEase.Gateway.MapRoute;
 using SpeakEase.Infrastructure.Middleware;
+using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.WorkIdGenerate;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +34,9 @@ builder.Services
 builder.Services.AddScoped<ExceptionMiddleware>();
 #region 配置redis
 builder.Services.AddRedis(builder.Configuration);
-
 #endregion
 #region 配置雪花id
-
 builder.Services.AddIdGenerate(builder.Configuration);
-
 #endregion
 #region 手动注册应用服务
 builder.Services.AddScoped<IAppService, AppService>();
@@ -43,6 +46,42 @@ builder.Services.AddScoped<ISysUserService, SysUserService>();
 #endregion
 #region 配置yarp 反向代理
 builder.Services.AddReverseProxyWithDatabase();
+#endregion
+#region 配置jwt
+
+var options = builder.Configuration.GetSection("JwtOptions").Get<JwtOptions>();
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
+
+var secret = options!.SecretKey;
+var issuer = options.Issuer;
+var audience = options.Audience;
+var expire = options.ExpMinutes;
+
+
+if (string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience))
+{
+    throw new Exception("validate jwt options failed");
+}
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true, // 检查过期时间
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = issuer,
+            ValidAudience = audience,
+            ClockSkew = TimeSpan.FromSeconds(expire),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+        };
+    });
+
+builder.Services.RegisterAuthorization();
+builder.Services.AddAuthorization();
+
 #endregion
 
 var app = builder.Build();

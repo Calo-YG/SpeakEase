@@ -51,7 +51,7 @@ public static class EntityBuildExtensions
     {
         #region system
 
-        builder.Entity<SysUser>(op =>
+        builder.Entity<SysUserEntity>(op =>
         {
             op.ToTable("sys_user");
             op.HasKey(p => p.Id);
@@ -60,7 +60,7 @@ public static class EntityBuildExtensions
             op.Property(p => p.Name).HasMaxLength(20).IsRequired();
             op.Property(p => p.Email).HasMaxLength(50).IsRequired(false);
             op.Property(p => p.Avatar).HasMaxLength(255).IsRequired(false);
-        }).BuilderCration<SysUser>().BuilderModify<SysUser>();
+        }).BuilderCration<SysUserEntity>().BuilderModify<SysUserEntity>();
 
         #endregion
 
