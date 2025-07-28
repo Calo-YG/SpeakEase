@@ -1,4 +1,5 @@
 ﻿using SpeakEase.Gateway.Contract.SysUser.Dto;
+using SpeakEase.Infrastructure.Shared;
 
 namespace SpeakEase.Gateway.Contract.SysUser;
 
@@ -38,4 +39,11 @@ public interface ISysUserService
     /// <param name="input"></param>
     /// <returns></returns>
     Task<TokenDto> LoginAsync(LoginInput input);
+    
+    /// <summary>
+    /// 用户分页列表
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    Task<PageResult<UserPageDto>> GetListAsync(UserPageInput input);
 }

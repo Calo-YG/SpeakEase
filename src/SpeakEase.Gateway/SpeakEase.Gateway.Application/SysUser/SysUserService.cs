@@ -6,6 +6,7 @@ using SpeakEase.Gateway.Contract.SysUser.Dto;
 using SpeakEase.Gateway.Domain.Entity.System;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
+using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.WorkIdGenerate;
 
 namespace SpeakEase.Gateway.Application.SysUser;
@@ -170,5 +171,31 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
            Token = toekn,
             RefreshToken = refreshToken,
         };
+    }
+
+    /// <summary>
+    /// 用户分页
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task<PageResult<UserPageDto>> GetListAsync(UserPageInput input)
+    {
+        var query = dbContext.QueryNoTracking<SysUserEntity>()
+            .WhereIf(!string.IsNullOrEmpty(input.Keyword), x => x.Name.Contains(input.Keyword) || x.Account.Contains(input.Keyword))
+            .WhereIf(input.StartTime != null, x => x.CreatedAt >= input.StartTime)
+            .WhereIf(input.EndTime != null, x => x.CreatedAt <= input.EndTime)
+            .OrderByDescending(p=>p.CreatedAt)
+            .Select(p=> new UserPageDto
+            {
+                Id = p.Id,
+                Account = p.Account,
+                Password = p.Password,
+                Name = p.Name,
+                Email = p.Email,
+                CreateAt = p.CreatedAt
+            });
+
+        return query.ToPageResultAsync(input.Pagination);
     }
 }
