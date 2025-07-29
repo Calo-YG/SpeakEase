@@ -118,13 +118,14 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
     /// <summary>
     /// 获取用户详情
     /// </summary>
-    /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task<UserDetailDto> GetUserDetailAsync(string id)
+    public Task<UserDetailDto> GetUserDetailAsync()
     {
+        var user = dbContext.GetUser();
+        
         return dbContext.QueryNoTracking<SysUserEntity>()
-            .Where(p => p.Id == id)
+            .Where(p => p.Id == user.Id)
             .Select(p => new UserDetailDto
             {
                 Id = p.Id,
@@ -146,12 +147,7 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
     {
         var user = await dbContext.QueryNoTracking<SysUserEntity>().FirstAsync(p => p.Account == input.Account);
 
-        if (user is null)
-        {
-            throw new UserFriendlyException("账号密码输入错误");
-        }
-        
-        if (user.Password != input.Password)
+        if (user is null || user.Password != input.Password)
         {
             throw new UserFriendlyException("账号密码输入错误");
         }
@@ -168,7 +164,7 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
 
         return new TokenDto()
         {
-           Token = toekn,
+            Token = toekn,
             RefreshToken = refreshToken,
         };
     }

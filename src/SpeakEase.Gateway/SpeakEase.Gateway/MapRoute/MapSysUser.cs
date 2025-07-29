@@ -17,7 +17,7 @@ public static class MapSysUser
         group.MapPost("register", (ISysUserService sysUserService, CreateUserInput input) => sysUserService.CreateUserAsync(input)).WithSummary("注册");
         group.MapPost("update", (ISysUserService sysUserService, UpdateUserInput input) => sysUserService.UpdateUserAsync(input)).WithSummary("更新用户信息");
         group.MapDelete("delete", (ISysUserService sysUserService, string id) => sysUserService.DeleteUserAsync(id)).WithSummary("删除");
-        group.MapGet("getById", (ISysUserService sysUserService, string id) => sysUserService.GetUserDetailAsync(id)).WithSummary("获取详情");
+        group.MapGet("getDetail", (ISysUserService sysUserService) => sysUserService.GetUserDetailAsync()).WithSummary("获取详情");
 
     }
 }

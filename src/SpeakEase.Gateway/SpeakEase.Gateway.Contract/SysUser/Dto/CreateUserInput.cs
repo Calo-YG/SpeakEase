@@ -6,11 +6,6 @@
 public sealed class CreateUserInput
 {
     /// <summary>
-    /// 用户主键
-    /// </summary>
-    public string Id { get; set; }
-    
-    /// <summary>
     /// 账号
     /// </summary>
     public string Account { get; set; }

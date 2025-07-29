@@ -31,7 +31,7 @@ public interface ISysUserService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<UserDetailDto> GetUserDetailAsync(string id);
+    Task<UserDetailDto> GetUserDetailAsync();
     
     /// <summary>
     /// 登录

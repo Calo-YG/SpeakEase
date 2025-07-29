@@ -18,7 +18,8 @@ using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.WorkIdGenerate;
-using Microsoft.AspNetCore.Authentication;
+
+string cors ="SpeakEase.Gateway";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +48,7 @@ builder.Services.AddScoped<ISysUserService, SysUserService>();
 #region 配置yarp 反向代理
 builder.Services.AddReverseProxyWithDatabase();
 #endregion
-#region 配置jwt
+#region 配置 Json Web Token (JWT)
 
 var options = builder.Configuration.GetSection("JwtOptions").Get<JwtOptions>();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
@@ -64,9 +65,9 @@ if (string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(issuer) || string.IsNul
 }
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+    .AddJwtBearer(op =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
+        op.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -84,19 +85,34 @@ builder.Services.AddAuthorization();
 
 #endregion
 
+#region 跨域配置
+
+builder.Services.AddCors(opt =>opt.AddPolicy(cors,policy =>
+    policy
+        .WithOrigins("http://localhost:8080") // 允许所有来源
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials())
+);
+
+
+#endregion
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
+
+app.UseCors(cors);
 
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapScalarApiReference(options =>
+    app.MapScalarApiReference(op =>
     {
-        options.WithTitle("SpeakEase.Gateway");
-        options.WithTheme(ScalarTheme.Moon);
+        op.WithTitle("SpeakEase.Gateway");
+        op.WithTheme(ScalarTheme.Moon);
     }); 
     app.MapOpenApi();
 }
