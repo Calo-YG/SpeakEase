@@ -1,11 +1,15 @@
 ﻿using System.Security.Claims;
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SpeakEase.Authorization.Authorization;
 using SpeakEase.Gateway.Contract.SysUser;
 using SpeakEase.Gateway.Contract.SysUser.Dto;
 using SpeakEase.Gateway.Domain.Entity.System;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
+using SpeakEase.Infrastructure.Options;
+using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.Shared;
 using SpeakEase.Infrastructure.WorkIdGenerate;
 
@@ -17,8 +21,13 @@ namespace SpeakEase.Gateway.Application.SysUser;
 /// <param name="dbContext">数据库上下文</param>
 /// <param name="idGenerate">id生成器</param>
 /// <param name="tokenManager">token管理器"></param>
-public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenManager tokenManager):ISysUserService
+/// <param name="redisService"></param>
+public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenManager tokenManager,IRedisService redisService,IOptions<JwtOptions> jwtOptions):ISysUserService
 {
+    /// <summary>
+    /// Jwt配置
+    /// </summary>
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
     /// <summary>
     /// 创建用户
     /// </summary>
@@ -37,9 +46,9 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             throw new UserFriendlyException("请输入密码");
         }
 
-        if (string.IsNullOrEmpty(input.Email))
+        if (string.IsNullOrEmpty(input.Email) || !Regex.IsMatch(input.Email, @"^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$"))
         {
-            throw new UserFriendlyException("请输入邮箱");
+            throw new UserFriendlyException("请输入邮箱正确的邮箱格式");
         }
         
         if (string.IsNullOrEmpty(input.Account))
@@ -82,7 +91,7 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             throw new UserFriendlyException("请输入密码");
         }
 
-        if (string.IsNullOrEmpty(input.Email))
+        if (string.IsNullOrEmpty(input.Email) || !Regex.IsMatch(input.Email, @"^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$"))
         {
             throw new UserFriendlyException("请输入邮箱");
         }
@@ -159,14 +168,18 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             new Claim(type:UserInfomationConst.UserId,user.Id),
         };
         
-        var toekn =  tokenManager.GenerateAccessToken(clamis);
+        var token =  tokenManager.GenerateAccessToken(clamis);
         var refreshToken = tokenManager.GenerateRefreshToken();
 
-        return new TokenDto()
+        var dto = new TokenDto
         {
-            Token = toekn,
+            Token = token,
             RefreshToken = refreshToken,
         };
+        
+        await redisService.SetAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id), dto, _jwtOptions.ExpMinutes * 60);
+
+        return dto;
     }
 
     /// <summary>
@@ -193,5 +206,20 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             });
 
         return query.ToPageResultAsync(input.Pagination);
+    }
+    
+    /// <summary>
+    /// 推出登录
+    /// </summary>
+    public async Task LogOutAsync()
+    {
+        var user = dbContext.GetUser();
+        
+        var existToken = await redisService.ExistsAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id));
+        
+        if (existToken)
+        {
+            await redisService.DeleteAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id));
+        }
     }
 }

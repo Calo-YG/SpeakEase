@@ -237,5 +237,25 @@ namespace SpeakEase.Infrastructure.Redis
         {
             return _redis.DelAsync(key);
         }
+        
+        /// <summary>
+        /// 判断键是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool Exists(string key)
+        {
+            return _redis.Exists(key);
+        }
+        
+        /// <summary>
+        /// 判断键值是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Task<bool> ExistsAsync(string key)
+        {
+            return _redis.ExistsAsync(key);
+        }
     }
 }

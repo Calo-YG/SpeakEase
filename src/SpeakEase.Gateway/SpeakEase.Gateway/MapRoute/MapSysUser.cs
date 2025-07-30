@@ -16,8 +16,10 @@ public static class MapSysUser
         group.MapPost("login", (ISysUserService sysUserService, LoginInput input) => sysUserService.LoginAsync(input)).WithSummary("登录");
         group.MapPost("register", (ISysUserService sysUserService, CreateUserInput input) => sysUserService.CreateUserAsync(input)).WithSummary("注册");
         group.MapPost("update", (ISysUserService sysUserService, UpdateUserInput input) => sysUserService.UpdateUserAsync(input)).WithSummary("更新用户信息");
-        group.MapDelete("delete", (ISysUserService sysUserService, string id) => sysUserService.DeleteUserAsync(id)).WithSummary("删除");
-        group.MapGet("getDetail", (ISysUserService sysUserService) => sysUserService.GetUserDetailAsync()).WithSummary("获取详情");
+        group.MapDelete("delete", (ISysUserService sysUserService, string id) => sysUserService.DeleteUserAsync(id)).WithSummary("删除").RequireAuthorization();
+        group.MapGet("getDetail", (ISysUserService sysUserService) => sysUserService.GetUserDetailAsync()).WithSummary("获取详情").RequireAuthorization();
+        group.MapPost("getList", (ISysUserService sysUserService, UserPageInput input) => sysUserService.GetListAsync(input)).WithSummary("分页列表").RequireAuthorization();
+        group.MapPost("logout", (ISysUserService sysUserService) => sysUserService.LogOutAsync()).WithSummary("登出").RequireAuthorization();
 
     }
 }

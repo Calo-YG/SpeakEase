@@ -189,5 +189,19 @@
         /// <param name="channel">频道。</param>
         /// <param name="onMessage">接收到消息时的回调。</param>
         void Subscribe(string channel, Action<string, object> onMessage);
+
+        /// <summary>
+        /// 判断键是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+         bool Exists(string key);
+
+        /// <summary>
+        /// 判断键值是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<bool> ExistsAsync(string key);
     }
 }

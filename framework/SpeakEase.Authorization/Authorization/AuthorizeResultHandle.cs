@@ -29,8 +29,6 @@ public class AuthorizeResultHandle(ILoggerFactory factory, IOptions<JsonOptions>
         //返回授权失败信息
         if (authorizeResult.Forbidden)
         {
-            var issAuthenticated = context.User?.Identity?.IsAuthenticated ?? false;
-
             var reason = string.Join(",", authorizeResult.AuthorizationFailure!.FailureReasons.Select(p => p.Message));
 
             _logger.LogWarning($"Authorization failed  with reason: {reason}");

@@ -65,6 +65,6 @@ public class Response : Response<object>
 
     public static Response Fail(string errorMessage,int errorCode)
     {
-        return new Response(errorMessage,500);
+        return new Response(errorMessage,errorCode);
     }
 }

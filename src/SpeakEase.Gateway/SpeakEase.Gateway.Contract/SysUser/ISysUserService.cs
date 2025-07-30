@@ -46,4 +46,10 @@ public interface ISysUserService
     /// <param name="input"></param>
     /// <returns></returns>
     Task<PageResult<UserPageDto>> GetListAsync(UserPageInput input);
+
+    /// <summary>
+    /// 推出登录
+    /// </summary>
+    /// <returns></returns>
+    Task LogOutAsync();
 }

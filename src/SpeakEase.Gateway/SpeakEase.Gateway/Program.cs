@@ -89,7 +89,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddCors(opt =>opt.AddPolicy(cors,policy =>
     policy
-        .WithOrigins("http://localhost:8080") // 允许所有来源
+        .WithOrigins("http://localhost:8080","https://app.apifox.com") // 允许所有来源
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials())
@@ -117,6 +117,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.MapReverseProxy();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapGet("SpeakEase/health", () => Results.Ok("SpeakEase.Gateway"));
 app.MapAppEndPoint();
 app.MapRouteEndPoint();
