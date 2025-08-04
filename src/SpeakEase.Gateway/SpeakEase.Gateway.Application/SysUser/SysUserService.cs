@@ -177,7 +177,9 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             RefreshToken = refreshToken,
         };
         
-        await redisService.SetAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id), dto, _jwtOptions.ExpMinutes * 60);
+        await redisService.SetAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id), dto.Token , _jwtOptions.ExpMinutes * 60);
+
+        await redisService.SetAsync(string.Format(UserInfomationConst.RefreshTokenKey, user.Id), dto.RefreshToken,_jwtOptions.RefreshExpire * 60);
 
         return dto;
     }
@@ -221,5 +223,49 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
         {
             await redisService.DeleteAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id));
         }
+    }
+    
+    /// <summary>
+    /// 获取刷新token
+    /// </summary>
+    /// <exception cref="UserFriendlyException"></exception>
+    public async Task<string> RefreshTokenAsync(RefreshTokenInput input)
+    {
+        var userId = input.UserId;
+        
+        var refreshToken =  redisService.Get(string.Format(UserInfomationConst.RedisTokenKey, userId));
+        
+        if (string.IsNullOrEmpty(refreshToken))
+        {
+            throw new UserFriendlyException("刷新Token已过期，请重新登录");
+        }
+
+        if (refreshToken != input.RefreshToken)
+        {
+            throw new UserFriendlyException("刷新Token已过期，请重新登录");
+        }
+
+        var user = await dbContext.QueryNoTracking<SysUserEntity>()
+            .Where(p => p.Id == userId)
+            .Select(p => new 
+            {
+                Id = p.Id,
+                Account = p.Account,
+                Password = p.Password,
+                Name = p.Name,
+                Email = p.Email,
+            })
+            .FirstAsync();
+        
+        var token = tokenManager.GenerateAccessToken(new List<Claim>
+        {
+            new Claim(type:UserInfomationConst.UserName,user.Name),
+            new Claim(type:UserInfomationConst.UserAccount,user.Account),
+            new Claim(type:UserInfomationConst.UserId,user.Id),
+        });
+        
+        await redisService.SetAsync(string.Format(UserInfomationConst.RedisTokenKey, user.Id), token, _jwtOptions.ExpMinutes * 60);
+        
+        return token;
     }
 }

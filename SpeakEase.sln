@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Gateway.Contract"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Gateway.Domain", "src\SpeakEase.Gateway\SpeakEase.Gateway.Domain\SpeakEase.Gateway.Domain.csproj", "{455E5184-4505-4FF6-86EA-D50D3F518253}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakEase.Gateway.Server", "src\SpeakEase.Gateway\SpeakEase.Gateway.Server\SpeakEase.Gateway.Server.csproj", "{4575539E-792B-4F9E-B784-1A0EAADFFF37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{455E5184-4505-4FF6-86EA-D50D3F518253}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{455E5184-4505-4FF6-86EA-D50D3F518253}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{455E5184-4505-4FF6-86EA-D50D3F518253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4575539E-792B-4F9E-B784-1A0EAADFFF37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4575539E-792B-4F9E-B784-1A0EAADFFF37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4575539E-792B-4F9E-B784-1A0EAADFFF37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4575539E-792B-4F9E-B784-1A0EAADFFF37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,6 +167,7 @@ Global
 		{0A0275D4-577A-4B34-A696-A1BABDA5440B} = {E81B3497-16B3-40A5-87C7-32D1E87E42E3}
 		{E4094A39-F679-4555-B10A-25B7C01DEFB4} = {E81B3497-16B3-40A5-87C7-32D1E87E42E3}
 		{455E5184-4505-4FF6-86EA-D50D3F518253} = {E81B3497-16B3-40A5-87C7-32D1E87E42E3}
+		{4575539E-792B-4F9E-B784-1A0EAADFFF37} = {E81B3497-16B3-40A5-87C7-32D1E87E42E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4BC6B51-537B-4432-B8ED-23187B0C022A}

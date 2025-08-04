@@ -31,6 +31,11 @@ public abstract class UserInfomationConst
     /// token redis 键值对
     /// </summary>
     public const string RedisTokenKey = "RedisToken_{0}";
+    
+    /// <summary>
+    /// 刷新token redis 键值对
+    /// </summary>
+    public const string RefreshTokenKey = "RefreshToken_{0}";
 
     /// <summary>
     /// 获取权限请求头

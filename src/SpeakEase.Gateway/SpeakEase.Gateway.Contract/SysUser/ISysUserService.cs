@@ -52,4 +52,11 @@ public interface ISysUserService
     /// </summary>
     /// <returns></returns>
     Task LogOutAsync();
+
+    /// <summary>
+    /// 刷新令牌
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    Task<string> RefreshTokenAsync(RefreshTokenInput input);
 }

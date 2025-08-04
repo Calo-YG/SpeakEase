@@ -20,6 +20,7 @@ public static class MapSysUser
         group.MapGet("getDetail", (ISysUserService sysUserService) => sysUserService.GetUserDetailAsync()).WithSummary("获取详情").RequireAuthorization();
         group.MapPost("getList", (ISysUserService sysUserService, UserPageInput input) => sysUserService.GetListAsync(input)).WithSummary("分页列表").RequireAuthorization();
         group.MapPost("logout", (ISysUserService sysUserService) => sysUserService.LogOutAsync()).WithSummary("登出").RequireAuthorization();
+        group.MapPost("refreshToken", (ISysUserService sysUserService, RefreshTokenInput input) => sysUserService.RefreshTokenAsync(input)).WithSummary("刷新Token");
 
     }
 }

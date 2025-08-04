@@ -78,10 +78,10 @@ public class AuthorizeHandler(
                 $"Insufficient permissions, unable to request - request interface{contextAccessor.HttpContext?.Request?.Path ?? string.Empty}");
 
             context.Fail(failureReason);
-
-            return;
         }
-
-        context.Succeed(requirement);
+        else
+        {
+            context.Succeed(requirement);
+        }
     }
 }

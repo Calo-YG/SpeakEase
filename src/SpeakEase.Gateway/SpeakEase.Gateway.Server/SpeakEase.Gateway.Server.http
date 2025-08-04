@@ -1,0 +1,6 @@
+@SpeakEase.Gateway.Server_HostAddress = http://localhost:5230
+
+GET {{SpeakEase.Gateway.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

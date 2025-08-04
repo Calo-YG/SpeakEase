@@ -100,30 +100,34 @@ public class TokenManager(IOptionsSnapshot<JwtOptions> options,IHttpContextAcces
     /// 解析token
     /// </summary>
     /// <returns></returns>
-    public bool ValidateTokenExpired()
+    public void ValidateAccessToken()
     {
         var token = GetToken();
+        
+        ValidateToken( token);
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    public void ValidateToken(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            ThrowUserFriendlyException.ThrowException("token is null or empty");
+        }
 
-        var validationParameters = new TokenValidationParameters
+        _securityTokenHandler.ValidateToken(token, new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = _option.Issuer, // 替换为实际的发行者
-            ValidAudience = _option.Audience, // 替换为实际的受众
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_option.SecretKey)) // 替换为实际的密钥
-        };
-        
-        try
-        {
-            _securityTokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
-        }
-        catch (Exception ex)
-        {
-            return ex is SecurityTokenExpiredException;
-        }
-
-        return true; 
+            ValidIssuer = _option.Issuer,
+            ValidAudience = _option.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_option.SecretKey)),
+        }, out SecurityToken validatedToken);
     }
+    
 }

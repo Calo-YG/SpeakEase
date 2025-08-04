@@ -25,12 +25,18 @@ namespace SpeakEase.Authorization.Authorization
         /// 解析token
         /// </summary>
         /// <returns></returns>
-        bool ValidateTokenExpired();
+        void ValidateAccessToken();
 
         /// <summary>
         /// 获取SecurityToken
         /// </summary>
         /// <returns></returns>
         JwtSecurityToken GetSecurityToken();
+
+        /// <summary>
+        /// 校验token
+        /// </summary>
+        /// <param name="token"></param>
+        void ValidateToken(string token);
     }
 }

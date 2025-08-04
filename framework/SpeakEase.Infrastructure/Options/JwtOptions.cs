@@ -24,4 +24,9 @@ public sealed class JwtOptions
     /// 过期时间(分钟)
     /// </summary>
     public int ExpMinutes { get; set; } = 30;
+
+    /// <summary>
+    /// 刷新token过期时间(天)
+    /// </summary>
+    public int RefreshExpire { get; set; } = 60;
 }

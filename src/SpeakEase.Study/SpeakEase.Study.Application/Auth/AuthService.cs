@@ -178,12 +178,7 @@ namespace SpeakEase.Study.Application.Auth
                 throw new UserFriendlyException("刷新token 过期");
             }
 
-            var expired = tokenManager.ValidateTokenExpired();
-
-            if (!expired)
-            {
-                ThrowUserFriendlyException.ThrowException("非法token");
-            }
+            tokenManager.ValidateAccessToken();
 
             var user = await context.User.AsNoTracking().FirstOrDefaultAsync(p => p.Id == request.Id);
 
