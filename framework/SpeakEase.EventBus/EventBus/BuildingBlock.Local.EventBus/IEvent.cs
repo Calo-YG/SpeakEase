@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.EventBus.BuildingBlockEventBus;
+﻿namespace SpeakEase.EventBus.EventBus.BuildingBlock.Local.EventBus;
 
 public interface IEvent
 {

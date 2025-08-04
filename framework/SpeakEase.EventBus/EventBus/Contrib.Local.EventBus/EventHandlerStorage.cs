@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
+using SpeakEase.EventBus.EventBus.BuildingBlock.Local.EventBus;
 using SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 
 namespace SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;

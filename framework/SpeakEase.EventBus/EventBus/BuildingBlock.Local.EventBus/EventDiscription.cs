@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
+﻿namespace SpeakEase.EventBus.EventBus.BuildingBlock.Local.EventBus;
 
 public class EventDiscription
 {

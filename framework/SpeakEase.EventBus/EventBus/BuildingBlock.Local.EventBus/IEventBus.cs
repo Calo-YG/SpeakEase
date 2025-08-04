@@ -1,7 +1,4 @@
-﻿using System.Collections.Concurrent;
-using SpeakEase.Infrastructure.EventBus.BuildingBlockEventBus;
-
-namespace SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
+﻿namespace SpeakEase.EventBus.EventBus.BuildingBlock.Local.EventBus;
 
 public interface IEventBus
 {

@@ -1,4 +1,4 @@
-﻿namespace SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;
+﻿namespace SpeakEase.EventBus.EventBus.Contrib.Local.EventBus;
 
 public class EventAttributeNullException : Exception
 {

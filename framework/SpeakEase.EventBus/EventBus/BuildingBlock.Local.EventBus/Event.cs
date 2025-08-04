@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using SpeakEase.Infrastructure.EventBus.BuildingBlockEventBus;
 
-namespace SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
+namespace SpeakEase.EventBus.EventBus.BuildingBlock.Local.EventBus;
 
 public abstract record Event(Guid EventId, DateTimeOffset EvenCreateTime, string EventName) : IEvent
 {

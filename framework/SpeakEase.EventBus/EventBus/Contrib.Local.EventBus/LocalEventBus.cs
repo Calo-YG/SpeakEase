@@ -5,6 +5,8 @@ using System.Threading.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SpeakEase.EventBus.EventBus.BuildingBlock.Local.EventBus;
+using SpeakEase.EventBus.EventBus.Contrib.Local.EventBus;
 using SpeakEase.Infrastructure.EventBus.BuildingBlock.Local.EventBus;
 
 namespace SpeakEase.Infrastructure.EventBus.Contrib.Local.EventBus;
