@@ -69,23 +69,44 @@ var app = builder.Build();
 
 ## 使用示例
 
-### 1. 定义事件
+### 0. 事件基类
+
+SpeakEase EventBus 提供了 `Event` 基类，它实现了 `IEvent` 接口，自动处理事件ID和创建时间：
 
 ```csharp
-public class UserCreatedEvent : IEvent
+using SpeakEase.EventBus.EventBus.BuildingBlock.EventBus;
+
+// 继承Event基类（推荐）
+public class UserCreatedEvent : Event
 {
-    public Guid EventId { get; set; }
-    public DateTimeOffset CreationTime { get; set; }
-    
     public long UserId { get; set; }
     public string UserName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public DateTimeOffset CreatedAt { get; set; }
+}
 
+// 或者直接实现IEvent接口
+public class CustomEvent : IEvent
+{
+    public Guid EventId { get; set; } = Guid.NewGuid();
+    public DateTimeOffset CreationTime { get; set; } = DateTimeOffset.UtcNow;
+    
     public Guid GetEventId() => EventId;
     public void SetEventId(Guid eventId) => EventId = eventId;
     public DateTimeOffset GetCreationTime() => CreationTime;
     public void SetCreationTime(DateTimeOffset creationTime) => CreationTime = creationTime;
+}
+```
+
+### 1. 定义事件
+
+```csharp
+using SpeakEase.EventBus.EventBus.BuildingBlock.EventBus;
+
+public class UserCreatedEvent : Event
+{
+    public long UserId { get; set; }
+    public string UserName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public DateTimeOffset CreatedAt { get; set; }
 }
 ```
 
