@@ -8,6 +8,10 @@
 
     <ItemGroup>
         <PackageReference Include="AgileConfig.Client" Version="1.7.6" />
+        <PackageReference Include="MassTransit" Version="8.5.2" />
+        <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.5.2" />
+        <PackageReference Include="MassTransit.MessagePack" Version="8.5.2" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
             <PrivateAssets>all</PrivateAssets>
@@ -22,5 +26,9 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\framework\SpeakEase.Authorization\SpeakEase.Authorization.csproj" />
       <ProjectReference Include="..\SpeakEase.Gateway.Domain\SpeakEase.Gateway.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="MassTransit\" />
     </ItemGroup>
 </Project>

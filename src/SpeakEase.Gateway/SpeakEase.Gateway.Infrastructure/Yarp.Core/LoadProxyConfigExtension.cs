@@ -13,20 +13,11 @@ public static class LoadProxyConfigExtension
         {
             ctx.AddRequestTransform(async transformContext =>
             {
-                // 获取路由匹配时捕获的 {catch-all} 参数值
-                if (transformContext.HttpContext.Request.RouteValues.TryGetValue("catch-all", out var catchAllValue) ||
-                    transformContext.HttpContext.Request.RouteValues.TryGetValue("remainder", out catchAllValue))
-                {
-                    var catchAllPath = catchAllValue?.ToString();
-            
-                    // 构建新的路径，将捕获的路径片段拼接到 /api/ 后面
-                    var newPath = $"/api/{catchAllPath}";
-            
-                    // 安全地更新路径
-                    transformContext.Path = new PathString(newPath);
-                }
-        
-                await Task.CompletedTask;
+                using var scope = transformContext.HttpContext.RequestServices.CreateScope();
+                
+                var transformProvider = scope.ServiceProvider.GetRequiredService<ITransformProvider>();
+                
+                await transformProvider.DatabaseTransformAsync(transformContext);
             });
         });
         service.AddTransient<IProxyConfigDataBaseProvider, ProxyConfigDataBaseProvider>();
