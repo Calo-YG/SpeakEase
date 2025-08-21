@@ -58,10 +58,8 @@ public class WorkIdGenerate : BackgroundService,IWorkIdGenerate
         {
             return $"workId:{Options.AppName}:{workId}";
         }
-        else
-        {
-            return $"{Options.RedisKeyPrefix}:workId:{Options.AppName}:{workId}";
-        }
+
+        return $"{Options.RedisKeyPrefix}:workId:{Options.AppName}:{workId}";
     }
 
     /// <summary>

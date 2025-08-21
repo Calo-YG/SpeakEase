@@ -1,4 +1,5 @@
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
+using SpeakEase.Gateway.Infrastructure.MassTransit;
 using SpeakEase.Gateway.Infrastructure.Yarp.Core;
 
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -7,8 +8,12 @@ builder.Host.UseAgileConfig(("Configurations/agileconfig.json"));
 
 builder.Services.RegisterEntityFrameworkCoreContext(builder.Configuration);
 
-#region 配置yarp 反向代理
+#region 鏋勫缓yarp 鍙嶅悜浠ｇ悊
 builder.Services.AddReverseProxyWithDatabase();
+#endregion
+
+#region 閰嶇疆masstransit
+builder.Services.AddMassTransitWithRabbitMq();
 #endregion
 
 var app = builder.Build();
