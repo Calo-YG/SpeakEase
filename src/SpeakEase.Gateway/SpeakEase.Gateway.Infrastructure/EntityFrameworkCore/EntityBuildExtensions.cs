@@ -93,6 +93,7 @@ public static class EntityBuildExtensions
             op.Property(p => p.TimeoutPolicy).HasMaxLength(50).IsRequired(false);
             op.Property(p => p.CorsPolicy).HasMaxLength(50).IsRequired(false);
             op.Property(p => p.MaxRequestBodySize).HasMaxLength(50).IsRequired(false);
+            op.Property(p=>p.TargetRoute).HasMaxLength(125).IsRequired();
         }).BuilderCration<RouterEntity>().BuilderModify<RouterEntity>();
 
         builder.Entity<ClusterEntity>(op =>

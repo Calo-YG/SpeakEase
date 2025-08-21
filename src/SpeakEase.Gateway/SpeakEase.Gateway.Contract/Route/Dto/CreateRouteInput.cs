@@ -57,4 +57,9 @@ public sealed class CreateRouteInput
     // 摘要:设置请求体最大大小
     //
     public long? MaxRequestBodySize { get;  set; }
+
+    /// <summary>
+    /// 目标路由
+    /// </summary>
+    public string TargetRoute { get; set; }
 }

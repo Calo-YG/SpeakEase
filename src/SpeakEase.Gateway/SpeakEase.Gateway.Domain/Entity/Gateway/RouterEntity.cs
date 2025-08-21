@@ -66,6 +66,11 @@ public class RouterEntity:SpeakEaseEntity
     // 摘要:设置请求体最大大小
     //
     public long? MaxRequestBodySize { get; private set; }
+
+    /// <summary>
+    /// 目标路由
+    /// </summary>
+    public string TargetRoute { get; set; }
     
     protected RouterEntity()
     {
@@ -87,7 +92,7 @@ public class RouterEntity:SpeakEaseEntity
     /// <param name="timeout">超时时间</param>
     /// <param name="corsPolicy">跨域策略</param>
     /// <param name="maxRequestBodySize">请求体body限制</param>
-    public RouterEntity(string id,string appId, string appName, string prefix, int? sort, string authorizationPolicy, string rateLimiterPolicy, string outputCachePolicy, string timeoutPolicy, TimeSpan? timeout, string corsPolicy, long? maxRequestBodySize)
+    public RouterEntity(string id,string appId, string appName, string prefix, int? sort, string authorizationPolicy, string rateLimiterPolicy, string outputCachePolicy, string timeoutPolicy, TimeSpan? timeout, string corsPolicy, long? maxRequestBodySize,string targetRoute)
     { 
         Id = id;
         AppId = appId;
@@ -101,6 +106,7 @@ public class RouterEntity:SpeakEaseEntity
         Timeout = timeout;
         CorsPolicy = corsPolicy;
         MaxRequestBodySize = maxRequestBodySize;
+        TargetRoute = targetRoute;
     }
 
     /// <summary>
@@ -112,7 +118,7 @@ public class RouterEntity:SpeakEaseEntity
         ClusterId = clusterId;
     }
     
-    public void Update(string prefix, int? sort, string authorizationPolicy, string rateLimiterPolicy, string outputCachePolicy, string timeoutPolicy, TimeSpan? timeout, string corsPolicy, long? maxRequestBodySize)
+    public void Update(string prefix, int? sort, string authorizationPolicy, string rateLimiterPolicy, string outputCachePolicy, string timeoutPolicy, TimeSpan? timeout, string corsPolicy, long? maxRequestBodySize,string targetRoute)
     {
         Prefix = prefix;
         Sort = sort;
@@ -123,6 +129,7 @@ public class RouterEntity:SpeakEaseEntity
         Timeout = timeout;
         CorsPolicy = corsPolicy;
         MaxRequestBodySize = maxRequestBodySize;
+        TargetRoute = targetRoute;
     }
     
 }

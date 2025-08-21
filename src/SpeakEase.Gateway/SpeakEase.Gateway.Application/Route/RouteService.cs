@@ -6,9 +6,7 @@ using SpeakEase.Gateway.Domain.Entity.Gateway;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Shared;
-using SpeakEase.Infrastructure.SpeakEase.Core;
 using SpeakEase.Infrastructure.WorkIdGenerate;
-using Yitter.IdGenerator;
 
 namespace SpeakEase.Gateway.Application.Route;
 
@@ -48,7 +46,8 @@ public class RouteService(IDbContext  context,IIdGenerate idGenerate): IRouteSer
             input.TimeoutPolicy, 
             input.Timeout, 
             input.CorsPolicy, 
-            input.MaxRequestBodySize);
+            input.MaxRequestBodySize,
+            input.TargetRoute);
         
         entity.SetClusterId(idGenerate.NewIdString());
 
@@ -77,7 +76,7 @@ public class RouteService(IDbContext  context,IIdGenerate idGenerate): IRouteSer
             throw new UnreachableException("路由不存在");
         }
         
-        entity.Update(input.Prefix, input.Sort, input.AuthorizationPolicy, input.RateLimiterPolicy, input.OutputCachePolicy, input.TimeoutPolicy, input.Timeout, input.CorsPolicy, input.MaxRequestBodySize);
+        entity.Update(input.Prefix, input.Sort, input.AuthorizationPolicy, input.RateLimiterPolicy, input.OutputCachePolicy, input.TimeoutPolicy, input.Timeout, input.CorsPolicy, input.MaxRequestBodySize,input.TargeRoute);
         
         await context.SaveChangesAsync();
     }

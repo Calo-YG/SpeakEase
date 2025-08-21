@@ -5,9 +5,7 @@ using SpeakEase.Gateway.Domain.Entity.Gateway;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Infrastructure.Exceptions;
 using SpeakEase.Infrastructure.Shared;
-using SpeakEase.Infrastructure.SpeakEase.Core;
 using SpeakEase.Infrastructure.WorkIdGenerate;
-using Yitter.IdGenerator;
 
 namespace SpeakEase.Gateway.Application.App;
 

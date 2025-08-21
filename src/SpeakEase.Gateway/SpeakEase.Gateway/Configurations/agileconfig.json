@@ -9,7 +9,7 @@
   "AgileConfig": {
     "appId": "speakease.gateway",
     "secret": "speakease.gateway",
-    "nodes": "http://10.126.126.1:15000",
+    "nodes": "http://117.72.66.170:15000",
     "tag": "speakease",
     "env": "DEV",
     "serviceRegister": {

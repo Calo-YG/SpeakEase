@@ -107,6 +107,8 @@ public class ProxyConfigDataBaseProvider(IDbContext context,ILogger<IProxyConfig
     /// <returns></returns>
     private  List<RouteConfig> GetRouteConfig()
     {
+        logger.LogInformation($"同步从数据库获取路由配置:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")})");
+
         var routes =  context.QueryNoTracking<RouterEntity>().ToList();
 
         return BuildRouteConfig(routes);
@@ -118,6 +120,8 @@ public class ProxyConfigDataBaseProvider(IDbContext context,ILogger<IProxyConfig
     /// <returns></returns>
     private  async Task<List<RouteConfig>> GetRouteConfigAsync()
     {
+        logger.LogInformation($"异步从数据库获取路由配置:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")})");
+
         var routes = await context.QueryNoTracking<RouterEntity>().ToListAsync();
 
         return BuildRouteConfig(routes);
@@ -129,6 +133,8 @@ public class ProxyConfigDataBaseProvider(IDbContext context,ILogger<IProxyConfig
     /// <returns></returns>
     private async Task<List<ClusterConfig>> GetClusterConfigAsync()
     {
+        logger.LogInformation($"异步从数据库获取集群配置:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")})");
+
         var cluster =await  context.QueryNoTracking<ClusterEntity>().ToListAsync();
 
         return BuildClusterConfig(cluster);
@@ -140,6 +146,8 @@ public class ProxyConfigDataBaseProvider(IDbContext context,ILogger<IProxyConfig
     /// <returns></returns>
     private  List<ClusterConfig> GetClusterConfig()
     {
+        logger.LogInformation($"同步从数据库获取集群配置:{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")})");
+
         var cluster =  context.QueryNoTracking<ClusterEntity>().ToList();
 
         return BuildClusterConfig(cluster);

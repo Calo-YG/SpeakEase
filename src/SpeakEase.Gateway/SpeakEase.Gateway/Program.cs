@@ -45,9 +45,6 @@ builder.Services.AddScoped<IClusterService, ClusterService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<ISysUserService, SysUserService>();
 #endregion
-#region 配置yarp 反向代理
-builder.Services.AddReverseProxyWithDatabase();
-#endregion
 #region 配置 Json Web Token (JWT)
 
 var options = builder.Configuration.GetSection("JwtOptions").Get<JwtOptions>();
@@ -116,8 +113,6 @@ if (app.Environment.IsDevelopment())
     }); 
     app.MapOpenApi();
 }
-
-app.MapReverseProxy();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGet("SpeakEase/health", () => Results.Ok("SpeakEase.Gateway"));
