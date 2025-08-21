@@ -12,12 +12,12 @@ using SpeakEase.Gateway.Contract.Cluster;
 using SpeakEase.Gateway.Contract.Route;
 using SpeakEase.Gateway.Contract.SysUser;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
-using SpeakEase.Gateway.Infrastructure.Yarp.Core;
 using SpeakEase.Gateway.MapRoute;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
 using SpeakEase.Infrastructure.WorkIdGenerate;
+using SpeakEase.Gateway.Infrastructure.MassTransit.Message;
 
 string cors ="SpeakEase.Gateway";
 
@@ -93,6 +93,10 @@ builder.Services.AddCors(opt =>opt.AddPolicy(cors,policy =>
 );
 
 
+#endregion
+
+#region 配置masstransit
+builder.Services.BuildMassTransitWithRabbitMq();
 #endregion
 
 var app = builder.Build();

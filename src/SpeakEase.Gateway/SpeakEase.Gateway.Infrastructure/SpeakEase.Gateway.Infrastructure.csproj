@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +29,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="MassTransit\" />
+      <Folder Include="MassTransit\Consumer\" />
     </ItemGroup>
 </Project>
