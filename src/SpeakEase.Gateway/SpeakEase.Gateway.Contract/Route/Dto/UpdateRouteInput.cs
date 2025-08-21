@@ -56,5 +56,5 @@ public sealed class UpdateRouteInput
     /// <summary>
     /// 目标路由
     /// </summary>
-    public string TargeRoute { get; set; }
+    public string TargetRoute { get; set; }
 }

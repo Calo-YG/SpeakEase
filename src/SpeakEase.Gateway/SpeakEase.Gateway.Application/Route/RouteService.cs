@@ -32,6 +32,11 @@ public class RouteService(IDbContext  context,IIdGenerate idGenerate): IRouteSer
         {
             throw new UserFriendlyException("请输入路由前缀");
         }
+
+        if (string.IsNullOrEmpty(input.TargetRoute))
+        {
+            throw new UserFriendlyException("请输入目标路由");
+        }
         
         var id = idGenerate.NewIdString();
         
@@ -75,8 +80,13 @@ public class RouteService(IDbContext  context,IIdGenerate idGenerate): IRouteSer
         {
             throw new UnreachableException("路由不存在");
         }
-        
-        entity.Update(input.Prefix, input.Sort, input.AuthorizationPolicy, input.RateLimiterPolicy, input.OutputCachePolicy, input.TimeoutPolicy, input.Timeout, input.CorsPolicy, input.MaxRequestBodySize,input.TargeRoute);
+
+        if (string.IsNullOrEmpty(input.TargetRoute))
+        {
+            throw new UserFriendlyException("请输入目标路由");
+        }
+
+        entity.Update(input.Prefix, input.Sort, input.AuthorizationPolicy, input.RateLimiterPolicy, input.OutputCachePolicy, input.TimeoutPolicy, input.Timeout, input.CorsPolicy, input.MaxRequestBodySize,input.TargetRoute);
         
         await context.SaveChangesAsync();
     }
