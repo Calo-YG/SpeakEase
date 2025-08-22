@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using SpeakEase.Authorization.Authorization;
@@ -12,11 +13,11 @@ using SpeakEase.Gateway.Contract.Cluster;
 using SpeakEase.Gateway.Contract.Route;
 using SpeakEase.Gateway.Contract.SysUser;
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
-using SpeakEase.Gateway.Infrastructure.MassTransit;
 using SpeakEase.Gateway.MapRoute;
 using SpeakEase.Infrastructure.Middleware;
 using SpeakEase.Infrastructure.Options;
 using SpeakEase.Infrastructure.Redis;
+using SpeakEase.Infrastructure.SpeakEase.Core;
 using SpeakEase.Infrastructure.WorkIdGenerate;
 
 string cors ="SpeakEase.Gateway";
@@ -33,6 +34,13 @@ builder.Services
     .AddHttpContextAccessor()
     .RegisterEntityFrameworkCoreContext(builder.Configuration);
 builder.Services.AddScoped<ExceptionMiddleware>();
+#region 配置 HttpApiJsonOptions
+builder.Services.ConfigureHttpJsonOptions(op =>
+{
+    op.SerializerOptions.Converters.Add(new DateTimeConverter());
+    op.SerializerOptions.Converters.Add(new DateTimeNullConverter());
+});
+#endregion
 #region 配置redis
 builder.Services.AddRedis(builder.Configuration);
 #endregion

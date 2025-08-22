@@ -9,20 +9,22 @@ namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore
     {
         public SpeakEaseGatewayContext CreateDbContext(string[] args)
         {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SpeakEase.Gateway");
+            //var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SpeakEase.Gateway");
 
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(basePath)
-                // 从 appsettings.json 文件加载配置
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                // 也可以添加其他配置源，例如环境变量
-                .AddEnvironmentVariables()
-                // 或者命令行参数
-                //.AddCommandLine(args)
-                .Build();
+            //var configuration = new ConfigurationBuilder()
+            //    .SetBasePath(basePath)
+            //    // 从 appsettings.json 文件加载配置
+            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            //    // 也可以添加其他配置源，例如环境变量
+            //    .AddEnvironmentVariables()
+            //    // 或者命令行参数
+            //    //.AddCommandLine(args)
+            //    .Build();
+
+            var connection = "User ID=postgres;Password=wyg154511;Host=117.72.66.170;Port=5432;Database=speakease_gateway;Pooling=true;";
 
             var options = new OptionsWrapper<DbContextOptions<SpeakEaseGatewayContext>>(new DbContextOptionsBuilder<SpeakEaseGatewayContext>()
-                .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+                .UseNpgsql(connection)
                 .Options);
 
             return new SpeakEaseGatewayContext(options.Value);

@@ -27,8 +27,4 @@
       <ProjectReference Include="..\..\..\framework\SpeakEase.Authorization\SpeakEase.Authorization.csproj" />
       <ProjectReference Include="..\SpeakEase.Gateway.Domain\SpeakEase.Gateway.Domain.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="MassTransit\Consumer\" />
-    </ItemGroup>
 </Project>

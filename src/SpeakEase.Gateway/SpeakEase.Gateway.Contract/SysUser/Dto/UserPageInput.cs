@@ -10,7 +10,17 @@ public sealed class UserPageInput
     /// <summary>
     /// 关键字
     /// </summary>
-    public string Keyword { get; set; }
+    public string UserName { get; set; }
+
+    /// <summary>
+    /// 账号
+    /// </summary>
+    public string Account { get; set; }
+
+    /// <summary>
+    /// 邮箱
+    /// </summary>
+    public string Email { get; set; }
     
     /// <summary>
     /// 开始时间

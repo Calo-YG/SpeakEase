@@ -193,7 +193,9 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
     public Task<PageResult<UserPageDto>> GetListAsync(UserPageInput input)
     {
         var query = dbContext.QueryNoTracking<SysUserEntity>()
-            .WhereIf(!string.IsNullOrEmpty(input.Keyword), x => x.Name.Contains(input.Keyword) || x.Account.Contains(input.Keyword))
+            .WhereIf(!string.IsNullOrEmpty(input.UserName), x => x.Name.Contains(input.UserName))
+            .WhereIf(!string.IsNullOrEmpty(input.Account),x=>x.Account.Contains(input.Account))
+            .WhereIf(!string.IsNullOrEmpty(input.Email),x=>x.Email.Contains(input.Email))
             .WhereIf(input.StartTime != null, x => x.CreatedAt >= input.StartTime)
             .WhereIf(input.EndTime != null, x => x.CreatedAt <= input.EndTime)
             .OrderByDescending(p=>p.CreatedAt)
@@ -237,12 +239,12 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
         
         if (string.IsNullOrEmpty(refreshToken))
         {
-            throw new UserFriendlyException("刷新Token已过期，请重新登录");
+            throw new RefreshTokenValidateException("刷新Token已过期，请重新登录");
         }
 
         if (refreshToken != input.RefreshToken)
         {
-            throw new UserFriendlyException("刷新Token已过期，请重新登录");
+            throw new RefreshTokenValidateException("刷新Token已过期，请重新登录");
         }
 
         var user = await dbContext.QueryNoTracking<SysUserEntity>()
