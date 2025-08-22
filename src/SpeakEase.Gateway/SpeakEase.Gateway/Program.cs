@@ -39,6 +39,8 @@ builder.Services.ConfigureHttpJsonOptions(op =>
 {
     op.SerializerOptions.Converters.Add(new DateTimeConverter());
     op.SerializerOptions.Converters.Add(new DateTimeNullConverter());
+    op.SerializerOptions.Converters.Add(new LongConverter());
+    op.SerializerOptions.Converters.Add(new LongNullConverter());
 });
 #endregion
 #region 配置redis
