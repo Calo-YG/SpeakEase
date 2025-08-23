@@ -17,6 +17,11 @@ public class SpeakEaseGatewayContext:DbContext,IDbContext
     /// </summary>
     public DbSet<SysUserEntity> SysUser { get; set; }
 
+    /// <summary>
+    /// 系统日志
+    /// </summary>
+    public DbSet<SysLogEntity> SysLog { get; set; }
+
     #endregion
 
     #region Gateway

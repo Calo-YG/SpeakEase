@@ -1,28 +1,28 @@
 ﻿namespace SpeakEase.Gateway.Domain.Enum
 {
     /// <summary>
-    /// 代理配置更改枚举
+    /// 日志级别
     /// </summary>
-    public enum ProxyConfigChageEnum
+    public enum LogLevelEnum
     {
         /// <summary>
-        /// 发布
+        /// 错误日志
         /// </summary>
-        Publish = 1,
+        Error = 1,
 
         /// <summary>
-        /// 处理中
+        /// 消息日志
         /// </summary>
-        Processing = 2,
+        Info = 2,
 
         /// <summary>
-        /// 失败
+        /// 警告日志
         /// </summary>
-        Failed = 3,
+        Warning = 3,
 
         /// <summary>
-        /// 成功
+        /// debug 日志
         /// </summary>
-        Successed = 4
+        Debug = 4
     }
 }

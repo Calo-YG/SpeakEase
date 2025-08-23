@@ -11,6 +11,11 @@ public interface IDbContext
     /// 网关系统用户实体
     /// </summary>
     DbSet<SysUserEntity> SysUser { get; set; }
+
+    /// <summary>
+    /// 系统日志
+    /// </summary>
+    DbSet<SysLogEntity> SysLog { get; set; }
     
     /// <summary>
     /// 应用实体
