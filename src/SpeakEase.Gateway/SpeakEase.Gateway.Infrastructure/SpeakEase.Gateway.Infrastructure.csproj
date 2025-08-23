@@ -12,13 +12,13 @@
         <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.5.2" />
         <PackageReference Include="MassTransit.MessagePack" Version="8.5.2" />
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.7" />
-        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.8" />
+        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="9.4.1" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
         <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
     </ItemGroup>

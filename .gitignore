@@ -376,3 +376,4 @@ FodyWeavers.xsd
 /SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331160208_userword.Designer.cs
 /SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331161220_exampleprimary.cs
 /SpeakEase.Infrastructure/EntityFrameworkCore/Migrations/20250331161220_exampleprimary.Designer.cs
+/src/SpeakEase.Gateway/SpeakEase.Gateway.Infrastructure/Migrations

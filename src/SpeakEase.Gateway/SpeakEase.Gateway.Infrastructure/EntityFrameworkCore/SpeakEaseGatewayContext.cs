@@ -40,6 +40,11 @@ public class SpeakEaseGatewayContext:DbContext,IDbContext
     /// 集群实体namespace SpeakEase.Gateway.Contract.App.Dto;
     /// </summary>
     public DbSet<ClusterEntity> Cluster { get; set; }
+
+    /// <summary>
+    /// 节点
+    /// </summary>
+    public DbSet<DestinationEntity> Destination { get; set; }
     #endregion
     
     // 用户上下文，用于获取当前操作用户的信息

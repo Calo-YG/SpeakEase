@@ -51,6 +51,11 @@ public class ClusterEntity:SpeakEaseEntity
     /// 可用目的地策略
     /// </summary>
     public string AvailableDestinationsPolicy { get; private set; }
+
+    /// <summary>
+    /// 集群节点
+    /// </summary>
+    public ICollection<DestinationEntity> Destinations { get; private set; }
     
     /// <summary>
     /// 无参构造函数

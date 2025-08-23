@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpeakEase.Domain.Contract.Building.Block.Domain;
 using SpeakEase.Gateway.Domain.Entity.Gateway;
 using SpeakEase.Gateway.Domain.Entity.System;
+using SpeakEase.Gateway.Domain.Enum;
 
 namespace SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 
@@ -60,7 +62,25 @@ public static class EntityBuildExtensions
             op.Property(p => p.Name).HasMaxLength(20).IsRequired();
             op.Property(p => p.Email).HasMaxLength(50).IsRequired(false);
             op.Property(p => p.Avatar).HasMaxLength(255).IsRequired(false);
-        }).BuilderCration<SysUserEntity>().BuilderModify<SysUserEntity>();
+        })
+        .BuilderCration<SysUserEntity>()
+        .BuilderModify<SysUserEntity>();
+
+        builder.Entity<SysLogEntity>(op =>
+        {
+            op.ToTable("sys_log");
+            op.HasKey(p => p.Id);
+            op.Property(p => p.Id).HasMaxLength(50);
+            op.Property(p=>p.IpAddress).HasMaxLength(50).IsRequired(false);
+            op.Property(p=>p.Module).HasMaxLength(50).IsRequired();
+            op.Property(p=>p.Message).HasMaxLength(255).IsRequired(false);
+            op.Property(p=>p.Route).HasMaxLength(255).IsRequired();
+            op.Property(p=>p.Trace).HasMaxLength(1024).IsRequired(false);
+            op.Property(p=>p.RequestData).HasMaxLength(1024).IsRequired(false);
+            op.Property(p=>p.Agent).HasMaxLength(100).IsRequired(false);
+            op.Property(p => p.LogLevel).HasConversion<EnumToNumberConverter<LogLevelEnum, int>>();
+            op.Property(p => p.LogType).HasConversion<EnumToNumberConverter<LogTypeEnum, int>>();
+        });
 
         #endregion
 
@@ -75,7 +95,9 @@ public static class EntityBuildExtensions
             op.Property(p => p.AppKey).HasMaxLength(50).IsRequired();
             op.Property(p => p.AppCode).HasMaxLength(50).IsRequired();
             op.Property(p => p.AppDescription).HasMaxLength(255).IsRequired(false);
-        }).BuilderCration<AppEntity>().BuilderModify<AppEntity>();
+        })
+        .BuilderCration<AppEntity>()
+        .BuilderModify<AppEntity>();
 
         builder.Entity<RouterEntity>(op =>
         {
@@ -86,6 +108,7 @@ public static class EntityBuildExtensions
             op.Property(p => p.AppId).HasMaxLength(50).IsRequired();
             op.Property(p => p.AppName).HasMaxLength(50).IsRequired();
             op.Property(p => p.Prefix).HasMaxLength(50).IsRequired();
+            op.Property(p=>p.TargetRoute).HasMaxLength(255).IsRequired();
             op.Property(p => p.ClusterId).HasMaxLength(50).IsRequired();
             op.Property(p => p.AuthorizationPolicy).HasMaxLength(50).IsRequired(false);
             op.Property(p => p.RateLimiterPolicy).HasMaxLength(50).IsRequired(false);
@@ -94,7 +117,9 @@ public static class EntityBuildExtensions
             op.Property(p => p.CorsPolicy).HasMaxLength(50).IsRequired(false);
             op.Property(p => p.MaxRequestBodySize).HasMaxLength(50).IsRequired(false);
             op.Property(p=>p.TargetRoute).HasMaxLength(125).IsRequired();
-        }).BuilderCration<RouterEntity>().BuilderModify<RouterEntity>();
+        })
+        .BuilderCration<RouterEntity>()
+        .BuilderModify<RouterEntity>();
 
         builder.Entity<ClusterEntity>(op =>
             {
@@ -109,7 +134,20 @@ public static class EntityBuildExtensions
                 op.Property(p => p.AvailableDestinationsPolicy).HasMaxLength(50).IsRequired(false);
                 op.Property(p => p.Address).HasMaxLength(2550).IsRequired(false);
             }
-        ).BuilderCration<ClusterEntity>().BuilderModify<ClusterEntity>();
+        )
+        .BuilderCration<ClusterEntity>()
+        .BuilderModify<ClusterEntity>();
+
+        builder.Entity<DestinationEntity>(op =>
+        {
+            op.ToTable("destination");
+            op.HasKey(p => p.Id);
+            op.Property(p => p.Id).HasMaxLength(50);
+            op.Property(p => p.Address).HasMaxLength(255).IsRequired();
+            op.Property(p => p.State).HasConversion<EnumToNumberConverter<DestinationStateEnum,int>>();
+        })
+        .BuilderCration<DestinationEntity>()
+        .BuilderModify<DestinationEntity>();
         #endregion
         return builder;
     }

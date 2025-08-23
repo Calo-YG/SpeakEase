@@ -19,6 +19,11 @@ namespace SpeakEase.Gateway.Domain.Entity.System
         public string Module { get; private set; }
 
         /// <summary>
+        /// 路由
+        /// </summary>
+        public string Route { get; private set; }
+
+        /// <summary>
         /// 日志消息
         /// </summary>
         public string Message { get; private set; }

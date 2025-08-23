@@ -31,6 +31,11 @@ public interface IDbContext
     /// 集群实体
     /// </summary>
     DbSet<ClusterEntity> Cluster { get; set; }
+
+    /// <summary>
+    /// 节点
+    /// </summary>
+    DbSet<DestinationEntity> Destination { get; set; }
     /// <summary>
     /// 迁移
     /// </summary>
