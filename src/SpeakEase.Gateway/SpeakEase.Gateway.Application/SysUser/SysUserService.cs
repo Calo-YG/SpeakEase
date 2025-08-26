@@ -154,7 +154,12 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
     /// <exception cref="NotImplementedException"></exception>
     public async Task<TokenDto> LoginAsync(LoginInput input)
     {
-        var user = await dbContext.QueryNoTracking<SysUserEntity>().FirstAsync(p => p.Account == input.Account);
+        var user = await dbContext.QueryNoTracking<SysUserEntity>().FirstOrDefaultAsync(p => p.Account == input.Account);  
+
+        if(user == null)
+        {
+            throw new UserFriendlyException("用户不存在");
+        }
 
         if (user is null || user.Password != input.Password)
         {
