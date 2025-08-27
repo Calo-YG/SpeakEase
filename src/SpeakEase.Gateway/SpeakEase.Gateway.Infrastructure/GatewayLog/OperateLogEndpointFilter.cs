@@ -46,7 +46,7 @@ namespace SpeakEase.Gateway.Infrastructure.GatewayLog
 
             var endpoint = context!.GetEndpoint();
 
-            var logdata = endpoint.Metadata.GetMetadata<ILogOperate>();
+            var logdata = endpoint!.Metadata.GetMetadata<ILogOperate>();
 
             var module = logdata?.Module;
 

@@ -31,6 +31,11 @@ public sealed class UserPageDto
     public string Email { get; set; }
     
     /// <summary>
+    /// 头像
+    /// </summary>
+    public string Avatar { get; set; }
+    
+    /// <summary>
     /// 创建时间
     /// </summary>
     public DateTime CreateAt { get; set; }
