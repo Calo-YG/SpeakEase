@@ -24,6 +24,7 @@ namespace SpeakEase.Gateway.Application.SysUser;
 /// <param name="redisService"></param>
 public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenManager tokenManager,IRedisService redisService,IOptions<JwtOptions> jwtOptions):ISysUserService
 {
+    private const string DefaultAvatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4";
     /// <summary>
     /// Jwt配置
     /// </summary>
@@ -65,6 +66,11 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             throw new UserFriendlyException("当前用户已存在");
         }
         var id = idGenerate.NewIdString();
+
+        if (string.IsNullOrEmpty(input.Avatar))
+        {
+            input.Avatar = DefaultAvatar;
+        }
         
         var user = new SysUserEntity(id, input.Account, input.Password, input.Name, input.Email, input.Avatar);
 
@@ -103,7 +109,7 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
             throw new UserFriendlyException("用户不存在");
         }
         
-        entity.SetUserAvatar(input.Avatar);
+        entity.SetUserAvatar(input.Avatar ?? DefaultAvatar);
         entity.SetUserName(input.Name);
         entity.SetUserEmail(input.Password);
         entity.SetUserEmail(input.Email);
@@ -154,14 +160,14 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
     /// <exception cref="NotImplementedException"></exception>
     public async Task<TokenDto> LoginAsync(LoginInput input)
     {
-        var user = await dbContext.QueryNoTracking<SysUserEntity>().FirstOrDefaultAsync(p => p.Account == input.Account);  
+        var user = await dbContext.QueryNoTracking<SysUserEntity>().FirstOrDefaultAsync(p => p.Account == input.Account);
 
-        if(user == null)
+        if (user == null)
         {
             throw new UserFriendlyException("用户不存在");
         }
 
-        if (user is null || user.Password != input.Password)
+        if (user.Password != input.Password)
         {
             throw new UserFriendlyException("账号密码输入错误");
         }
@@ -211,6 +217,7 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
                 Password = p.Password,
                 Name = p.Name,
                 Email = p.Email,
+                Avatar = p.Avatar,
                 CreateAt = p.CreatedAt
             });
 
