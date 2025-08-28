@@ -1,6 +1,8 @@
 ﻿using SpeakEase.Gateway.Contract.SysUser;
 using SpeakEase.Gateway.Contract.SysUser.Dto;
+using SpeakEase.Gateway.Domain.Entity.System;
 using SpeakEase.Gateway.Filter;
+using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
 using SpeakEase.Gateway.Infrastructure.GatewayLog;
 
 namespace SpeakEase.Gateway.MapRoute;
@@ -40,6 +42,9 @@ public static class MapSysUser
             .WithSummary("刷新Token").RequireOperateLog("sysuser", "RefreshToken");
         
         group.MapPost("create", (ISysUserService sysUserService, CreateUserInput input) => sysUserService.CreateUserAsync(input)).WithSummary("添加用户")
+            .RequireAuthorization().RequireOperateLog("sysuser", "Create");
+
+        group.MapGet("userCount", (IDbContext dbContext) => dbContext.QueryNoTracking<SysUserEntity>().Count()).WithSummary("获取用户总数")
             .RequireAuthorization().RequireOperateLog("sysuser", "Create");
     }
 }
