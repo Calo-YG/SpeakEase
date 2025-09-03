@@ -148,7 +148,7 @@ public class SysUserService(IDbContext dbContext,IIdGenerate idGenerate,ITokenMa
                 Password = p.Password,
                 Name = p.Name,
                 Email = p.Email,
-                Avatar = p.Email
+                Avatar = p.Avatar
             }).FirstAsync();
     }
 
