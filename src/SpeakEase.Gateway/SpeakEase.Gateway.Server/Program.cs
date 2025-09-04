@@ -1,5 +1,4 @@
 using SpeakEase.Gateway.Infrastructure.EntityFrameworkCore;
-using SpeakEase.Gateway.Infrastructure.MassTransit;
 using SpeakEase.Gateway.Infrastructure.Yarp.Core;
 
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -13,7 +12,7 @@ builder.Services.AddReverseProxyWithDatabase();
 #endregion
 
 #region 配置masstransit
-builder.Services.AddMassTransitWithRabbitMq();
+//builder.Services.AddMassTransitWithRabbitMq();
 #endregion
 
 var app = builder.Build();
