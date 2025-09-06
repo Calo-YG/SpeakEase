@@ -53,18 +53,5 @@ namespace SpeakEase.MQ.RabbitMQ.Publisher
         /// <param name="cancellationToken"></param>
         /// <returns><see cref="Task"/>.</returns>
         Task PublishAsync<TMessage>(TMessage message, BasicProperties properties = default, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Publish messagge.<br />
-        /// 发布消息.
-        /// </summary>
-        /// <typeparam name="TMessage">Event model.<br />事件模型类.</typeparam>
-        /// <param name="exchange">Exchange name.<br /> 交换器名称.</param>
-        /// <param name="routingKey">Queue name.<br />队列名称.</param>
-        /// <param name="message">Event object.<br />事件对象.</param>
-        /// <param name="properties"><see href="https://rabbitmq.github.io/rabbitmq-dotnet-client/api/RabbitMQ.Client.IBasicProperties.html"/>.</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns><see cref="Task"/>.</returns>
-        Task CustomPublishAsync<TMessage>(string exchange, string routingKey, TMessage message, BasicProperties properties = default, CancellationToken cancellationToken = default);
     }
 }

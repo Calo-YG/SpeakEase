@@ -1,6 +1,4 @@
-﻿using RabbitMQ.Client;
-
-namespace SpeakEase.MQ.Core
+﻿namespace SpeakEase.MQ.Core
 {
     public class MqOptions
     {
@@ -23,7 +21,7 @@ namespace SpeakEase.MQ.Core
         /// <summary>
         /// 端口
         /// </summary>
-        public string Port { get; set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// 用户名

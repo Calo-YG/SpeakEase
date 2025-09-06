@@ -11,5 +11,11 @@
         /// 时间戳
         /// </summary>
         public DateTimeOffset Timestamp { get; set; }
+
+        public ConsumerMessage()
+        {
+            Id = Guid.NewGuid().ToString("N");
+            Timestamp = DateTimeOffset.Now;
+        }
     }
 }
