@@ -74,6 +74,15 @@ namespace SpeakEase.MQ.RabbitMQ.Pool
             }
         }
 
+        /// <summary>
+        /// 创建一个新的通道.
+        /// </summary>
+        /// <returns></returns>
+        public Task<IChannel> CreateChannelAsync()
+        {
+            return _connection.Value.CreateChannelAsync();
+        }
+
         ~ConnectionObject()
         {
             Dispose(disposing: false);

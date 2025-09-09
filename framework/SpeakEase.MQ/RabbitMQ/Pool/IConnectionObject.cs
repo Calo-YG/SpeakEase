@@ -2,7 +2,7 @@
 
 namespace SpeakEase.MQ.RabbitMQ.Pool
 {
-    internal interface IConnectionObject
+    public interface IConnectionObject
     {
         /// <summary>
         /// IConnection.
@@ -13,13 +13,19 @@ namespace SpeakEase.MQ.RabbitMQ.Pool
         /// IChannel.
         /// </summary>
         IChannel DefaultChannel { get; }
+
+        /// <summary>
+        /// 创建一个新的通道.
+        /// </summary>
+        /// <returns></returns>
+        Task<IChannel> CreateChannelAsync();
     }
 
     /// <summary>
     /// IConnection,IChannel pool.<br />
     /// TCP 连接和通道.
     /// </summary>
-    internal interface IDisposeConnectionObject : IConnectionObject, IDisposable
+    public interface IDisposeConnectionObject : IConnectionObject, IDisposable
     {
     }
 }
